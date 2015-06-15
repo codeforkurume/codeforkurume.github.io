@@ -6,23 +6,9 @@ For English please see [LOCALIZE_en.md](LOCALIZE_en.md).
  [Code for Kanazawa](http://codeforkanazawa.org/)
 では、先ずは正しいゴミの捨て方に注目しました。例えばお引っ越しをされた場合、このアプリを使えばすぐに分かるように、目的と使い方をとてもシンプルにデザインしました。
 
-## ブランチの運用について
-
-* **master**: ローカライズをする場合にはこのブランチをforkしてください (2014/5/7 updated v1.1)
-* **kanazawa**: 5374の金沢バージョン
-* **gh-pages**: 5374の金沢バージョンリリースブランチ
-* **dev**: 今後kanazawaへ適用予定の開発ブランチ
-
 ## 使い方について
 
-[HOWTOUSE.md](HOWTOUSE.md)に5374標準の文章を用意してあるので、書き換えて使ってください。
-
-## ローカライズについて
-
-各地域へのローカライズについては[LOCALIZE.md](LOCALIZE.md)を参照するようにしてください。
-
-
-
+[HOWTOUSE.md](HOWTOUSE.md)に説明を書いているので、確認して下さい。
 
 ## 開発チームとライセンスについて
 - 小野 祐貴(Yuki ONO)　Developer
