@@ -1,4 +1,90 @@
-"use strict";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>js/script.js - 5374</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="5374" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 1.0.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/AreaModel.html">AreaModel</a></li>
+                                <li><a href="../classes/CenterModel.html">CenterModel</a></li>
+                                <li><a href="../classes/DescriptionModel.html">DescriptionModel</a></li>
+                                <li><a href="../classes/RemarkModel.html">RemarkModel</a></li>
+                                <li><a href="../classes/TargetRowModel.html">TargetRowModel</a></li>
+                                <li><a href="../classes/TrashModel.html">TrashModel</a></li>
+                            </ul>
+                
+                            <ul id="api-modules" class="apis modules">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: js/script.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+&quot;use strict&quot;;
 
 /**
  * エリア(ごみ処理の地域）を管理するクラスです。
@@ -17,7 +103,7 @@ var AreaModel = function() {
    * @return {void}
    */
   this.calcMostRect = function() {
-    for (var i = 0; i < this.trash.length; i++) {
+    for (var i = 0; i &lt; this.trash.length; i++) {
       this.trash[i].calcMostRect(this);
     }
   }
@@ -34,8 +120,8 @@ var AreaModel = function() {
     }
     var period = [this.center.startDate, this.center.endDate];
 
-    if (period[0].getTime() <= currentDate.getTime() &&
-      currentDate.getTime() <= period[1].getTime()) {
+    if (period[0].getTime() &lt;= currentDate.getTime() &amp;&amp;
+      currentDate.getTime() &lt;= period[1].getTime()) {
       return true;
     }
     return false;
@@ -67,8 +153,8 @@ var AreaModel = function() {
       if (b.mostRecent === undefined) return -1;
       var at = a.mostRecent.getTime();
       var bt = b.mostRecent.getTime();
-      if (at < bt) return -1;
-      if (at > bt) return 1;
+      if (at &lt; bt) return -1;
+      if (at &gt; bt) return 1;
       return 0;
     });
   }
@@ -85,17 +171,17 @@ var TrashModel = function(_lable, _cell, remarks) {
   this.mostRecent;
   this.dayList;
   this.mflag = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var monthSplitFlag=_cell.search(/:/)>=0
+  var monthSplitFlag=_cell.search(/:/)&gt;=0
   if (monthSplitFlag) {
-    var flag = _cell.split(":");
-    this.dayCell = flag[0].split(" ");
-    var mm = flag[1].split(" ");
-  } else if (_cell.length == 2 && _cell.substr(0,1) == "*") {
-    this.dayCell = _cell.split(" ");
+    var flag = _cell.split(&quot;:&quot;);
+    this.dayCell = flag[0].split(&quot; &quot;);
+    var mm = flag[1].split(&quot; &quot;);
+  } else if (_cell.length == 2 &amp;&amp; _cell.substr(0,1) == &quot;*&quot;) {
+    this.dayCell = _cell.split(&quot; &quot;);
     var mm = new Array();
   } else {
-    this.dayCell = _cell.split(" ");
-    var mm = new Array("4", "5", "6", "7", "8", "9", "10", "11", "12", "1", "2", "3");
+    this.dayCell = _cell.split(&quot; &quot;);
+    var mm = new Array(&quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;, &quot;8&quot;, &quot;9&quot;, &quot;10&quot;, &quot;11&quot;, &quot;12&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;);
   }
   for (var m in mm) {
     this.mflag[mm[m] - 1] = 1;
@@ -104,33 +190,33 @@ var TrashModel = function(_lable, _cell, remarks) {
   this.description;
   this.regularFlg = 1;      // 定期回収フラグ（デフォルトはオン:1）
 
-  var result_text = "";
+  var result_text = &quot;&quot;;
   var today = new Date();
 
   for (var j in this.dayCell) {
     if (this.dayCell[j].length == 1) {
-      result_text += "毎週" + this.dayCell[j] + "曜日 ";
-    } else if (this.dayCell[j].length == 2 && this.dayCell[j].substr(0,1) != "*") {
-      result_text += "第" + this.dayCell[j].charAt(1) + this.dayCell[j].charAt(0) + "曜日 ";
-    } else if (this.dayCell[j].length == 2 && this.dayCell[j].substr(0,1) == "*") {
+      result_text += &quot;毎週&quot; + this.dayCell[j] + &quot;曜日 &quot;;
+    } else if (this.dayCell[j].length == 2 &amp;&amp; this.dayCell[j].substr(0,1) != &quot;*&quot;) {
+      result_text += &quot;第&quot; + this.dayCell[j].charAt(1) + this.dayCell[j].charAt(0) + &quot;曜日 &quot;;
+    } else if (this.dayCell[j].length == 2 &amp;&amp; this.dayCell[j].substr(0,1) == &quot;*&quot;) {
     } else {
       // 不定期回収の場合（YYYYMMDD指定）
-      result_text = "不定期 ";
+      result_text = &quot;不定期 &quot;;
       this.regularFlg = 0;  // 定期回収フラグオフ
     }
   }
   if (monthSplitFlag){
-    var monthList="";
+    var monthList=&quot;&quot;;
     for (var m in this.mflag) {
       if (this.mflag[m]){
-        if (monthList.length>0){
-          monthList+=","
+        if (monthList.length&gt;0){
+          monthList+=&quot;,&quot;
         }
         //mを整数化
         monthList+=((m-0)+1)
       }
     };
-    monthList+="月 "
+    monthList+=&quot;月 &quot;
     result_text=monthList+result_text
   }
   this.dayLabel = result_text;
@@ -142,16 +228,16 @@ var TrashModel = function(_lable, _cell, remarks) {
    */
   this.getDateLabel = function() {
     if (this.mostRecent === undefined) {
-	return this.getRemark() + "不明";
+	return this.getRemark() + &quot;不明&quot;;
     }
-    var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate();
-    return this.getRemark() + this.dayLabel + " " + result_text;
+    var result_text = this.mostRecent.getFullYear() + &quot;/&quot; + (1 + this.mostRecent.getMonth()) + &quot;/&quot; + this.mostRecent.getDate();
+    return this.getRemark() + this.dayLabel + &quot; &quot; + result_text;
   }
 
-  var day_enum = ["日", "月", "火", "水", "木", "金", "土"];
+  var day_enum = [&quot;日&quot;, &quot;月&quot;, &quot;火&quot;, &quot;水&quot;, &quot;木&quot;, &quot;金&quot;, &quot;土&quot;];
 
   function getDayIndex(str) {
-    for (var i = 0; i < day_enum.length; i++) {
+    for (var i = 0; i &lt; day_enum.length; i++) {
       if (day_enum[i] == str) {
         return i;
       }
@@ -159,17 +245,17 @@ var TrashModel = function(_lable, _cell, remarks) {
     return -1;
   }
   /**
-   * このごみ収集日が特殊な条件を持っている場合備考を返します。収集日データに"*n" が入っている場合に利用されます
+   * このごみ収集日が特殊な条件を持っている場合備考を返します。収集日データに&quot;*n&quot; が入っている場合に利用されます
    * @method getRemark
    * @return {string} 備考
    */
   this.getRemark = function getRemark() {
-    var ret = "";
+    var ret = &quot;&quot;;
     this.dayCell.forEach(function(day){
-      if (day.substr(0,1) == "*") {
+      if (day.substr(0,1) == &quot;*&quot;) {
         remarks.forEach(function(remark){
           if (remark.id == day.substr(1,1)){
-            ret += remark.text + "<br/>";
+            ret += remark.text + &quot;&lt;br/&gt;&quot;;
           }
         });
       };
@@ -185,7 +271,7 @@ var TrashModel = function(_lable, _cell, remarks) {
    */
   this.calcMostRect = function(areaObj) {
     var day_mix = this.dayCell;
-    var result_text = "";
+    var result_text = &quot;&quot;;
     var day_list = new Array();
 
     // 定期回収の場合
@@ -194,7 +280,7 @@ var TrashModel = function(_lable, _cell, remarks) {
       var today = new Date();
 
       // 12月 +3月　を表現
-      for (var i = 0; i < MaxMonth; i++) {
+      for (var i = 0; i &lt; MaxMonth; i++) {
 
         var curMonth = today.getMonth() + i;
         var curYear = today.getFullYear() + Math.floor(curMonth / 12);
@@ -209,7 +295,7 @@ var TrashModel = function(_lable, _cell, remarks) {
           var isShift = false;
 
           //week=0が第1週目です。
-          for (var week = 0; week < 5; week++) {
+          for (var week = 0; week &lt; 5; week++) {
             //4月1日を起点として第n曜日などを計算する。
             var date = new Date(curYear, month - 1, 1);
             var d = new Date(date);
@@ -236,8 +322,8 @@ var TrashModel = function(_lable, _cell, remarks) {
               continue;
             }
             //特定の週のみ処理する
-            if (day_mix[j].length > 1) {
-              if ((week != day_mix[j].charAt(1) - 1) || ("*" == day_mix[j].charAt(0))) {
+            if (day_mix[j].length &gt; 1) {
+              if ((week != day_mix[j].charAt(1) - 1) || (&quot;*&quot; == day_mix[j].charAt(0))) {
                 continue;
               }
             }
@@ -261,14 +347,14 @@ var TrashModel = function(_lable, _cell, remarks) {
     day_list.sort(function(a, b) {
       var at = a.getTime();
       var bt = b.getTime();
-      if (at < bt) return -1;
-      if (at > bt) return 1;
+      if (at &lt; bt) return -1;
+      if (at &gt; bt) return 1;
       return 0;
     })
     //直近の日付を更新
     var now = new Date();
     for (var i in day_list) {
-      if (this.mostRecent == null && now.getTime() < day_list[i].getTime() + 24 * 60 * 60 * 1000) {
+      if (this.mostRecent == null &amp;&amp; now.getTime() &lt; day_list[i].getTime() + 24 * 60 * 60 * 1000) {
         this.mostRecent = day_list[i];
         break;
       }
@@ -283,12 +369,12 @@ var TrashModel = function(_lable, _cell, remarks) {
    * @return {string} ごみの日一覧
    */
   this.getDayList = function() {
-    var day_text = "<ul>";
+    var day_text = &quot;&lt;ul&gt;&quot;;
     for (var i in this.dayList) {
       var d = this.dayList[i];
-      day_text += "<li>" + d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate() + "</li>";
+      day_text += &quot;&lt;li&gt;&quot; + d.getFullYear() + &quot;/&quot; + (d.getMonth() + 1) + &quot;/&quot; + d.getDate() + &quot;&lt;/li&gt;&quot;;
     };
-    day_text += "</ul>";
+    day_text += &quot;&lt;/ul&gt;&quot;;
     return day_text;
   }
 }
@@ -300,7 +386,7 @@ var TrashModel = function(_lable, _cell, remarks) {
  */
 var CenterModel = function(row) {
   function getDay(center, index) {
-    var tmp = center[index].split("/");
+    var tmp = center[index].split(&quot;/&quot;);
     return new Date(tmp[0], tmp[1] - 1, tmp[2]);
   }
 
@@ -362,11 +448,11 @@ $(function() {
 
 
   function getSelectedAreaName() {
-    return localStorage.getItem("selected_area_name");
+    return localStorage.getItem(&quot;selected_area_name&quot;);
   }
 
   function setSelectedAreaName(name) {
-    localStorage.setItem("selected_area_name", name);
+    localStorage.setItem(&quot;selected_area_name&quot;, name);
   }
 
   function csvToArray(filename, cb) {
@@ -374,15 +460,15 @@ $(function() {
       //CSVのパース作業
       //CRの解析ミスがあった箇所を修正しました。
       //以前のコードだとCRが残ったままになります。
-      // var csvdata = csvdata.replace("\r/gm", ""),
-       csvdata = csvdata.replace(/\r/gm, "");
-      var line = csvdata.split("\n"),
+      // var csvdata = csvdata.replace(&quot;\r/gm&quot;, &quot;&quot;),
+       csvdata = csvdata.replace(/\r/gm, &quot;&quot;);
+      var line = csvdata.split(&quot;\n&quot;),
           ret = [];
       for (var i in line) {
         //空行はスルーする。
         if (line[i].length == 0) continue;
 
-        var row = line[i].split(",");
+        var row = line[i].split(&quot;,&quot;);
         ret.push(row);
       }
       cb(ret);
@@ -390,7 +476,7 @@ $(function() {
   }
 
   function updateAreaList() {
-    csvToArray("data/area_days.csv", function(tmp) {
+    csvToArray(&quot;data/area_days.csv&quot;, function(tmp) {
       var area_days_label = tmp.shift();
       for (var i in tmp) {
         var row = tmp[i];
@@ -400,7 +486,7 @@ $(function() {
 
         areaModels.push(area);
         //２列目以降の処理
-        for (var r = 2; r < 2 + MaxDescription; r++) {
+        for (var r = 2; r &lt; 2 + MaxDescription; r++) {
           if (area_days_label[r]) {
             var trash = new TrashModel(area_days_label[r], row[r], remarks);
             area.trash.push(trash);
@@ -408,7 +494,7 @@ $(function() {
         }
       }
 
-      csvToArray("data/center.csv", function(tmp) {
+      csvToArray(&quot;data/center.csv&quot;, function(tmp) {
         //ゴミ処理センターのデータを解析します。
         //表示上は現れませんが、
         //金沢などの各処理センターの休止期間分は一週間ずらすという法則性のため
@@ -428,18 +514,18 @@ $(function() {
         //エリアとゴミ処理センターを対応後に、表示のリストを生成する。
         //ListメニューのHTML作成
         var selected_name = getSelectedAreaName();
-        var area_select_form = $("#select_area");
-        var select_html = "";
-        select_html += '<option value="-1">地域を選択してください</option>';
+        var area_select_form = $(&quot;#select_area&quot;);
+        var select_html = &quot;&quot;;
+        select_html += &#x27;&lt;option value=&quot;-1&quot;&gt;地域を選択してください&lt;/option&gt;&#x27;;
         for (var row_index in areaModels) {
           var area_name = areaModels[row_index].label;
-          var selected = (selected_name == area_name) ? 'selected="selected"' : "";
+          var selected = (selected_name == area_name) ? &#x27;selected=&quot;selected&quot;&#x27; : &quot;&quot;;
 
-          select_html += '<option value="' + row_index + '" ' + selected + " >" + area_name + "</option>";
+          select_html += &#x27;&lt;option value=&quot;&#x27; + row_index + &#x27;&quot; &#x27; + selected + &quot; &gt;&quot; + area_name + &quot;&lt;/option&gt;&quot;;
         }
 
         //デバッグ用
-        if (typeof dump == "function") {
+        if (typeof dump == &quot;function&quot;) {
           dump(areaModels);
         }
         //HTMLへの適応
@@ -452,24 +538,24 @@ $(function() {
 
   function createMenuList(after_action) {
     // 備考データを読み込む
-    csvToArray("data/remarks.csv", function(data) {
+    csvToArray(&quot;data/remarks.csv&quot;, function(data) {
       data.shift();
       for (var i in data) {
         remarks.push(new RemarkModel(data[i]));
       }
     });
-    csvToArray("data/description.csv", function(data) {
+    csvToArray(&quot;data/description.csv&quot;, function(data) {
       data.shift();
       for (var i in data) {
         descriptions.push(new DescriptionModel(data[i]));
       }
 
-      csvToArray("data/target.csv", function(data) {
+      csvToArray(&quot;data/target.csv&quot;, function(data) {
 
         data.shift();
         for (var i in data) {
           var row = new TargetRowModel(data[i]);
-          for (var j = 0; j < descriptions.length; j++) {
+          for (var j = 0; j &lt; descriptions.length; j++) {
             //一致してるものに追加する。
             if (descriptions[j].label == row.label) {
               descriptions[j].targets.push(row);
@@ -478,7 +564,7 @@ $(function() {
           };
         }
         after_action();
-        $("#accordion2").show();
+        $(&quot;#accordion2&quot;).show();
 
       });
 
@@ -499,13 +585,13 @@ $(function() {
     //トラッシュの近い順にソートします。
     areaModel.sortTrash();
     var accordion_height = $(window).height() / descriptions.length;
-    if(descriptions.length>4){
+    if(descriptions.length&gt;4){
       accordion_height = accordion_height / 4.1;
-      if (accordion_height>140) {accordion_height = accordion_height / descriptions.length;};
-      if (accordion_height<130) {accordion_height=130;};
+      if (accordion_height&gt;140) {accordion_height = accordion_height / descriptions.length;};
+      if (accordion_height&lt;130) {accordion_height=130;};
     }
-    var styleHTML = "";
-    var accordionHTML = "";
+    var styleHTML = &quot;&quot;;
+    var accordionHTML = &quot;&quot;;
     //アコーディオンの分類から対応の計算を行います。
     for (var i in areaModel.trash) {
       var trash = areaModel.trash[i];
@@ -516,106 +602,106 @@ $(function() {
           continue;
         }
 
-          var target_tag = "";
-          var furigana = "";
-          var target_tag = "";
+          var target_tag = &quot;&quot;;
+          var furigana = &quot;&quot;;
+          var target_tag = &quot;&quot;;
           var targets = description.targets;
           for (var j in targets) {
             var target = targets[j];
             if (furigana != target.furigana) {
-              if (furigana != "") {
-                target_tag += "</ul>";
+              if (furigana != &quot;&quot;) {
+                target_tag += &quot;&lt;/ul&gt;&quot;;
               }
 
               furigana = target.furigana;
 
-              target_tag += '<h4 class="initials">' + furigana + "</h4>";
-              target_tag += "<ul>";
+              target_tag += &#x27;&lt;h4 class=&quot;initials&quot;&gt;&#x27; + furigana + &quot;&lt;/h4&gt;&quot;;
+              target_tag += &quot;&lt;ul&gt;&quot;;
             }
 
-            target_tag += '<li style="list-style:none;">' + target.name + "</li>";
-            target_tag += '<p class="note">' + target.notice + "</p>";
+            target_tag += &#x27;&lt;li style=&quot;list-style:none;&quot;&gt;&#x27; + target.name + &quot;&lt;/li&gt;&quot;;
+            target_tag += &#x27;&lt;p class=&quot;note&quot;&gt;&#x27; + target.notice + &quot;&lt;/p&gt;&quot;;
           }
 
-          target_tag += "</ul>";
+          target_tag += &quot;&lt;/ul&gt;&quot;;
 
           var dateLabel = trash.getDateLabel();
           //あと何日かを計算する処理です。
-          var leftDayText = "";
+          var leftDayText = &quot;&quot;;
 	  if (trash.mostRecent === undefined) {
-	    leftDayText == "不明";
+	    leftDayText == &quot;不明&quot;;
 	  } else {
             var leftDay = Math.ceil((trash.mostRecent.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
 
             if (leftDay == 0) {
-              leftDayText = "今日";
+              leftDayText = &quot;今日&quot;;
             } else if (leftDay == 1) {
-              leftDayText = "明日";
+              leftDayText = &quot;明日&quot;;
             } else if (leftDay == 2) {
-              leftDayText = "明後日"
+              leftDayText = &quot;明後日&quot;
             } else {
-              leftDayText = leftDay + "日後";
+              leftDayText = leftDay + &quot;日後&quot;;
             }
 	  }
 
-          styleHTML += '#accordion-group' + d_no + '{background-color:  ' + description.background + ';} ';
+          styleHTML += &#x27;#accordion-group&#x27; + d_no + &#x27;{background-color:  &#x27; + description.background + &#x27;;} &#x27;;
 
           accordionHTML +=
-            '<div class="accordion-group" id="accordion-group' + d_no + '">' +
-            '<div class="accordion-heading">' +
-            '<a class="accordion-toggle" style="height:' + accordion_height + 'px" data-toggle="collapse" data-parent="#accordion" href="#collapse' + i + '">' +
-            '<div class="left-day">' + leftDayText + '</div>' +
-            '<div class="accordion-table" >';
-          if (ableSVG && SVGLabel) {
-            accordionHTML += '<img src="' + description.styles + '" alt="' + description.label + '"  />';
+            &#x27;&lt;div class=&quot;accordion-group&quot; id=&quot;accordion-group&#x27; + d_no + &#x27;&quot;&gt;&#x27; +
+            &#x27;&lt;div class=&quot;accordion-heading&quot;&gt;&#x27; +
+            &#x27;&lt;a class=&quot;accordion-toggle&quot; style=&quot;height:&#x27; + accordion_height + &#x27;px&quot; data-toggle=&quot;collapse&quot; data-parent=&quot;#accordion&quot; href=&quot;#collapse&#x27; + i + &#x27;&quot;&gt;&#x27; +
+            &#x27;&lt;div class=&quot;left-day&quot;&gt;&#x27; + leftDayText + &#x27;&lt;/div&gt;&#x27; +
+            &#x27;&lt;div class=&quot;accordion-table&quot; &gt;&#x27;;
+          if (ableSVG &amp;&amp; SVGLabel) {
+            accordionHTML += &#x27;&lt;img src=&quot;&#x27; + description.styles + &#x27;&quot; alt=&quot;&#x27; + description.label + &#x27;&quot;  /&gt;&#x27;;
           } else {
-            accordionHTML += '<p class="text-center">' + description.label + "</p>";
+            accordionHTML += &#x27;&lt;p class=&quot;text-center&quot;&gt;&#x27; + description.label + &quot;&lt;/p&gt;&quot;;
           }
-          accordionHTML += "</div>" +
-            '<h6><p class="text-left date">' + dateLabel + "</p></h6>" +
-            "</a>" +
-            "</div>" +
-            '<div id="collapse' + i + '" class="accordion-body collapse">' +
-            '<div class="accordion-inner">' +
-            description.description + "<br />" + target_tag +
-            '<div class="targetDays"></div></div>' +
-            "</div>" +
-            "</div>";
+          accordionHTML += &quot;&lt;/div&gt;&quot; +
+            &#x27;&lt;h6&gt;&lt;p class=&quot;text-left date&quot;&gt;&#x27; + dateLabel + &quot;&lt;/p&gt;&lt;/h6&gt;&quot; +
+            &quot;&lt;/a&gt;&quot; +
+            &quot;&lt;/div&gt;&quot; +
+            &#x27;&lt;div id=&quot;collapse&#x27; + i + &#x27;&quot; class=&quot;accordion-body collapse&quot;&gt;&#x27; +
+            &#x27;&lt;div class=&quot;accordion-inner&quot;&gt;&#x27; +
+            description.description + &quot;&lt;br /&gt;&quot; + target_tag +
+            &#x27;&lt;div class=&quot;targetDays&quot;&gt;&lt;/div&gt;&lt;/div&gt;&#x27; +
+            &quot;&lt;/div&gt;&quot; +
+            &quot;&lt;/div&gt;&quot;;
       }
     }
 
-    $("#accordion-style").html('<!-- ' + styleHTML + ' -->');
+    $(&quot;#accordion-style&quot;).html(&#x27;&lt;!-- &#x27; + styleHTML + &#x27; --&gt;&#x27;);
 
-    var accordion_elm = $("#accordion");
+    var accordion_elm = $(&quot;#accordion&quot;);
     accordion_elm.html(accordionHTML);
 
-    $('html,body').animate({scrollTop: 0}, 'fast');
+    $(&#x27;html,body&#x27;).animate({scrollTop: 0}, &#x27;fast&#x27;);
 
     //アコーディオンのラベル部分をクリックしたら
-    $(".accordion-body").on("shown.bs.collapse", function() {
-      var body = $('body');
+    $(&quot;.accordion-body&quot;).on(&quot;shown.bs.collapse&quot;, function() {
+      var body = $(&#x27;body&#x27;);
       var accordion_offset = $($(this).parent().get(0)).offset().top;
       body.animate({
         scrollTop: accordion_offset
       }, 50);
     });
     //アコーディオンの非表示部分をクリックしたら
-    $(".accordion-body").on("hidden.bs.collapse", function() {
-      if ($(".in").length == 0) {
-        $("html, body").scrollTop(0);
+    $(&quot;.accordion-body&quot;).on(&quot;hidden.bs.collapse&quot;, function() {
+      if ($(&quot;.in&quot;).length == 0) {
+        $(&quot;html, body&quot;).scrollTop(0);
       }
     });
   }
 
   function onChangeSelect(row_index) {　
     if (row_index == -1) {
-      $("#accordion").html("");
-      setSelectedAreaName("");
+      $(&quot;#accordion&quot;).html(&quot;&quot;);
+      setSelectedAreaName(&quot;&quot;);
       return;
     }
     setSelectedAreaName(areaModels[row_index].label);
 
-    if ($("#accordion").children().length === 0 && descriptions.length === 0) {
+    if ($(&quot;#accordion&quot;).children().length === 0 &amp;&amp; descriptions.length === 0) {
 
       createMenuList(function() {
         updateData(row_index);
@@ -636,7 +722,7 @@ $(function() {
     return -1;
   }
   //リストが選択されたら
-  $("#select_area").change(function(data) {
+  $(&quot;#select_area&quot;).change(function(data) {
     var row_index = $(data.target).val();
     onChangeSelect(row_index);
   });
@@ -645,17 +731,17 @@ $(function() {
   //位置情報をもとに地域を自動的に設定する処理です。
   //これから下は現在、利用されておりません。
   //将来的に使うかもしれないので残してあります。
-  $("#gps_area").click(function() {
+  $(&quot;#gps_area&quot;).click(function() {
     navigator.geolocation.getCurrentPosition(function(position) {
-      $.getJSON("area_candidate.php", {
+      $.getJSON(&quot;area_candidate.php&quot;, {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
       }, function(data) {
         if (data.result == true) {
           var area_name = data.candidate;
           var index = getAreaIndex(area_name);
-          $("#select_area").val(index).change();
-          alert(area_name + "が設定されました");
+          $(&quot;#select_area&quot;).val(index).change();
+          alert(area_name + &quot;が設定されました&quot;);
         } else {
           alert(data.reason);
         }
@@ -667,25 +753,44 @@ $(function() {
   });
 
   if (getSelectedAreaName() == null) {
-    $("#accordion2").show();
-    $("#collapseZero").addClass("in");
+    $(&quot;#accordion2&quot;).show();
+    $(&quot;#collapseZero&quot;).addClass(&quot;in&quot;);
   }
   if (!navigator.geolocation) {
-    $("#gps_area").css("display", "none");
+    $(&quot;#gps_area&quot;).css(&quot;display&quot;, &quot;none&quot;);
   }
 
   function getGpsErrorMessage(error) {
     switch (error.code) {
       case error.PERMISSION_DENIED:
-        return "User denied the request for Geolocation."
+        return &quot;User denied the request for Geolocation.&quot;
       case error.POSITION_UNAVAILABLE:
-        return "Location information is unavailable."
+        return &quot;Location information is unavailable.&quot;
       case error.TIMEOUT:
-        return "The request to get user location timed out."
+        return &quot;The request to get user location timed out.&quot;
       case error.UNKNOWN_ERROR:
       default:
-        return "An unknown error occurred."
+        return &quot;An unknown error occurred.&quot;
     }
   }
   updateAreaList();
 });
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

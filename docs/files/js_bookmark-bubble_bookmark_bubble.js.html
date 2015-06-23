@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>js/bookmark-bubble/bookmark_bubble.js - 5374</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="5374" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 1.0.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/AreaModel.html">AreaModel</a></li>
+                                <li><a href="../classes/CenterModel.html">CenterModel</a></li>
+                                <li><a href="../classes/DescriptionModel.html">DescriptionModel</a></li>
+                                <li><a href="../classes/RemarkModel.html">RemarkModel</a></li>
+                                <li><a href="../classes/TargetRowModel.html">TargetRowModel</a></li>
+                                <li><a href="../classes/TrashModel.html">TrashModel</a></li>
+                            </ul>
+                
+                            <ul id="api-modules" class="apis modules">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: js/bookmark-bubble/bookmark_bubble.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/*
+  Copyright 2010 Google Inc.
+
+  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+*/
+
+/**
+ * @fileoverview Bookmark bubble library. This is meant to be included in the
+ * main JavaScript binary of a mobile web application.
+ *
+ * Supported browsers: iPhone / iPod / iPad Safari 3.0+
+ */
+
+var google = google || {};
+google.bookmarkbubble = google.bookmarkbubble || {};
+
+
+/**
+ * Binds a context object to the function.
+ * @param {Function} fn The function to bind to.
+ * @param {Object} context The &quot;this&quot; object to use when the function is run.
+ * @return {Function} A partially-applied form of fn.
+ */
+google.bind = function(fn, context) {
+  return function() {
+    return fn.apply(context, arguments);
+  };
+};
+
+
+/**
+ * Function used to define an abstract method in a base class. If a subclass
+ * fails to override the abstract method, then an error will be thrown whenever
+ * that method is invoked.
+ */
+google.abstractMethod = function() {
+  throw Error(&#x27;Unimplemented abstract method.&#x27;);
+};
+
+
+
+/**
+ * The bubble constructor. Instantiating an object does not cause anything to
+ * be rendered yet, so if necessary you can set instance properties before
+ * showing the bubble.
+ * @constructor
+ */
+google.bookmarkbubble.Bubble = function() {
+  /**
+   * Handler for the scroll event. Keep a reference to it here, so it can be
+   * unregistered when the bubble is destroyed.
+   * @type {function()}
+   * @private
+   */
+  this.boundScrollHandler_ = google.bind(this.setPosition, this);
+
+  /**
+   * The bubble element.
+   * @type {Element}
+   * @private
+   */
+  this.element_ = null;
+
+  /**
+   * Whether the bubble has been destroyed.
+   * @type {boolean}
+   * @private
+   */
+  this.hasBeenDestroyed_ = false;
+};
+
+
+/**
+ * Shows the bubble if allowed. It is not allowed if:
+ * - The browser is not Mobile Safari, or
+ * - The user has dismissed it too often already, or
+ * - The hash parameter is present in the location hash, or
+ * - The application is in fullscreen mode, which means it was already loaded
+ *   from a homescreen bookmark.
+ * @return {boolean} True if the bubble is being shown, false if it is not
+ *     allowed to show for one of the aforementioned reasons.
+ */
+google.bookmarkbubble.Bubble.prototype.showIfAllowed = function() {
+  if (!this.isAllowedToShow_()) {
+    return false;
+  }
+
+  this.show_();
+  return true;
+};
+
+
+/**
+ * Shows the bubble if allowed after loading the icon image. This method creates
+ * an image element to load the image into the browser&#x27;s cache before showing
+ * the bubble to ensure that the image isn&#x27;t blank. Use this instead of
+ * showIfAllowed if the image url is http and cacheable.
+ * This hack is necessary because Mobile Safari does not properly render
+ * image elements with border-radius CSS.
+ * @param {function()} opt_callback Closure to be called if and when the bubble
+ *        actually shows.
+ * @return {boolean} True if the bubble is allowed to show.
+ */
+google.bookmarkbubble.Bubble.prototype.showIfAllowedWhenLoaded =
+    function(opt_callback) {
+  if (!this.isAllowedToShow_()) {
+    return false;
+  }
+
+  var self = this;
+  // Attach to self to avoid garbage collection.
+  var img = self.loadImg_ = document.createElement(&#x27;img&#x27;);
+  img.src = self.getIconUrl_();
+  img.onload = function() {
+    if (img.complete) {
+      delete self.loadImg_;
+      img.onload = null;  // Break the circular reference.
+
+      self.show_();
+      opt_callback &amp;&amp; opt_callback();
+    }
+  };
+  img.onload();
+
+  return true;
+};
+
+
+/**
+ * Sets the parameter in the location hash. As it is
+ * unpredictable what hash scheme is to be used, this method must be
+ * implemented by the host application.
+ *
+ * This gets called automatically when the bubble is shown. The idea is that if
+ * the user then creates a bookmark, we can later recognize on application
+ * startup whether it was from a bookmark suggested with this bubble.
+ *
+ * NOTE: Using a hash parameter to track whether the bubble has been shown
+ * conflicts with the navigation system in jQuery Mobile. If you are using that
+ * library, you should implement this function to track the bubble&#x27;s status in
+ * a different way, e.g. using window.localStorage in HTML5.
+ */
+google.bookmarkbubble.Bubble.prototype.setHashParameter = google.abstractMethod;
+
+
+/**
+ * Whether the parameter is present in the location hash. As it is
+ * unpredictable what hash scheme is to be used, this method must be
+ * implemented by the host application.
+ *
+ * Call this method during application startup if you want to log whether the
+ * application was loaded from a bookmark with the bookmark bubble promotion
+ * parameter in it.
+ *
+ * @return {boolean} Whether the bookmark bubble parameter is present in the
+ *     location hash.
+ */
+google.bookmarkbubble.Bubble.prototype.hasHashParameter = google.abstractMethod;
+
+
+/**
+ * The number of times the user must dismiss the bubble before we stop showing
+ * it. This is a public property and can be changed by the host application if
+ * necessary.
+ * @type {number}
+ */
+google.bookmarkbubble.Bubble.prototype.NUMBER_OF_TIMES_TO_DISMISS = 2;
+
+
+/**
+ * Time in milliseconds. If the user does not dismiss the bubble, it will auto
+ * destruct after this amount of time.
+ * @type {number}
+ */
+google.bookmarkbubble.Bubble.prototype.TIME_UNTIL_AUTO_DESTRUCT = 15000;
+
+
+/**
+ * The prefix for keys in local storage. This is a public property and can be
+ * changed by the host application if necessary.
+ * @type {string}
+ */
+google.bookmarkbubble.Bubble.prototype.LOCAL_STORAGE_PREFIX = &#x27;BOOKMARK_&#x27;;
+
+
+/**
+ * The key name for the dismissed state.
+ * @type {string}
+ * @private
+ */
+google.bookmarkbubble.Bubble.prototype.DISMISSED_ = &#x27;DISMISSED_COUNT&#x27;;
+
+
+/**
+ * The arrow image in base64 data url format.
+ * @type {string}
+ * @private
+ */
+google.bookmarkbubble.Bubble.prototype.IMAGE_ARROW_DATA_URL_ = &#x27;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAATCAMAAABSrFY3AAABKVBMVEUAAAD///8AAAAAAAAAAAAAAAAAAADf398AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD09PQAAAAAAAAAAAC9vb0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD19fUAAAAAAAAAAAAAAADq6uoAAAAAAAAAAAC8vLzU1NTT09MAAADg4OAAAADs7OwAAAAAAAAAAAD///+cueenwerA0vC1y+3a5fb5+/3t8vr4+v3w9PuwyOy3zO3h6vfh6vjq8Pqkv+mat+fE1fHB0/Cduuifu+iuxuuivemrxOvC1PDz9vzJ2fKpwuqmwOrb5vapw+q/0vDf6ffK2vLN3PPprJISAAAAQHRSTlMAAAEGExES7FM+JhUoQSxIRwMbNfkJUgXXBE4kDQIMHSA0Tw4xIToeTSc4Chz4OyIjPfI3QD/X5OZR6zzwLSUPrm1y3gAAAQZJREFUeF5lzsVyw0AURNE3IMsgmZmZgszQZoeZOf//EYlG5Yrhbs+im4Dj7slM5wBJ4OJ+undAUr68gK/Hyb6Bcp5yBR/w8jreNeAr5Eg2XE7g6e2/0z6cGw1JQhpmHP3u5aiPPnTTkIK48Hj9Op7bD3btAXTfgUdwYjwSDCVXMbizO0O4uDY/x4kYC5SWFnfC6N1a9RCO7i2XEmQJj2mHK1Hgp9Vq3QBRl9shuBLGhcNtHexcdQCnDUoUGetxDD+H2DQNG2xh6uAWgG2/17o1EmLqYH0Xej0UjHAaFxZIV6rJ/WK1kg7QZH8HU02zmdJinKZJaDV3TVMjM5Q9yiqYpUwiMwa/1apDXTNESjsAAAAASUVORK5CYII=&#x27;;
+
+
+/**
+ * The close image in base64 data url format.
+ * @type {string}
+ * @private
+ */
+google.bookmarkbubble.Bubble.prototype.IMAGE_CLOSE_DATA_URL_ = &#x27;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAALVBMVEXM3fm+1Pfb5/rF2fjw9f23z/aavPOhwfTp8PyTt/L3+v7T4vqMs/K7zP////+qRWzhAAAAXElEQVQIW2O4CwUM996BwVskxtOqd++2rwMyPI+ve31GD8h4Madqz2mwms5jZ/aBGS/mHIDoen3m+DowY8/hOVUgxusz+zqPg7SvPA1UxQfSvu/du0YUK2AMmDMA5H1qhVX33T8AAAAASUVORK5CYII=&#x27;;
+
+
+/**
+ * The link used to locate the application&#x27;s home screen icon to display inside
+ * the bubble. The default link used here is for an iPhone home screen icon
+ * without gloss. If your application uses a glossy icon, change this to
+ * &#x27;apple-touch-icon&#x27;.
+ * @type {string}
+ * @private
+ */
+google.bookmarkbubble.Bubble.prototype.REL_ICON_ =
+    &#x27;apple-touch-icon-precomposed&#x27;;
+
+
+/**
+ * Regular expression for detecting an iPhone or iPod or iPad.
+ * @type {!RegExp}
+ * @private
+ */
+google.bookmarkbubble.Bubble.prototype.MOBILE_SAFARI_USERAGENT_REGEX_ =
+    /iPhone|iPod|iPad/;
+
+
+/**
+ * Regular expression for detecting an iPad.
+ * @type {!RegExp}
+ * @private
+ */
+google.bookmarkbubble.Bubble.prototype.IPAD_USERAGENT_REGEX_ = /iPad/;
+
+
+/**
+ * Regular expression for extracting the iOS version. Only matches 2.0 and up.
+ * @type {!RegExp}
+ * @private
+ */
+google.bookmarkbubble.Bubble.prototype.IOS_VERSION_USERAGENT_REGEX_ =
+    /OS (\d)_(\d)(?:_(\d))?/;
+
+
+/**
+ * Determines whether the bubble should be shown or not.
+ * @return {boolean} Whether the bubble should be shown or not.
+ * @private
+ */
+google.bookmarkbubble.Bubble.prototype.isAllowedToShow_ = function() {
+  return this.isMobileSafari_() &amp;&amp;
+      !this.hasBeenDismissedTooManyTimes_() &amp;&amp;
+      !this.isFullscreen_() &amp;&amp;
+      !this.hasHashParameter();
+};
+
+
+/**
+ * Builds and shows the bubble.
+ * @private
+ */
+google.bookmarkbubble.Bubble.prototype.show_ = function() {
+  this.element_ = this.build_();
+
+  document.body.appendChild(this.element_);
+  this.element_.style.WebkitTransform =
+      &#x27;translate3d(0,&#x27; + this.getHiddenYPosition_() + &#x27;px,0)&#x27;;
+
+  this.setHashParameter();
+
+  window.setTimeout(this.boundScrollHandler_, 1);
+  window.addEventListener(&#x27;scroll&#x27;, this.boundScrollHandler_, false);
+
+  // If the user does not dismiss the bubble, slide out and destroy it after
+  // some time.
+  window.setTimeout(google.bind(this.autoDestruct_, this),
+      this.TIME_UNTIL_AUTO_DESTRUCT);
+};
+
+
+/**
+ * Destroys the bubble by removing its DOM nodes from the document.
+ */
+google.bookmarkbubble.Bubble.prototype.destroy = function() {
+  if (this.hasBeenDestroyed_) {
+    return;
+  }
+  window.removeEventListener(&#x27;scroll&#x27;, this.boundScrollHandler_, false);
+  if (this.element_ &amp;&amp; this.element_.parentNode == document.body) {
+    document.body.removeChild(this.element_);
+    this.element_ = null;
+  }
+  this.hasBeenDestroyed_ = true;
+};
+
+
+/**
+ * Remember that the user has dismissed the bubble once more.
+ * @private
+ */
+google.bookmarkbubble.Bubble.prototype.rememberDismissal_ = function() {
+  if (window.localStorage) {
+    try {
+      var key = this.LOCAL_STORAGE_PREFIX + this.DISMISSED_;
+      var value = Number(window.localStorage[key]) || 0;
+      window.localStorage[key] = String(value + 1);
+    } catch (ex) {
+      // Looks like we&#x27;ve hit the storage size limit. Currently we have no
+      // fallback for this scenario, but we could use cookie storage instead.
+      // This would increase the code bloat though.
+    }
+  }
+};
+
+
+/**
+ * Whether the user has dismissed the bubble often enough that we will not
+ * show it again.
+ * @return {boolean} Whether the user has dismissed the bubble often enough
+ *     that we will not show it again.
+ * @private
+ */
+google.bookmarkbubble.Bubble.prototype.hasBeenDismissedTooManyTimes_ =
+    function() {
+  if (!window.localStorage) {
+    // If we can not use localStorage to remember how many times the user has
+    // dismissed the bubble, assume he has dismissed it. Otherwise we might end
+    // up showing it every time the host application loads, into eternity.
+    return true;
+  }
+  try {
+    var key = this.LOCAL_STORAGE_PREFIX + this.DISMISSED_;
+
+    // If the key has never been set, localStorage yields undefined, which
+    // Number() turns into NaN. In that case we&#x27;ll fall back to zero for
+    // clarity&#x27;s sake.
+    var value = Number(window.localStorage[key]) || 0;
+
+    return value &gt;= this.NUMBER_OF_TIMES_TO_DISMISS;
+  } catch (ex) {
+    // If we got here, something is wrong with the localStorage. Make the same
+    // assumption as when it does not exist at all. Exceptions should only
+    // occur when setting a value (due to storage limitations) but let&#x27;s be
+    // extra careful.
+    return true;
+  }
+};
+
+
+/**
+ * Whether the application is running in fullscreen mode.
+ * @return {boolean} Whether the application is running in fullscreen mode.
+ * @private
+ */
+google.bookmarkbubble.Bubble.prototype.isFullscreen_ = function() {
+  return !!window.navigator.standalone;
+};
+
+
+/**
+ * Whether the application is running inside Mobile Safari.
+ * @return {boolean} True if the current user agent looks like Mobile Safari.
+ * @private
+ */
+google.bookmarkbubble.Bubble.prototype.isMobileSafari_ = function() {
+  return this.MOBILE_SAFARI_USERAGENT_REGEX_.test(window.navigator.userAgent);
+};
+
+
+/**
+ * Whether the application is running on an iPad.
+ * @return {boolean} True if the current user agent looks like an iPad.
+ * @private
+ */
+google.bookmarkbubble.Bubble.prototype.isIpad_ = function() {
+  return this.IPAD_USERAGENT_REGEX_.test(window.navigator.userAgent);
+};
+
+
+/**
+ * Creates a version number from 4 integer pieces between 0 and 127 (inclusive).
+ * @param {*=} opt_a The major version.
+ * @param {*=} opt_b The minor version.
+ * @param {*=} opt_c The revision number.
+ * @param {*=} opt_d The build number.
+ * @return {number} A representation of the version.
+ * @private
+ */
+google.bookmarkbubble.Bubble.prototype.getVersion_ = function(opt_a, opt_b,
+    opt_c, opt_d) {
+  // We want to allow implicit conversion of any type to number while avoiding
+  // compiler warnings about the type.
+  return /** @type {number} */ (opt_a) &lt;&lt; 21 |
+      /** @type {number} */ (opt_b) &lt;&lt; 14 |
+      /** @type {number} */ (opt_c) &lt;&lt; 7 |
+      /** @type {number} */ (opt_d);
+};
+
+
+/**
+ * Gets the iOS version of the device. Only works for 2.0+.
+ * @return {number} The iOS version.
+ * @private
+ */
+google.bookmarkbubble.Bubble.prototype.getIosVersion_ = function() {
+  var groups = this.IOS_VERSION_USERAGENT_REGEX_.exec(
+      window.navigator.userAgent) || [];
+  groups.shift();
+  return this.getVersion_.apply(this, groups);
+};
+
+
+/**
+ * Positions the bubble at the bottom of the viewport using an animated
+ * transition.
+ */
+google.bookmarkbubble.Bubble.prototype.setPosition = function() {
+  this.element_.style.WebkitTransition = &#x27;-webkit-transform 0.7s ease-out&#x27;;
+  this.element_.style.WebkitTransform =
+      &#x27;translate3d(0,&#x27; + this.getVisibleYPosition_() + &#x27;px,0)&#x27;;
+};
+
+
+/**
+ * Destroys the bubble by removing its DOM nodes from the document, and
+ * remembers that it was dismissed.
+ * @private
+ */
+google.bookmarkbubble.Bubble.prototype.closeClickHandler_ = function() {
+  this.destroy();
+  this.rememberDismissal_();
+};
+
+
+/**
+ * Gets called after a while if the user ignores the bubble.
+ * @private
+ */
+google.bookmarkbubble.Bubble.prototype.autoDestruct_ = function() {
+  if (this.hasBeenDestroyed_) {
+    return;
+  }
+  this.element_.style.WebkitTransition = &#x27;-webkit-transform 0.7s ease-in&#x27;;
+  this.element_.style.WebkitTransform =
+      &#x27;translate3d(0,&#x27; + this.getHiddenYPosition_() + &#x27;px,0)&#x27;;
+  window.setTimeout(google.bind(this.destroy, this), 700);
+};
+
+
+/**
+ * Gets the y offset used to show the bubble (i.e., position it on-screen).
+ * @return {number} The y offset.
+ * @private
+ */
+google.bookmarkbubble.Bubble.prototype.getVisibleYPosition_ = function() {
+  return this.isIpad_() ? window.pageYOffset + 17 :
+      window.pageYOffset - this.element_.offsetHeight + window.innerHeight - 17;
+};
+
+
+/**
+ * Gets the y offset used to hide the bubble (i.e., position it off-screen).
+ * @return {number} The y offset.
+ * @private
+ */
+google.bookmarkbubble.Bubble.prototype.getHiddenYPosition_ = function() {
+  return this.isIpad_() ? window.pageYOffset - this.element_.offsetHeight :
+      window.pageYOffset + window.innerHeight;
+};
+
+
+/**
+ * The url of the app&#x27;s bookmark icon.
+ * @type {string|undefined}
+ * @private
+ */
+google.bookmarkbubble.Bubble.prototype.iconUrl_;
+
+
+/**
+ * Scrapes the document for a link element that specifies an Apple favicon and
+ * returns the icon url. Returns an empty data url if nothing can be found.
+ * @return {string} A url string.
+ * @private
+ */
+google.bookmarkbubble.Bubble.prototype.getIconUrl_ = function() {
+  if (!this.iconUrl_) {
+    var link = this.getLink(this.REL_ICON_);
+    if (!link || !(this.iconUrl_ = link.href)) {
+      this.iconUrl_ = &#x27;data:image/png;base64,&#x27;;
+    }
+  }
+  return this.iconUrl_;
+};
+
+
+/**
+ * Gets the requested link tag if it exists.
+ * @param {string} rel The rel attribute of the link tag to get.
+ * @return {Element} The requested link tag or null.
+ */
+google.bookmarkbubble.Bubble.prototype.getLink = function(rel) {
+  rel = rel.toLowerCase();
+  var links = document.getElementsByTagName(&#x27;link&#x27;);
+  for (var i = 0; i &lt; links.length; ++i) {
+    var currLink = /** @type {Element} */ (links[i]);
+    if (currLink.getAttribute(&#x27;rel&#x27;).toLowerCase() == rel) {
+      return currLink;
+    }
+  }
+  return null;
+};
+
+
+/**
+ * Creates the bubble and appends it to the document.
+ * @return {Element} The bubble element.
+ * @private
+ */
+google.bookmarkbubble.Bubble.prototype.build_ = function() {
+  var bubble = document.createElement(&#x27;div&#x27;);
+  var isIpad = this.isIpad_();
+
+  bubble.style.position = &#x27;absolute&#x27;;
+  bubble.style.zIndex = 1000;
+  bubble.style.width = &#x27;100%&#x27;;
+  bubble.style.left = &#x27;0&#x27;;
+  bubble.style.top = &#x27;0&#x27;;
+
+  var bubbleInner = document.createElement(&#x27;div&#x27;);
+  bubbleInner.style.position = &#x27;relative&#x27;;
+  bubbleInner.style.width = &#x27;214px&#x27;;
+  bubbleInner.style.margin = isIpad ? &#x27;0 0 0 82px&#x27; : &#x27;0 auto&#x27;;
+  bubbleInner.style.border = &#x27;2px solid #fff&#x27;;
+  bubbleInner.style.padding = &#x27;20px 20px 20px 10px&#x27;;
+  bubbleInner.style.WebkitBorderRadius = &#x27;8px&#x27;;
+  bubbleInner.style.WebkitBoxShadow = &#x27;0 0 8px rgba(0, 0, 0, 0.7)&#x27;;
+  bubbleInner.style.WebkitBackgroundSize = &#x27;100% 8px&#x27;;
+  bubbleInner.style.backgroundColor = &#x27;#b0c8ec&#x27;;
+  bubbleInner.style.background = &#x27;#cddcf3 -webkit-gradient(linear, &#x27; +
+      &#x27;left bottom, left top, &#x27; + isIpad ?
+          &#x27;from(#cddcf3), to(#b3caed)) no-repeat top&#x27; :
+          &#x27;from(#b3caed), to(#cddcf3)) no-repeat bottom&#x27;;
+  bubbleInner.style.font = &#x27;13px/17px sans-serif&#x27;;
+  bubble.appendChild(bubbleInner);
+
+  // The &quot;Add to Home Screen&quot; text is intended to be the exact same text
+  // that is displayed in the menu of Mobile Safari.
+  if (this.getIosVersion_() &gt;= this.getVersion_(4, 2)) {
+    bubbleInner.innerHTML = &#x27;このwebアプリは、インストールをお勧めします &#x27; +
+        &#x27;矢印をタップして &lt;b&gt;\&#x27;ホーム画面に追加\&#x27;&lt;/b&gt;&#x27;;
+  } else {
+    bubbleInner.innerHTML = &#x27;このwebアプリは、インストールをお勧めします &#x27; +
+        &#x27;tap &lt;b style=&quot;font-size:15px&quot;&gt;+&lt;/b&gt; をタップして &#x27; +
+        &#x27;&lt;b&gt;\&#x27;ホーム画面に追加\&#x27;&lt;/b&gt;&#x27;;
+  }
+
+  var icon = document.createElement(&#x27;div&#x27;);
+  icon.style[&#x27;float&#x27;] = &#x27;left&#x27;;
+  icon.style.width = &#x27;55px&#x27;;
+  icon.style.height = &#x27;55px&#x27;;
+  icon.style.margin = &#x27;-2px 7px 3px 5px&#x27;;
+  icon.style.background =
+      &#x27;#fff url(&#x27; + this.getIconUrl_() + &#x27;) no-repeat -1px -1px&#x27;;
+  icon.style.WebkitBackgroundSize = &#x27;57px&#x27;;
+  icon.style.WebkitBorderRadius = &#x27;10px&#x27;;
+  icon.style.WebkitBoxShadow = &#x27;0 2px 5px rgba(0, 0, 0, 0.4)&#x27;;
+  bubbleInner.insertBefore(icon, bubbleInner.firstChild);
+
+  var arrow = document.createElement(&#x27;div&#x27;);
+  arrow.style.backgroundImage = &#x27;url(&#x27; + this.IMAGE_ARROW_DATA_URL_ + &#x27;)&#x27;;
+  arrow.style.width = &#x27;25px&#x27;;
+  arrow.style.height = &#x27;19px&#x27;;
+  arrow.style.position = &#x27;absolute&#x27;;
+  arrow.style.left = &#x27;111px&#x27;;
+  if (isIpad) {
+    arrow.style.WebkitTransform = &#x27;rotate(180deg)&#x27;;
+    arrow.style.top = &#x27;-19px&#x27;;
+  } else {
+    arrow.style.bottom = &#x27;-19px&#x27;;
+  }
+  bubbleInner.appendChild(arrow);
+
+  var close = document.createElement(&#x27;a&#x27;);
+  close.onclick = google.bind(this.closeClickHandler_, this);
+  close.style.position = &#x27;absolute&#x27;;
+  close.style.display = &#x27;block&#x27;;
+  close.style.top = &#x27;-3px&#x27;;
+  close.style.right = &#x27;-3px&#x27;;
+  close.style.width = &#x27;16px&#x27;;
+  close.style.height = &#x27;16px&#x27;;
+  close.style.border = &#x27;10px solid transparent&#x27;;
+  close.style.background =
+      &#x27;url(&#x27; + this.IMAGE_CLOSE_DATA_URL_ + &#x27;) no-repeat&#x27;;
+  bubbleInner.appendChild(close);
+
+  return bubble;
+};
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

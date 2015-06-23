@@ -23,6 +23,11 @@
 本アプリ及びソースコードの著作権はCode for Kanazawaに帰属します。
 但し、このソースコードは[MPL](http://www.mozilla.org/MPL/2.0/)のもと配布されています。MPLに従えば、どなたでも利用、改変、及び再配布が可能です。
 
+## Coding Style
+コーディング規約は基本的に[Airbnb](https://github.com/airbnb)に準拠してください。  
+[英語](https://github.com/airbnb/javascript)  
+[日本語](http://mitsuruog.github.io/javacript-style-guide/)  
+
 ## Contributers in Kurume
 
 - [宮崎 泰輔(Taisuke Miyazaki)](https://github.com/imishinist/)

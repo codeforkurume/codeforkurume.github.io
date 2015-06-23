@@ -1,0 +1,851 @@
+{
+    "project": {
+        "name": "5374",
+        "version": "1.0.0"
+    },
+    "files": {
+        "js/bookmark-bubble/example/example.js": {
+            "name": "js/bookmark-bubble/example/example.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "js/bookmark-bubble/bookmark_bubble.js": {
+            "name": "js/bookmark-bubble/bookmark_bubble.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "js/bootstrap.js": {
+            "name": "js/bootstrap.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "js/bootstrap.min.js": {
+            "name": "js/bootstrap.min.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "js/script.js": {
+            "name": "js/script.js",
+            "modules": {},
+            "classes": {
+                "AreaModel": 1,
+                "TrashModel": 1,
+                "CenterModel": 1,
+                "DescriptionModel": 1,
+                "TargetRowModel": 1,
+                "RemarkModel": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "AreaModel": {
+            "name": "AreaModel",
+            "shortname": "AreaModel",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "js/script.js",
+            "line": 3,
+            "description": "エリア(ごみ処理の地域）を管理するクラスです。",
+            "is_constructor": 1
+        },
+        "TrashModel": {
+            "name": "TrashModel",
+            "shortname": "TrashModel",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "js/script.js",
+            "line": 77,
+            "description": "各ゴミのカテゴリを管理するクラスです。",
+            "is_constructor": 1
+        },
+        "CenterModel": {
+            "name": "CenterModel",
+            "shortname": "CenterModel",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "js/script.js",
+            "line": 296,
+            "description": "センターのデータを管理します。",
+            "is_constructor": 1
+        },
+        "DescriptionModel": {
+            "name": "DescriptionModel",
+            "shortname": "DescriptionModel",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "js/script.js",
+            "line": 312,
+            "description": "ゴミのカテゴリを管理するクラスです。\ndescription.csvのモデルです。",
+            "is_constructor": 1
+        },
+        "TargetRowModel": {
+            "name": "TargetRowModel",
+            "shortname": "TargetRowModel",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "js/script.js",
+            "line": 328,
+            "description": "ゴミのカテゴリの中のゴミの具体的なリストを管理するクラスです。\ntarget.csvのモデルです。",
+            "is_constructor": 1
+        },
+        "RemarkModel": {
+            "name": "RemarkModel",
+            "shortname": "RemarkModel",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "js/script.js",
+            "line": 341,
+            "description": "ゴミ収集日に関する備考を管理するクラスです。\nremarks.csvのモデルです。",
+            "is_constructor": 1
+        }
+    },
+    "classitems": [
+        {
+            "file": "js/bookmark-bubble/example/example.js",
+            "line": 17,
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 17,
+            "fileoverview": "Bookmark bubble library. This is meant to be included in the\nmain JavaScript binary of a mobile web application.\n\nSupported browsers: iPhone / iPod / iPad Safari 3.0+",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 28,
+            "description": "Binds a context object to the function.",
+            "params": [
+                {
+                    "name": "fn",
+                    "description": "The function to bind to.",
+                    "type": "Function"
+                },
+                {
+                    "name": "context",
+                    "description": "The \"this\" object to use when the function is run.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "A partially-applied form of fn.",
+                "type": "Function"
+            },
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 41,
+            "description": "Function used to define an abstract method in a base class. If a subclass\nfails to override the abstract method, then an error will be thrown whenever\nthat method is invoked.",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 52,
+            "description": "The bubble constructor. Instantiating an object does not cause anything to\nbe rendered yet, so if necessary you can set instance properties before\nshowing the bubble.",
+            "is_constructor": 1,
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 59,
+            "description": "Handler for the scroll event. Keep a reference to it here, so it can be\nunregistered when the bubble is destroyed.",
+            "type": "{function()}",
+            "access": "private",
+            "tagname": "",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 67,
+            "description": "The bubble element.",
+            "type": "{Element}",
+            "access": "private",
+            "tagname": "",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 74,
+            "description": "Whether the bubble has been destroyed.",
+            "type": "{boolean}",
+            "access": "private",
+            "tagname": "",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 83,
+            "description": "Shows the bubble if allowed. It is not allowed if:\n- The browser is not Mobile Safari, or\n- The user has dismissed it too often already, or\n- The hash parameter is present in the location hash, or\n- The application is in fullscreen mode, which means it was already loaded\n  from a homescreen bookmark.",
+            "return": {
+                "description": "True if the bubble is being shown, false if it is not\n    allowed to show for one of the aforementioned reasons.",
+                "type": "Boolean"
+            },
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 103,
+            "description": "Shows the bubble if allowed after loading the icon image. This method creates\nan image element to load the image into the browser's cache before showing\nthe bubble to ensure that the image isn't blank. Use this instead of\nshowIfAllowed if the image url is http and cacheable.\nThis hack is necessary because Mobile Safari does not properly render\nimage elements with border-radius CSS.",
+            "params": [
+                {
+                    "name": "opt_callback",
+                    "description": "Closure to be called if and when the bubble\n       actually shows.",
+                    "type": "Function()"
+                }
+            ],
+            "return": {
+                "description": "True if the bubble is allowed to show.",
+                "type": "Boolean"
+            },
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 139,
+            "description": "Sets the parameter in the location hash. As it is\nunpredictable what hash scheme is to be used, this method must be\nimplemented by the host application.\n\nThis gets called automatically when the bubble is shown. The idea is that if\nthe user then creates a bookmark, we can later recognize on application\nstartup whether it was from a bookmark suggested with this bubble.\n\nNOTE: Using a hash parameter to track whether the bubble has been shown\nconflicts with the navigation system in jQuery Mobile. If you are using that\nlibrary, you should implement this function to track the bubble's status in\na different way, e.g. using window.localStorage in HTML5.",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 156,
+            "description": "Whether the parameter is present in the location hash. As it is\nunpredictable what hash scheme is to be used, this method must be\nimplemented by the host application.\n\nCall this method during application startup if you want to log whether the\napplication was loaded from a bookmark with the bookmark bubble promotion\nparameter in it.",
+            "return": {
+                "description": "Whether the bookmark bubble parameter is present in the\n    location hash.",
+                "type": "Boolean"
+            },
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 171,
+            "description": "The number of times the user must dismiss the bubble before we stop showing\nit. This is a public property and can be changed by the host application if\nnecessary.",
+            "type": "{number}",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 180,
+            "description": "Time in milliseconds. If the user does not dismiss the bubble, it will auto\ndestruct after this amount of time.",
+            "type": "{number}",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 188,
+            "description": "The prefix for keys in local storage. This is a public property and can be\nchanged by the host application if necessary.",
+            "type": "{string}",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 196,
+            "description": "The key name for the dismissed state.",
+            "type": "{string}",
+            "access": "private",
+            "tagname": "",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 204,
+            "description": "The arrow image in base64 data url format.",
+            "type": "{string}",
+            "access": "private",
+            "tagname": "",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 212,
+            "description": "The close image in base64 data url format.",
+            "type": "{string}",
+            "access": "private",
+            "tagname": "",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 220,
+            "description": "The link used to locate the application's home screen icon to display inside\nthe bubble. The default link used here is for an iPhone home screen icon\nwithout gloss. If your application uses a glossy icon, change this to\n'apple-touch-icon'.",
+            "type": "{string}",
+            "access": "private",
+            "tagname": "",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 232,
+            "description": "Regular expression for detecting an iPhone or iPod or iPad.",
+            "type": "{!RegExp}",
+            "access": "private",
+            "tagname": "",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 241,
+            "description": "Regular expression for detecting an iPad.",
+            "type": "{!RegExp}",
+            "access": "private",
+            "tagname": "",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 249,
+            "description": "Regular expression for extracting the iOS version. Only matches 2.0 and up.",
+            "type": "{!RegExp}",
+            "access": "private",
+            "tagname": "",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 258,
+            "description": "Determines whether the bubble should be shown or not.",
+            "return": {
+                "description": "Whether the bubble should be shown or not.",
+                "type": "Boolean"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 271,
+            "description": "Builds and shows the bubble.",
+            "access": "private",
+            "tagname": "",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 294,
+            "description": "Destroys the bubble by removing its DOM nodes from the document.",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 310,
+            "description": "Remember that the user has dismissed the bubble once more.",
+            "access": "private",
+            "tagname": "",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 329,
+            "description": "Whether the user has dismissed the bubble often enough that we will not\nshow it again.",
+            "return": {
+                "description": "Whether the user has dismissed the bubble often enough\n    that we will not show it again.",
+                "type": "Boolean"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 363,
+            "description": "Whether the application is running in fullscreen mode.",
+            "return": {
+                "description": "Whether the application is running in fullscreen mode.",
+                "type": "Boolean"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 373,
+            "description": "Whether the application is running inside Mobile Safari.",
+            "return": {
+                "description": "True if the current user agent looks like Mobile Safari.",
+                "type": "Boolean"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 383,
+            "description": "Whether the application is running on an iPad.",
+            "return": {
+                "description": "True if the current user agent looks like an iPad.",
+                "type": "Boolean"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 393,
+            "description": "Creates a version number from 4 integer pieces between 0 and 127 (inclusive).",
+            "params": [
+                {
+                    "name": "opt_a",
+                    "description": "The major version.",
+                    "type": "*="
+                },
+                {
+                    "name": "opt_b",
+                    "description": "The minor version.",
+                    "type": "*="
+                },
+                {
+                    "name": "opt_c",
+                    "description": "The revision number.",
+                    "type": "*="
+                },
+                {
+                    "name": "opt_d",
+                    "description": "The build number.",
+                    "type": "*="
+                }
+            ],
+            "return": {
+                "description": "A representation of the version.",
+                "type": "Number"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 407,
+            "description": "/** @type {number} */ (opt_c) << 7 |\n/** @type {number} */ (opt_d);\n};\n\n\n/**\n * Gets the iOS version of the device. Only works for 2.0+.\n * @return {number} The iOS version.\n * @private",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 426,
+            "description": "Positions the bubble at the bottom of the viewport using an animated\ntransition.",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 437,
+            "description": "Destroys the bubble by removing its DOM nodes from the document, and\nremembers that it was dismissed.",
+            "access": "private",
+            "tagname": "",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 448,
+            "description": "Gets called after a while if the user ignores the bubble.",
+            "access": "private",
+            "tagname": "",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 463,
+            "description": "Gets the y offset used to show the bubble (i.e., position it on-screen).",
+            "return": {
+                "description": "The y offset.",
+                "type": "Number"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 474,
+            "description": "Gets the y offset used to hide the bubble (i.e., position it off-screen).",
+            "return": {
+                "description": "The y offset.",
+                "type": "Number"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 485,
+            "description": "The url of the app's bookmark icon.",
+            "type": "{string|undefined}",
+            "access": "private",
+            "tagname": "",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 493,
+            "description": "Scrapes the document for a link element that specifies an Apple favicon and\nreturns the icon url. Returns an empty data url if nothing can be found.",
+            "return": {
+                "description": "A url string.",
+                "type": "String"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 510,
+            "description": "Gets the requested link tag if it exists.",
+            "params": [
+                {
+                    "name": "rel",
+                    "description": "The rel attribute of the link tag to get.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "The requested link tag or null.",
+                "type": "Element"
+            },
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bookmark-bubble/bookmark_bubble.js",
+            "line": 528,
+            "description": "Creates the bubble and appends it to the document.",
+            "return": {
+                "description": "The bubble element.",
+                "type": "Element"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bootstrap.js",
+            "line": 1,
+            "description": "bootstrap.js v3.0.0 by @fat and @mdo\nCopyright 2013 Twitter Inc.\nhttp://www.apache.org/licenses/LICENSE-2.0",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/bootstrap.min.js",
+            "line": 1,
+            "description": "bootstrap.js v3.0.0 by @fat and @mdo\nCopyright 2013 Twitter Inc.\nhttp://www.apache.org/licenses/LICENSE-2.0",
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/script.js",
+            "line": 14,
+            "description": "各ゴミのカテゴリに対して、最も直近の日付を計算します。",
+            "itemtype": "method",
+            "name": "calcMostRect",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/script.js",
+            "line": 25,
+            "description": "休止期間（主に年末年始）かどうかを判定します。",
+            "itemtype": "method",
+            "name": "isBlankDay",
+            "params": [
+                {
+                    "name": "日付",
+                    "description": "",
+                    "type": "Date"
+                }
+            ],
+            "return": {
+                "description": "休止期間かどうか",
+                "type": "Boolean"
+            },
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/script.js",
+            "line": 44,
+            "description": "ゴミ処理センターを登録します。\n名前が一致するかどうかで判定を行っております。",
+            "itemtype": "method",
+            "name": "setCenter",
+            "params": [
+                {
+                    "name": "日付",
+                    "description": "",
+                    "type": "Date"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/script.js",
+            "line": 59,
+            "description": "ゴミのカテゴリのソートを行います。",
+            "itemtype": "method",
+            "name": "sortTrash",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "AreaModel"
+        },
+        {
+            "file": "js/script.js",
+            "line": 138,
+            "description": "日付のラベルを取得します",
+            "itemtype": "method",
+            "name": "getDateLabel",
+            "return": {
+                "description": "日付のラベル",
+                "type": "String"
+            },
+            "class": "TrashModel"
+        },
+        {
+            "file": "js/script.js",
+            "line": 161,
+            "description": "このごみ収集日が特殊な条件を持っている場合備考を返します。収集日データに\"*n\" が入っている場合に利用されます",
+            "itemtype": "method",
+            "name": "getRemark",
+            "return": {
+                "description": "備考",
+                "type": "String"
+            },
+            "class": "TrashModel"
+        },
+        {
+            "file": "js/script.js",
+            "line": 180,
+            "description": "このゴミの年間のゴミの日を計算します。\nセンターが休止期間がある場合は、その期間１週間ずらすという実装を行っております。",
+            "itemtype": "method",
+            "name": "calcMostRect",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "TrashModel"
+        },
+        {
+            "file": "js/script.js",
+            "line": 280,
+            "description": "計算したゴミの日一覧をリスト形式として取得します。",
+            "itemtype": "method",
+            "name": "getDayList",
+            "return": {
+                "description": "ごみの日一覧",
+                "type": "String"
+            },
+            "class": "TrashModel"
+        }
+    ],
+    "warnings": [
+        {
+            "message": "unknown tag: fileoverview",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:17"
+        },
+        {
+            "message": "Missing item type",
+            "line": " js/bookmark-bubble/example/example.js:17"
+        },
+        {
+            "message": "Missing item type",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:17"
+        },
+        {
+            "message": "Missing item type\nBinds a context object to the function.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:28"
+        },
+        {
+            "message": "Missing item type\nFunction used to define an abstract method in a base class. If a subclass\nfails to override the abstract method, then an error will be thrown whenever\nthat method is invoked.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:41"
+        },
+        {
+            "message": "Missing item type\nThe bubble constructor. Instantiating an object does not cause anything to\nbe rendered yet, so if necessary you can set instance properties before\nshowing the bubble.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:52"
+        },
+        {
+            "message": "Missing item type\nHandler for the scroll event. Keep a reference to it here, so it can be\nunregistered when the bubble is destroyed.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:59"
+        },
+        {
+            "message": "Missing item type\nThe bubble element.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:67"
+        },
+        {
+            "message": "Missing item type\nWhether the bubble has been destroyed.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:74"
+        },
+        {
+            "message": "Missing item type\nShows the bubble if allowed. It is not allowed if:\n- The browser is not Mobile Safari, or\n- The user has dismissed it too often already, or\n- The hash parameter is present in the location hash, or\n- The application is in fullscreen mode, which means it was already loaded\n  from a homescreen bookmark.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:83"
+        },
+        {
+            "message": "Missing item type\nShows the bubble if allowed after loading the icon image. This method creates\nan image element to load the image into the browser's cache before showing\nthe bubble to ensure that the image isn't blank. Use this instead of\nshowIfAllowed if the image url is http and cacheable.\nThis hack is necessary because Mobile Safari does not properly render\nimage elements with border-radius CSS.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:103"
+        },
+        {
+            "message": "Missing item type\nSets the parameter in the location hash. As it is\nunpredictable what hash scheme is to be used, this method must be\nimplemented by the host application.\n\nThis gets called automatically when the bubble is shown. The idea is that if\nthe user then creates a bookmark, we can later recognize on application\nstartup whether it was from a bookmark suggested with this bubble.\n\nNOTE: Using a hash parameter to track whether the bubble has been shown\nconflicts with the navigation system in jQuery Mobile. If you are using that\nlibrary, you should implement this function to track the bubble's status in\na different way, e.g. using window.localStorage in HTML5.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:139"
+        },
+        {
+            "message": "Missing item type\nWhether the parameter is present in the location hash. As it is\nunpredictable what hash scheme is to be used, this method must be\nimplemented by the host application.\n\nCall this method during application startup if you want to log whether the\napplication was loaded from a bookmark with the bookmark bubble promotion\nparameter in it.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:156"
+        },
+        {
+            "message": "Missing item type\nThe number of times the user must dismiss the bubble before we stop showing\nit. This is a public property and can be changed by the host application if\nnecessary.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:171"
+        },
+        {
+            "message": "Missing item type\nTime in milliseconds. If the user does not dismiss the bubble, it will auto\ndestruct after this amount of time.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:180"
+        },
+        {
+            "message": "Missing item type\nThe prefix for keys in local storage. This is a public property and can be\nchanged by the host application if necessary.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:188"
+        },
+        {
+            "message": "Missing item type\nThe key name for the dismissed state.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:196"
+        },
+        {
+            "message": "Missing item type\nThe arrow image in base64 data url format.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:204"
+        },
+        {
+            "message": "Missing item type\nThe close image in base64 data url format.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:212"
+        },
+        {
+            "message": "Missing item type\nThe link used to locate the application's home screen icon to display inside\nthe bubble. The default link used here is for an iPhone home screen icon\nwithout gloss. If your application uses a glossy icon, change this to\n'apple-touch-icon'.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:220"
+        },
+        {
+            "message": "Missing item type\nRegular expression for detecting an iPhone or iPod or iPad.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:232"
+        },
+        {
+            "message": "Missing item type\nRegular expression for detecting an iPad.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:241"
+        },
+        {
+            "message": "Missing item type\nRegular expression for extracting the iOS version. Only matches 2.0 and up.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:249"
+        },
+        {
+            "message": "Missing item type\nDetermines whether the bubble should be shown or not.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:258"
+        },
+        {
+            "message": "Missing item type\nBuilds and shows the bubble.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:271"
+        },
+        {
+            "message": "Missing item type\nDestroys the bubble by removing its DOM nodes from the document.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:294"
+        },
+        {
+            "message": "Missing item type\nRemember that the user has dismissed the bubble once more.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:310"
+        },
+        {
+            "message": "Missing item type\nWhether the user has dismissed the bubble often enough that we will not\nshow it again.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:329"
+        },
+        {
+            "message": "Missing item type\nWhether the application is running in fullscreen mode.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:363"
+        },
+        {
+            "message": "Missing item type\nWhether the application is running inside Mobile Safari.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:373"
+        },
+        {
+            "message": "Missing item type\nWhether the application is running on an iPad.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:383"
+        },
+        {
+            "message": "Missing item type\nCreates a version number from 4 integer pieces between 0 and 127 (inclusive).",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:393"
+        },
+        {
+            "message": "Missing item type\n/** @type {number} */ (opt_c) << 7 |\n/** @type {number} */ (opt_d);\n};\n\n\n/**\n * Gets the iOS version of the device. Only works for 2.0+.\n * @return {number} The iOS version.\n * @private",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:407"
+        },
+        {
+            "message": "Missing item type\nPositions the bubble at the bottom of the viewport using an animated\ntransition.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:426"
+        },
+        {
+            "message": "Missing item type\nDestroys the bubble by removing its DOM nodes from the document, and\nremembers that it was dismissed.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:437"
+        },
+        {
+            "message": "Missing item type\nGets called after a while if the user ignores the bubble.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:448"
+        },
+        {
+            "message": "Missing item type\nGets the y offset used to show the bubble (i.e., position it on-screen).",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:463"
+        },
+        {
+            "message": "Missing item type\nGets the y offset used to hide the bubble (i.e., position it off-screen).",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:474"
+        },
+        {
+            "message": "Missing item type\nThe url of the app's bookmark icon.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:485"
+        },
+        {
+            "message": "Missing item type\nScrapes the document for a link element that specifies an Apple favicon and\nreturns the icon url. Returns an empty data url if nothing can be found.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:493"
+        },
+        {
+            "message": "Missing item type\nGets the requested link tag if it exists.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:510"
+        },
+        {
+            "message": "Missing item type\nCreates the bubble and appends it to the document.",
+            "line": " js/bookmark-bubble/bookmark_bubble.js:528"
+        },
+        {
+            "message": "Missing item type\nbootstrap.js v3.0.0 by @fat and @mdo\nCopyright 2013 Twitter Inc.\nhttp://www.apache.org/licenses/LICENSE-2.0",
+            "line": " js/bootstrap.js:1"
+        },
+        {
+            "message": "Missing item type\nbootstrap.js v3.0.0 by @fat and @mdo\nCopyright 2013 Twitter Inc.\nhttp://www.apache.org/licenses/LICENSE-2.0",
+            "line": " js/bootstrap.min.js:1"
+        }
+    ]
+}
