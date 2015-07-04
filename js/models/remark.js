@@ -8,11 +8,11 @@
  */
 var RemarkModel;
 RemarkModel = (function () {
-    function RemarkModel(data) {
-        this.id = data[0];
-        this.text = data[1];
-    }
+  function RemarkModel(data) {
+    this.id = data[0];
+    this.text = data[1];
+  }
 
-    return RemarkModel;
+  return RemarkModel;
 })();
 

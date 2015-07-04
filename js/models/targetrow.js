@@ -8,13 +8,13 @@
  */
 var TargetRowModel;
 TargetRowModel = (function () {
-    function TargetRowModel(data) {
-        this.label = data[0];
-        this.name = data[1];
-        this.notice = data[2];
-        this.furigana = data[3];
-    }
+  function TargetRowModel(data) {
+    this.label = data[0];
+    this.name = data[1];
+    this.notice = data[2];
+    this.furigana = data[3];
+  }
 
-    return TargetRowModel;
+  return TargetRowModel;
 })();
 
