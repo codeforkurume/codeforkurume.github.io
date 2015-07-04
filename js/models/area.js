@@ -5,20 +5,21 @@
  * @class AreaModel
  * @constructor
  */
-var AreaModel = (function() {
-    var areaModel = function() {
+var AreaModel;
+AreaModel = (function () {
+    function AreaModel() {
         this.label = '';
         this.centerName = '';
         this.center = '';
-        this.trash = new Array();
-    };
+        this.trash = [];
+    }
 
     /**
      * 各ゴミのカテゴリに対して、最も直近の日付を計算します。
      * @method calcMostRect
      * @return {void}
      */
-    areaModel.prototype.calcMostRect = function() {
+    AreaModel.prototype.calcMostRect = function calcMostRect() {
         for (var i = 0; i < this.trash.length; i++) {
             this.trash[i].calcMostRect(this);
         }
@@ -27,33 +28,30 @@ var AreaModel = (function() {
     /**
      * 休止期間（主に年末年始）かどうかを判定します。
      * @method isBlankDay
-     * @param {date} 日付
      * @return {boolean} 休止期間かどうか
+     * @param currentDate
      */
-    areaModel.prototype.isBlankDay = function(currentDate) {
+    AreaModel.prototype.isBlankDay = function isBlankDay(currentDate) {
         if (!this.center) {
             return false;
         }
         var period = [this.center.startDate, this.center.endDate];
 
-        if (period[0].getTime() <= currentDate.getTime() &&
-            currentDate.getTime() <= period[1].getTime()) {
-            return true;
-        }
-        return false;
+        return !!(period[0].getTime() <= currentDate.getTime() &&
+        currentDate.getTime() <= period[1].getTime());
     };
 
     /**
      * ゴミ処理センターを登録します。
      * 名前が一致するかどうかで判定を行っております。
      * @method setCenter
-     * @param {date} 日付
      * @return {void}
+     * @param centerData
      */
-    areaModel.prototype.setCenter = function(center_data) {
-        for (var i in center_data) {
-            if (this.centerName == center_data[i].name) {
-                this.center = center_data[i];
+    AreaModel.prototype.setCenter = function setCenter(centerData) {
+        for (var i in centerData) {
+            if (this.centerName == centerData[i].name) {
+                this.center = centerData[i];
             }
         }
     };
@@ -63,8 +61,8 @@ var AreaModel = (function() {
      * @method sortTrash
      * @return {number}
      */
-    areaModel.prototype.sortTrash = function() {
-        this.trash.sort(function(a, b) {
+    AreaModel.prototype.sortTrash = function sortTrash() {
+        this.trash.sort(function (a, b) {
             if (a.mostRecent === undefined) return 1;
             if (b.mostRecent === undefined) return -1;
             var at = a.mostRecent.getTime();
@@ -74,5 +72,5 @@ var AreaModel = (function() {
             return 0;
         });
     };
-    return areaModel;
+    return AreaModel;
 })();

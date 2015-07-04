@@ -87,17 +87,18 @@
 &quot;use strict&quot;;
 
 /**
-* 各ゴミのカテゴリを管理するクラスです。
-* @class TrashModel
-* @constructor
-*/
-var TrashModel = (function() {
-    var trashModel = function(_label, _cell, remarks) {
+ * 各ゴミのカテゴリを管理するクラスです。
+ * @class TrashModel
+ * @constructor
+ */
+var TrashModel;
+TrashModel = (function () {
+    function TrashModel(_label, _cell, remarks) {
         this.remarks = remarks;
-        this.dayLabel;
-        this.mostRecent;
-        this.dayList;
-        this.mflag = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        this.dayLabel = null;
+        this.mostRecent = null;
+        this.dayList = null;
+        this.mflag = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         var monthSplitFlag = _cell.search(/:/) &gt;= 0;
         if (monthSplitFlag) {
             var flag = _cell.split(&quot;:&quot;);
@@ -108,17 +109,16 @@ var TrashModel = (function() {
             var mm = new Array();
         } else {
             this.dayCell = _cell.split(&quot; &quot;);
-            var mm = new Array(&quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;, &quot;8&quot;, &quot;9&quot;, &quot;10&quot;, &quot;11&quot;, &quot;12&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;);
+            var mm = [&quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;, &quot;8&quot;, &quot;9&quot;, &quot;10&quot;, &quot;11&quot;, &quot;12&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;];
         }
         for (var m in mm) {
             this.mflag[mm[m] - 1] = 1;
         }
         this.label = _label;
-        this.description;
+        this.description = null;
         this.regularFlg = 1;      // 定期回収フラグ（デフォルトはオン:1）
 
         var result_text = &quot;&quot;;
-        var today = new Date();
 
         for (var j in this.dayCell) {
             if (this.dayCell[j].length == 1) {
@@ -147,14 +147,14 @@ var TrashModel = (function() {
             result_text = monthList + result_text
         }
         this.dayLabel = result_text;
-    };
+    }
 
     /**
      * 日付のラベルを取得します
      * @method getDateLabel
      * @return {string} 日付のラベル
      */
-    trashModel.prototype.getDateLabel = function() {
+    TrashModel.prototype.getDateLabel = function getDateLabel() {
         if (this.mostRecent === undefined) {
             return this.getRemark() + &quot;不明&quot;;
         }
@@ -172,17 +172,19 @@ var TrashModel = (function() {
         }
         return -1;
     }
+
     /**
      * このごみ収集日が特殊な条件を持っている場合備考を返します。収集日データに&quot;*n&quot; が入っている場合に利用されます
      * @method getRemark
      * @return {string} 備考
      */
-    trashModel.prototype.getRemark = function getRemark() {
-        var ret = &quot;&quot;;
-        this.dayCell.forEach(function(day){
-            if (day.substr(0,1) == &quot;*&quot;) {
-                remarks.forEach(function(remark){
-                    if (remark.id == day.substr(1,1)){
+    TrashModel.prototype.getRemark = function getRemark() {
+        var ret = &quot;&quot;,
+            that = this;
+        this.dayCell.forEach(function (day) {
+            if (day.substr(0, 1) == &quot;*&quot;) {
+                that.remarks.forEach(function (remark) {
+                    if (remark.id == day.substr(1, 1)) {
                         ret += remark.text + &quot;&lt;br/&gt;&quot;;
                     }
                 });
@@ -197,10 +199,9 @@ var TrashModel = (function() {
      * @method calcMostRect
      * @return {void}
      */
-    trashModel.prototype.calcMostRect = function(areaObj) {
+    TrashModel.prototype.calcMostRect = function calcMostRect(areaObj) {
         var day_mix = this.dayCell;
-        var result_text = &quot;&quot;;
-        var day_list = new Array();
+        var day_list = [];
 
         // 定期回収の場合
         if (this.regularFlg == 1) {
@@ -272,7 +273,7 @@ var TrashModel = (function() {
         }
         //曜日によっては日付順ではないので最終的にソートする。
         //ソートしなくてもなんとなりそうな気もしますが、とりあえずソート
-        day_list.sort(function(a, b) {
+        day_list.sort(function (a, b) {
             var at = a.getTime();
             var bt = b.getTime();
             if (at &lt; bt) return -1;
@@ -296,7 +297,7 @@ var TrashModel = (function() {
      * @method getDayList
      * @return {string} ごみの日一覧
      */
-    trashModel.prototype.getDayList = function() {
+    TrashModel.prototype.getDayList = function getDayList() {
         var day_text = &quot;&lt;ul&gt;&quot;;
         for (var i in this.dayList) {
             var d = this.dayList[i];
@@ -306,7 +307,7 @@ var TrashModel = (function() {
         return day_text;
     };
 
-    return trashModel;
+    return TrashModel;
 })();
 
     </pre>

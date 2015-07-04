@@ -589,7 +589,7 @@
         },
         {
             "file": "js/models/area.js",
-            "line": 16,
+            "line": 17,
             "description": "各ゴミのカテゴリに対して、最も直近の日付を計算します。",
             "itemtype": "method",
             "name": "calcMostRect",
@@ -601,45 +601,43 @@
         },
         {
             "file": "js/models/area.js",
-            "line": 27,
+            "line": 28,
             "description": "休止期間（主に年末年始）かどうかを判定します。",
             "itemtype": "method",
             "name": "isBlankDay",
-            "params": [
-                {
-                    "name": "日付",
-                    "description": "",
-                    "type": "Date"
-                }
-            ],
             "return": {
                 "description": "休止期間かどうか",
                 "type": "Boolean"
             },
+            "params": [
+                {
+                    "name": "currentDate",
+                    "description": ""
+                }
+            ],
             "class": "AreaModel"
         },
         {
             "file": "js/models/area.js",
-            "line": 46,
+            "line": 44,
             "description": "ゴミ処理センターを登録します。\n名前が一致するかどうかで判定を行っております。",
             "itemtype": "method",
             "name": "setCenter",
-            "params": [
-                {
-                    "name": "日付",
-                    "description": "",
-                    "type": "Date"
-                }
-            ],
             "return": {
                 "description": "",
                 "type": "Void"
             },
+            "params": [
+                {
+                    "name": "centerData",
+                    "description": ""
+                }
+            ],
             "class": "AreaModel"
         },
         {
             "file": "js/models/area.js",
-            "line": 61,
+            "line": 59,
             "description": "ゴミのカテゴリのソートを行います。",
             "itemtype": "method",
             "name": "sortTrash",
@@ -663,7 +661,7 @@
         },
         {
             "file": "js/models/trash.js",
-            "line": 89,
+            "line": 90,
             "description": "このごみ収集日が特殊な条件を持っている場合備考を返します。収集日データに\"*n\" が入っている場合に利用されます",
             "itemtype": "method",
             "name": "getRemark",
@@ -675,7 +673,7 @@
         },
         {
             "file": "js/models/trash.js",
-            "line": 108,
+            "line": 110,
             "description": "このゴミの年間のゴミの日を計算します。\nセンターが休止期間がある場合は、その期間１週間ずらすという実装を行っております。",
             "itemtype": "method",
             "name": "calcMostRect",
@@ -687,7 +685,7 @@
         },
         {
             "file": "js/models/trash.js",
-            "line": 208,
+            "line": 209,
             "description": "計算したゴミの日一覧をリスト形式として取得します。",
             "itemtype": "method",
             "name": "getDayList",
