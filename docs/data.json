@@ -18,6 +18,60 @@
             "fors": {},
             "namespaces": {}
         },
+        "js/models/area.js": {
+            "name": "js/models/area.js",
+            "modules": {},
+            "classes": {
+                "AreaModel": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "js/models/center.js": {
+            "name": "js/models/center.js",
+            "modules": {},
+            "classes": {
+                "CenterModel": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "js/models/description.js": {
+            "name": "js/models/description.js",
+            "modules": {},
+            "classes": {
+                "DescriptionModel": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "js/models/remark.js": {
+            "name": "js/models/remark.js",
+            "modules": {},
+            "classes": {
+                "RemarkModel": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "js/models/targetrow.js": {
+            "name": "js/models/targetrow.js",
+            "modules": {},
+            "classes": {
+                "TargetRowModel": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "js/models/trash.js": {
+            "name": "js/models/trash.js",
+            "modules": {},
+            "classes": {
+                "TrashModel": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "js/bootstrap.js": {
             "name": "js/bootstrap.js",
             "modules": {},
@@ -29,20 +83,6 @@
             "name": "js/bootstrap.min.js",
             "modules": {},
             "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "js/script.js": {
-            "name": "js/script.js",
-            "modules": {},
-            "classes": {
-                "AreaModel": 1,
-                "TrashModel": 1,
-                "CenterModel": 1,
-                "DescriptionModel": 1,
-                "TargetRowModel": 1,
-                "RemarkModel": 1
-            },
             "fors": {},
             "namespaces": {}
         }
@@ -57,22 +97,9 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "file": "js/script.js",
+            "file": "js/models/area.js",
             "line": 3,
             "description": "エリア(ごみ処理の地域）を管理するクラスです。",
-            "is_constructor": 1
-        },
-        "TrashModel": {
-            "name": "TrashModel",
-            "shortname": "TrashModel",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "file": "js/script.js",
-            "line": 77,
-            "description": "各ゴミのカテゴリを管理するクラスです。",
             "is_constructor": 1
         },
         "CenterModel": {
@@ -83,8 +110,8 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "file": "js/script.js",
-            "line": 296,
+            "file": "js/models/center.js",
+            "line": 3,
             "description": "センターのデータを管理します。",
             "is_constructor": 1
         },
@@ -96,22 +123,9 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "file": "js/script.js",
-            "line": 312,
+            "file": "js/models/description.js",
+            "line": 3,
             "description": "ゴミのカテゴリを管理するクラスです。\ndescription.csvのモデルです。",
-            "is_constructor": 1
-        },
-        "TargetRowModel": {
-            "name": "TargetRowModel",
-            "shortname": "TargetRowModel",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "file": "js/script.js",
-            "line": 328,
-            "description": "ゴミのカテゴリの中のゴミの具体的なリストを管理するクラスです。\ntarget.csvのモデルです。",
             "is_constructor": 1
         },
         "RemarkModel": {
@@ -122,9 +136,35 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "file": "js/script.js",
-            "line": 341,
+            "file": "js/models/remark.js",
+            "line": 3,
             "description": "ゴミ収集日に関する備考を管理するクラスです。\nremarks.csvのモデルです。",
+            "is_constructor": 1
+        },
+        "TargetRowModel": {
+            "name": "TargetRowModel",
+            "shortname": "TargetRowModel",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "js/models/targetrow.js",
+            "line": 3,
+            "description": "ゴミのカテゴリの中のゴミの具体的なリストを管理するクラスです。\ntarget.csvのモデルです。",
+            "is_constructor": 1
+        },
+        "TrashModel": {
+            "name": "TrashModel",
+            "shortname": "TrashModel",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "js/models/trash.js",
+            "line": 3,
+            "description": "各ゴミのカテゴリを管理するクラスです。",
             "is_constructor": 1
         }
     },
@@ -548,20 +588,8 @@
             "class": "AreaModel"
         },
         {
-            "file": "js/bootstrap.js",
-            "line": 1,
-            "description": "bootstrap.js v3.0.0 by @fat and @mdo\nCopyright 2013 Twitter Inc.\nhttp://www.apache.org/licenses/LICENSE-2.0",
-            "class": "AreaModel"
-        },
-        {
-            "file": "js/bootstrap.min.js",
-            "line": 1,
-            "description": "bootstrap.js v3.0.0 by @fat and @mdo\nCopyright 2013 Twitter Inc.\nhttp://www.apache.org/licenses/LICENSE-2.0",
-            "class": "AreaModel"
-        },
-        {
-            "file": "js/script.js",
-            "line": 14,
+            "file": "js/models/area.js",
+            "line": 17,
             "description": "各ゴミのカテゴリに対して、最も直近の日付を計算します。",
             "itemtype": "method",
             "name": "calcMostRect",
@@ -572,45 +600,43 @@
             "class": "AreaModel"
         },
         {
-            "file": "js/script.js",
-            "line": 25,
+            "file": "js/models/area.js",
+            "line": 28,
             "description": "休止期間（主に年末年始）かどうかを判定します。",
             "itemtype": "method",
             "name": "isBlankDay",
-            "params": [
-                {
-                    "name": "日付",
-                    "description": "",
-                    "type": "Date"
-                }
-            ],
             "return": {
                 "description": "休止期間かどうか",
                 "type": "Boolean"
             },
+            "params": [
+                {
+                    "name": "currentDate",
+                    "description": ""
+                }
+            ],
             "class": "AreaModel"
         },
         {
-            "file": "js/script.js",
+            "file": "js/models/area.js",
             "line": 44,
             "description": "ゴミ処理センターを登録します。\n名前が一致するかどうかで判定を行っております。",
             "itemtype": "method",
             "name": "setCenter",
-            "params": [
-                {
-                    "name": "日付",
-                    "description": "",
-                    "type": "Date"
-                }
-            ],
             "return": {
                 "description": "",
                 "type": "Void"
             },
+            "params": [
+                {
+                    "name": "centerData",
+                    "description": ""
+                }
+            ],
             "class": "AreaModel"
         },
         {
-            "file": "js/script.js",
+            "file": "js/models/area.js",
             "line": 59,
             "description": "ゴミのカテゴリのソートを行います。",
             "itemtype": "method",
@@ -622,8 +648,8 @@
             "class": "AreaModel"
         },
         {
-            "file": "js/script.js",
-            "line": 138,
+            "file": "js/models/trash.js",
+            "line": 66,
             "description": "日付のラベルを取得します",
             "itemtype": "method",
             "name": "getDateLabel",
@@ -634,8 +660,8 @@
             "class": "TrashModel"
         },
         {
-            "file": "js/script.js",
-            "line": 161,
+            "file": "js/models/trash.js",
+            "line": 90,
             "description": "このごみ収集日が特殊な条件を持っている場合備考を返します。収集日データに\"*n\" が入っている場合に利用されます",
             "itemtype": "method",
             "name": "getRemark",
@@ -646,8 +672,8 @@
             "class": "TrashModel"
         },
         {
-            "file": "js/script.js",
-            "line": 180,
+            "file": "js/models/trash.js",
+            "line": 110,
             "description": "このゴミの年間のゴミの日を計算します。\nセンターが休止期間がある場合は、その期間１週間ずらすという実装を行っております。",
             "itemtype": "method",
             "name": "calcMostRect",
@@ -658,8 +684,8 @@
             "class": "TrashModel"
         },
         {
-            "file": "js/script.js",
-            "line": 280,
+            "file": "js/models/trash.js",
+            "line": 209,
             "description": "計算したゴミの日一覧をリスト形式として取得します。",
             "itemtype": "method",
             "name": "getDayList",
@@ -668,6 +694,18 @@
                 "type": "String"
             },
             "class": "TrashModel"
+        },
+        {
+            "file": "js/bootstrap.js",
+            "line": 1,
+            "description": "bootstrap.js v3.0.0 by @fat and @mdo\nCopyright 2013 Twitter Inc.\nhttp://www.apache.org/licenses/LICENSE-2.0",
+            "class": ""
+        },
+        {
+            "file": "js/bootstrap.min.js",
+            "line": 1,
+            "description": "bootstrap.js v3.0.0 by @fat and @mdo\nCopyright 2013 Twitter Inc.\nhttp://www.apache.org/licenses/LICENSE-2.0",
+            "class": ""
         }
     ],
     "warnings": [
