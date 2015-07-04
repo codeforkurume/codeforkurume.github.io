@@ -4,10 +4,10 @@
 $(function() {
 /*   windowHeight = $(window).height(); */
 
-  var center_data = new Array();
-  var descriptions = new Array();
-  var areaModels = new Array();
-  var remarks = new Array();
+  var center_data = [];
+  var descriptions = [];
+  var areaModels = [];
+  var remarks = [];
 /*   var descriptions = new Array(); */
 
 
@@ -166,7 +166,6 @@ $(function() {
           continue;
         }
 
-          var target_tag = "";
           var furigana = "";
           var target_tag = "";
           var targets = description.targets;
@@ -193,7 +192,7 @@ $(function() {
           //あと何日かを計算する処理です。
           var leftDayText = "";
 	  if (trash.mostRecent === undefined) {
-	    leftDayText == "不明";
+	    leftDayText = "不明";
 	  } else {
             var leftDay = Math.ceil((trash.mostRecent.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
 
@@ -332,7 +331,6 @@ $(function() {
         return "Location information is unavailable.";
       case error.TIMEOUT:
         return "The request to get user location timed out.";
-      case error.UNKNOWN_ERROR:
       default:
         return "An unknown error occurred."
     }
