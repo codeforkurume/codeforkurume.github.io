@@ -6,8 +6,12 @@
  * @class RemarkModel
  * @constructor
  */
-var RemarkModel = function(data) {
-    this.id = data[0];
-    this.text = data[1];
-};
+var RemarkModel = (function() {
+    var remarkModel = function(data) {
+        this.id = data[0];
+        this.text = data[1];
+    };
+
+    return remarkModel;
+})();
 

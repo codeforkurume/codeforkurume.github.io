@@ -5,18 +5,20 @@
  * @class AreaModel
  * @constructor
  */
-var AreaModel = function() {
-    this.label;
-    this.centerName;
-    this.center;
-    this.trash = new Array();
+var AreaModel = (function() {
+    var areaModel = function() {
+        this.label = '';
+        this.centerName = '';
+        this.center = '';
+        this.trash = new Array();
+    };
 
     /**
      * 各ゴミのカテゴリに対して、最も直近の日付を計算します。
      * @method calcMostRect
      * @return {void}
      */
-    this.calcMostRect = function() {
+    areaModel.prototype.calcMostRect = function() {
         for (var i = 0; i < this.trash.length; i++) {
             this.trash[i].calcMostRect(this);
         }
@@ -28,7 +30,7 @@ var AreaModel = function() {
      * @param {date} 日付
      * @return {boolean} 休止期間かどうか
      */
-    this.isBlankDay = function(currentDate) {
+    areaModel.prototype.isBlankDay = function(currentDate) {
         if (!this.center) {
             return false;
         }
@@ -48,7 +50,7 @@ var AreaModel = function() {
      * @param {date} 日付
      * @return {void}
      */
-    this.setCenter = function(center_data) {
+    areaModel.prototype.setCenter = function(center_data) {
         for (var i in center_data) {
             if (this.centerName == center_data[i].name) {
                 this.center = center_data[i];
@@ -61,7 +63,7 @@ var AreaModel = function() {
      * @method sortTrash
      * @return {number}
      */
-    this.sortTrash = function() {
+    areaModel.prototype.sortTrash = function() {
         this.trash.sort(function(a, b) {
             if (a.mostRecent === undefined) return 1;
             if (b.mostRecent === undefined) return -1;
@@ -72,4 +74,5 @@ var AreaModel = function() {
             return 0;
         });
     };
-};
+    return areaModel;
+})();

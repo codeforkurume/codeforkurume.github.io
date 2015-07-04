@@ -5,68 +5,70 @@
 * @class TrashModel
 * @constructor
 */
-var TrashModel = function(_lable, _cell, remarks) {
-    this.remarks = remarks;
-    this.dayLabel;
-    this.mostRecent;
-    this.dayList;
-    this.mflag = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-    var monthSplitFlag=_cell.search(/:/)>=0
-    if (monthSplitFlag) {
-        var flag = _cell.split(":");
-        this.dayCell = flag[0].split(" ");
-        var mm = flag[1].split(" ");
-    } else if (_cell.length == 2 && _cell.substr(0,1) == "*") {
-        this.dayCell = _cell.split(" ");
-        var mm = new Array();
-    } else {
-        this.dayCell = _cell.split(" ");
-        var mm = new Array("4", "5", "6", "7", "8", "9", "10", "11", "12", "1", "2", "3");
-    }
-    for (var m in mm) {
-        this.mflag[mm[m] - 1] = 1;
-    }
-    this.label = _lable;
-    this.description;
-    this.regularFlg = 1;      // 定期回収フラグ（デフォルトはオン:1）
-
-    var result_text = "";
-    var today = new Date();
-
-    for (var j in this.dayCell) {
-        if (this.dayCell[j].length == 1) {
-            result_text += "毎週" + this.dayCell[j] + "曜日 ";
-        } else if (this.dayCell[j].length == 2 && this.dayCell[j].substr(0,1) != "*") {
-            result_text += "第" + this.dayCell[j].charAt(1) + this.dayCell[j].charAt(0) + "曜日 ";
-        } else if (this.dayCell[j].length == 2 && this.dayCell[j].substr(0,1) == "*") {
+var TrashModel = (function() {
+    var trashModel = function(_label, _cell, remarks) {
+        this.remarks = remarks;
+        this.dayLabel;
+        this.mostRecent;
+        this.dayList;
+        this.mflag = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        var monthSplitFlag = _cell.search(/:/) >= 0;
+        if (monthSplitFlag) {
+            var flag = _cell.split(":");
+            this.dayCell = flag[0].split(" ");
+            var mm = flag[1].split(" ");
+        } else if (_cell.length == 2 && _cell.substr(0, 1) == "*") {
+            this.dayCell = _cell.split(" ");
+            var mm = new Array();
         } else {
-            // 不定期回収の場合（YYYYMMDD指定）
-            result_text = "不定期 ";
-            this.regularFlg = 0;  // 定期回収フラグオフ
+            this.dayCell = _cell.split(" ");
+            var mm = new Array("4", "5", "6", "7", "8", "9", "10", "11", "12", "1", "2", "3");
         }
-    }
-    if (monthSplitFlag){
-        var monthList="";
-        for (var m in this.mflag) {
-            if (this.mflag[m]){
-                if (monthList.length>0){
-                    monthList+=","
-                }
-                //mを整数化
-                monthList+=((m-0)+1)
+        for (var m in mm) {
+            this.mflag[mm[m] - 1] = 1;
+        }
+        this.label = _label;
+        this.description;
+        this.regularFlg = 1;      // 定期回収フラグ（デフォルトはオン:1）
+
+        var result_text = "";
+        var today = new Date();
+
+        for (var j in this.dayCell) {
+            if (this.dayCell[j].length == 1) {
+                result_text += "毎週" + this.dayCell[j] + "曜日 ";
+            } else if (this.dayCell[j].length == 2 && this.dayCell[j].substr(0, 1) != "*") {
+                result_text += "第" + this.dayCell[j].charAt(1) + this.dayCell[j].charAt(0) + "曜日 ";
+            } else if (this.dayCell[j].length == 2 && this.dayCell[j].substr(0, 1) == "*") {
+            } else {
+                // 不定期回収の場合（YYYYMMDD指定）
+                result_text = "不定期 ";
+                this.regularFlg = 0;  // 定期回収フラグオフ
             }
         }
-        monthList+="月 ";
-        result_text=monthList+result_text
-    }
-    this.dayLabel = result_text;
+        if (monthSplitFlag) {
+            var monthList = "";
+            for (var m in this.mflag) {
+                if (this.mflag[m]) {
+                    if (monthList.length > 0) {
+                        monthList += ","
+                    }
+                    //mを整数化
+                    monthList += ((m - 0) + 1)
+                }
+            }
+            monthList += "月 ";
+            result_text = monthList + result_text
+        }
+        this.dayLabel = result_text;
+    };
 
     /**
      * 日付のラベルを取得します
      * @method getDateLabel
      * @return {string} 日付のラベル
      */
-    this.getDateLabel = function() {
+    trashModel.prototype.getDateLabel = function() {
         if (this.mostRecent === undefined) {
             return this.getRemark() + "不明";
         }
@@ -89,7 +91,7 @@ var TrashModel = function(_lable, _cell, remarks) {
      * @method getRemark
      * @return {string} 備考
      */
-    this.getRemark = function getRemark() {
+    trashModel.prototype.getRemark = function getRemark() {
         var ret = "";
         this.dayCell.forEach(function(day){
             if (day.substr(0,1) == "*") {
@@ -109,7 +111,7 @@ var TrashModel = function(_lable, _cell, remarks) {
      * @method calcMostRect
      * @return {void}
      */
-    this.calcMostRect = function(areaObj) {
+    trashModel.prototype.calcMostRect = function(areaObj) {
         var day_mix = this.dayCell;
         var result_text = "";
         var day_list = new Array();
@@ -208,7 +210,7 @@ var TrashModel = function(_lable, _cell, remarks) {
      * @method getDayList
      * @return {string} ごみの日一覧
      */
-    this.getDayList = function() {
+    trashModel.prototype.getDayList = function() {
         var day_text = "<ul>";
         for (var i in this.dayList) {
             var d = this.dayList[i];
@@ -216,5 +218,7 @@ var TrashModel = function(_lable, _cell, remarks) {
         }
         day_text += "</ul>";
         return day_text;
-    }
-};
+    };
+
+    return trashModel;
+})();
