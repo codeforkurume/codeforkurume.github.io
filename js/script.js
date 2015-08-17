@@ -70,27 +70,8 @@ $(function () {
 
     function updateAreaList(mastercode) {
         // 大阪府仕様。区のコード(mastercode)が引数です
-        Utility.csvToArray("data/area_days.csv", function (tmp) {
-            var area_days_label = tmp.shift();
-            for (var i in tmp) {
-                var row = tmp[i];
-                var area = new AreaModel();
-                area.mastercode = row[0];
-                area.label = row[1];
-                area.centerName = row[2];
-
-                // 区コードが一致した場合のみデータ格納
-                if (area.mastercode == mastercode) {
-                    areaModels.push(area);
-                    //２列目以降の処理
-                    for (var r = 3; r < 3 + MaxDescription; r++) {
-                        if (area_days_label[r]) {
-                            var trash = new TrashModel(area_days_label[r], row[r], remarks);
-                            area.trash.push(trash);
-                        }
-                    }
-                }
-            }
+        AreaModel.readCSV(mastercode, remarks, function(data) {
+            areaModels = data;
 
             Utility.csvToArray("data/center.csv", function (tmp) {
                 //ゴミ処理センターのデータを解析します。
@@ -116,7 +97,7 @@ $(function () {
                 var select_html = "";
                 select_html += '<option value="-1">地域を選択してください</option>';
                 for (var row_index in areaModels) {
-                    var area_name = areaModels[row_index].label;
+                    var area_name = areaModels[row_index].name;
                     var selected = (selected_name == area_name) ? 'selected="selected"' : "";
 
                     select_html += '<option value="' + row_index + '" ' + selected + " >" + area_name + "</option>";
@@ -155,7 +136,7 @@ $(function () {
                     var row = new TargetRowModel(data[i]);
                     for (var j = 0; j < descriptions.length; j++) {
                         //一致してるものに追加する。
-                        if ((descriptions[j].label == row.type) && (descriptions[j].mastercode == row.mastercode)) { // 久留米仕様版
+                        if ((descriptions[j].name == row.type) && (descriptions[j].mastercode == row.mastercode)) { // 久留米仕様版
                             descriptions[j].targets.push(row);
                             break;
                         }
@@ -183,7 +164,7 @@ $(function () {
             for (var i = 0; i < areaModel.trash.length; i++) {
                 if (areaModel.trash[i].dayCell == "") {
                     areaModel.trash[i].dayCell.push("21001231");
-                    areaModel.trash[i].label = "dummy";
+                    areaModel.trash[i].name = "dummy";
                 }
             }
         }
@@ -212,7 +193,7 @@ $(function () {
 
             for (var d_no in descriptions) {
                 var description = descriptions[d_no];
-                if ((description.label != trash.label) || (description.mastercode != areaModel.mastercode)) { // 久留米仕様版
+                if ((description.name != trash.name) || (description.mastercode != areaModel.mastercode)) { // 久留米仕様版
                     continue;
                 }
                 var furigana = "";
@@ -261,9 +242,9 @@ $(function () {
                     '<div class="left-day">' + leftDayText + '</div>' +
                     '<div class="accordion-table" >';
                 if (ableSVG && SVGLabel) {
-                    accordionHTML += '<img src="' + description.styles + '" alt="' + description.label + '"  />';
+                    accordionHTML += '<img src="' + description.styles + '" alt="' + description.name + '"  />';
                 } else {
-                    accordionHTML += '<p class="text-center">' + description.label + "</p>";
+                    accordionHTML += '<p class="text-center">' + description.name + "</p>";
                 }
                 accordionHTML += "</div>" +
                     '<h6><p class="text-left date">' + dateLabel + "</p></h6>" +
@@ -307,7 +288,7 @@ $(function () {
             setSelectedAreaName("");
             return;
         }
-        setSelectedAreaName(areaModels[row_index].label);
+        setSelectedAreaName(areaModels[row_index].name);
 
         if ($("#accordion").children().length === 0 && descriptions.length === 0) {
             createMenuList(function () {
@@ -350,7 +331,7 @@ $(function () {
 
     function getAreaIndex(area_name) {
         for (var i in areaModels) {
-            if (areaModels[i].label == area_name) {
+            if (areaModels[i].name == area_name) {
                 return i;
             }
         }

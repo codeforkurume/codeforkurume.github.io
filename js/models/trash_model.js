@@ -21,7 +21,7 @@ TrashModel = (function () {
         for (var m in mm) {
             this.mflag[mm[m] - 1] = 1;
         }
-        this.label = _lable;
+        this.name = _lable;
         this.description = null;
         this.regularFlg = 1;      // 定期回収フラグ（デフォルトはオン:1）
 
