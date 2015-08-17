@@ -73,18 +73,13 @@ $(function () {
         AreaModel.readCSV(mastercode, remarks, function(data) {
             areaModels = data;
 
-            Utility.csvToArray("data/center.csv", function (tmp) {
+            CenterModel.readCSV(function (center) {
+                center_data = center;
                 //ゴミ処理センターのデータを解析します。
                 //表示上は現れませんが、
                 //金沢などの各処理センターの休止期間分は一週間ずらすという法則性のため
                 //例えば第一金曜日のときは、一周ずらしその月だけ第二金曜日にする
-                tmp.shift();
-                for (var i in tmp) {
-                    var row = tmp[i];
 
-                    var center = new CenterModel(row);
-                    center_data.push(center);
-                }
                 //ゴミ処理センターを対応する各地域に割り当てます。
                 for (var i in areaModels) {
                     var area = areaModels[i];

@@ -16,3 +16,15 @@ CenterModel = (function () {
 
     return CenterModel;
 })();
+
+CenterModel.readCSV = function (func) {
+    Utility.csvToArray(CenterCSV, function (tmp) {
+        var ret = [];
+        tmp.shift();
+        tmp.forEach(function (row) {
+            var center = new CenterModel(row);
+            ret.push(center);
+        });
+        func(ret);
+    })
+};
