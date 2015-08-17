@@ -4,9 +4,9 @@
  */
 var RemarkModel;
 RemarkModel = (function () {
-    function RemarkModel() {
-        this.id = null;
-        this.text = null;
+    function RemarkModel(data) {
+        this.id = data[0];
+        this.text = data[1];
     }
 
     return RemarkModel;

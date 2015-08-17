@@ -222,6 +222,7 @@ $(function () {
         areaModel.calcMostRect();
         //トラッシュの近い順にソートします。
         areaModel.sortTrash();
+        //TODO 処理の内容が謎
         var accordion_height = window.innerHeight / descriptions.length;
         if (descriptions.length > 4) {
             accordion_height = window.innerHeight / 4.1;
@@ -303,6 +304,7 @@ $(function () {
                     '<div class="targetDays"></div></div>' +
                     "</div>" +
                     "</div>";
+                window.debug = accordionHTML;
             }
         }
         $("#accordion-style").html('<!-- ' + styleHTML + ' -->');
