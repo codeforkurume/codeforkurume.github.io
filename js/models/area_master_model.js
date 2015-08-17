@@ -12,12 +12,12 @@ AreaMasterModel = (function () {
     return AreaMasterModel;
 })();
 
-AreaMasterModel.readCSV = function(func) {
+AreaMasterModel.readCSV = function (func) {
     var ret = [];
-    csvToArray(AreaMasterCSV, function (tmp) {
+    Utility.csvToArray(AreaMasterCSV, function (tmp) {
         // 1行目は読み飛ばす
         var area_master_label = tmp.shift();
-        tmp.forEach(function(row) {
+        tmp.forEach(function (row) {
             var area_master = new AreaMasterModel(row);
             ret.push(area_master);
         });

@@ -2,8 +2,9 @@
  * Created by taisuke on 15/08/17.
  */
 
+var Utility = {};
 
-function csvToArray(filename, cb) {
+Utility.csvToArray = function csvToArray(filename, cb) {
     $.get(filename, function (csvdata) {
         //CSVのパース作業
         //CRの解析ミスがあった箇所を修正しました。
@@ -19,4 +20,4 @@ function csvToArray(filename, cb) {
         });
         cb(ret);
     });
-}
+};

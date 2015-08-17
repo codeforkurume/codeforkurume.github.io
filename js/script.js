@@ -70,7 +70,7 @@ $(function () {
 
     function updateAreaList(mastercode) {
         // 大阪府仕様。区のコード(mastercode)が引数です
-        csvToArray("data/area_days.csv", function (tmp) {
+        Utility.csvToArray("data/area_days.csv", function (tmp) {
             var area_days_label = tmp.shift();
             for (var i in tmp) {
                 var row = tmp[i];
@@ -92,7 +92,7 @@ $(function () {
                 }
             }
 
-            csvToArray("data/center.csv", function (tmp) {
+            Utility.csvToArray("data/center.csv", function (tmp) {
                 //ゴミ処理センターのデータを解析します。
                 //表示上は現れませんが、
                 //金沢などの各処理センターの休止期間分は一週間ずらすという法則性のため
@@ -136,19 +136,19 @@ $(function () {
 
     function createMenuList(after_action) {
         // 備考データを読み込む
-        csvToArray("data/remarks.csv", function (data) {
+        Utility.csvToArray("data/remarks.csv", function (data) {
             data.shift();
             for (var i in data) {
                 remarks.push(new RemarkModel(data[i]));
             }
         });
-        csvToArray("data/description.csv", function (data) {
+        Utility.csvToArray("data/description.csv", function (data) {
             data.shift();
             for (var i in data) {
                 descriptions.push(new DescriptionModel(data[i]));
             }
 
-            csvToArray("data/target.csv", function (data) {
+            Utility.csvToArray("data/target.csv", function (data) {
 
                 data.shift();
                 for (var i in data) {
