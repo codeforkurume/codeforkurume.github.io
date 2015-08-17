@@ -3,6 +3,6 @@
  area_master.csvのモデルです。
  */
 var AreaMasterModel = function () {
-    this.mastercode;
-    this.name;
+    this.mastercode = null;
+    this.name = null;
 };

@@ -5,11 +5,11 @@
 $(function () {
     /*   windowHeight = $(window).height(); */
 
-    var center_data = new Array();
-    var descriptions = new Array();
-    var areaModels = new Array();
-    var remarks = new Array();
-    var areaMasterModels = new Array();
+    var center_data = [];
+    var descriptions = [];
+    var areaModels = [];
+    var remarks = [];
+    var areaMasterModels = [];
     /*   var descriptions = new Array(); */
 
 
@@ -138,7 +138,6 @@ $(function () {
                     var area = areaModels[i];
                     area.setCenter(center_data);
                 }
-                ;
                 //エリアとゴミ処理センターを対応後に、表示のリストを生成する。
                 //ListメニューのHTML作成
                 var selected_name = getSelectedAreaName();

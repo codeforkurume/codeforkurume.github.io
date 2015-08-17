@@ -3,6 +3,6 @@
  * remarks.csvのモデルです。
  */
 var RemarkModel = function () {
-    this.id;
-    this.text;
+    this.id = null;
+    this.text = null;
 };

@@ -3,11 +3,11 @@
  エリア(ごみ処理の地域）を管理するクラスです。
  */
 var AreaModel = function () {
-    this.mastercode;
-    this.label;
-    this.centerName;
-    this.center;
-    this.trash = new Array();
+    this.mastercode = null;
+    this.label = null;
+    this.centerName = null;
+    this.center = null;
+    this.trash = [];
     /**
      各ゴミのカテゴリに対して、最も直近の日付を計算します。
      */
@@ -22,11 +22,9 @@ var AreaModel = function () {
     this.isBlankDay = function (currentDate) {
         var period = [this.center.startDate, this.center.endDate];
 
-        if (period[0].getTime() <= currentDate.getTime() &&
-            currentDate.getTime() <= period[1].getTime()) {
-            return true;
-        }
-        return false;
+        return !!(period[0].getTime() <= currentDate.getTime() &&
+        currentDate.getTime() <= period[1].getTime());
+
     };
     /**
      ゴミ処理センターを登録します。

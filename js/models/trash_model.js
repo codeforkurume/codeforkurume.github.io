@@ -4,27 +4,26 @@
  */
 var TrashModel = function (_lable, _cell, remarks) {
     this.remarks = remarks;
-    this.dayLabel;
-    this.mostRecent;
-    this.dayList;
-    this.mflag = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    this.dayLabel = null;
+    this.mostRecent = null;
+    this.dayList = null;
+    this.mflag = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     if (_cell.search(/:/) >= 0) {
         var flag = _cell.split(":");
         this.dayCell = flag[0].split(" ");
         var mm = flag[1].split(" ");
     } else {
         this.dayCell = _cell.split(" ");
-        var mm = new Array("4", "5", "6", "7", "8", "9", "10", "11", "12", "1", "2", "3");
+        var mm = ["4", "5", "6", "7", "8", "9", "10", "11", "12", "1", "2", "3"];
     }
     for (var m in mm) {
         this.mflag[mm[m] - 1] = 1;
     }
     this.label = _lable;
-    this.description;
+    this.description = null;
     this.regularFlg = 1;      // 定期回収フラグ（デフォルトはオン:1）
 
     var result_text = "";
-    var today = new Date();
 
     for (var j in this.dayCell) {
         if (this.dayCell[j].length == 1) {
@@ -78,7 +77,7 @@ var TrashModel = function (_lable, _cell, remarks) {
      */
     this.calcMostRect = function (areaObj) {
         var day_mix = this.dayCell;
-        var day_list = new Array();
+        var day_list = [];
 
         // 定期回収の場合
         if (this.regularFlg == 1) {

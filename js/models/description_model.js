@@ -3,7 +3,7 @@
  * description.csvのモデルです。
  */
 var DescriptionModel = function (data) {
-    this.targets = new Array();
+    this.targets = [];
 
     this.mastercode = data[0];//kit
     this.label = data[1];
