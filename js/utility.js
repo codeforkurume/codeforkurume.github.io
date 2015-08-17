@@ -21,3 +21,33 @@ Utility.csvToArray = function csvToArray(filename, cb) {
         cb(ret);
     });
 };
+
+/*
+ *  var dom =
+ *  html('div', {class: 'container'},
+ *      html('div', {class: 'col-md-2'}),
+ *          html('div', {class: 'col-md-8'},
+ *          text('sample')
+ *      ),
+ *      html('div', {class: 'col-md-2'})
+ *  );
+ */
+Utility.html = function (name, attributes) {
+    var elm = document.createElement(name);
+    for (var attributeName in attributes) {
+        var attributeValue = attributes[attributeName];
+        if (Array.isArray(attributeValue)) {
+            attributeValue = attributeValue.join(' ');
+        }
+        elm.setAttribute(attributeName, attributeValue);
+    }
+    var children = Array.prototype.slice.call(arguments, 2);
+    for (var i in children) {
+        elm.appendChild(children[i]);
+    }
+    return elm;
+};
+
+Utility.text = function (nodeValue) {
+    return document.createTextNode(nodeValue);
+};
