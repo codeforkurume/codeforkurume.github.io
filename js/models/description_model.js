@@ -11,5 +11,4 @@ var DescriptionModel = function (data) {
     this.description = data[3];//not used
     this.styles = data[4];
     this.background = data[5];
-
-}
+};

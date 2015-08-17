@@ -5,4 +5,4 @@
 var RemarkModel = function () {
     this.id;
     this.text;
-}
+};

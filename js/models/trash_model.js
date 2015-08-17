@@ -43,7 +43,7 @@ var TrashModel = function (_lable, _cell, remarks) {
     this.getDateLabel = function () {
         var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate();
         return this.getRemark() + this.dayLabel + " " + result_text;
-    }
+    };
 
     var day_enum = ["日", "月", "火", "水", "木", "金", "土"];
 
@@ -53,7 +53,6 @@ var TrashModel = function (_lable, _cell, remarks) {
                 return i;
             }
         }
-        ;
         return -1;
     }
 
@@ -70,17 +69,15 @@ var TrashModel = function (_lable, _cell, remarks) {
                     }
                 });
             }
-            ;
         });
         return ret;
-    }
+    };
     /**
      このゴミの年間のゴミの日を計算します。
      センターが休止期間がある場合は、その期間１週間ずらすという実装を行っております。
      */
     this.calcMostRect = function (areaObj) {
         var day_mix = this.dayCell;
-        var result_text = "";
         var day_list = new Array();
 
         // 定期回収の場合
@@ -159,7 +156,7 @@ var TrashModel = function (_lable, _cell, remarks) {
             if (at < bt) return -1;
             if (at > bt) return 1;
             return 0;
-        })
+        });
         //直近の日付を更新
         var now = new Date();
 
@@ -169,10 +166,9 @@ var TrashModel = function (_lable, _cell, remarks) {
                 break;
             }
         }
-        ;
 
         this.dayList = day_list;
-    }
+    };
     /**
      計算したゴミの日一覧をリスト形式として取得します。
      */
@@ -182,8 +178,7 @@ var TrashModel = function (_lable, _cell, remarks) {
             var d = this.dayList[i];
             day_text += "<li>" + d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate() + "</li>";
         }
-        ;
         day_text += "</ul>";
         return day_text;
-    }
-}
+    };
+};

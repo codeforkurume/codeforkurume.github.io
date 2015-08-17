@@ -5,4 +5,4 @@
 var AreaMasterModel = function () {
     this.mastercode;
     this.name;
-}
+};

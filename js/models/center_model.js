@@ -10,4 +10,4 @@ var CenterModel = function (row) {
     this.name = row[0];
     this.startDate = getDay(row, 1);
     this.endDate = getDay(row, 2);
-}
+};

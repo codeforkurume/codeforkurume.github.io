@@ -9,6 +9,4 @@ var TargetRowModel = function (data) {
     this.name = data[2];
     this.notice = data[3];
     this.furigana = data[4];
-
-
-}
+};

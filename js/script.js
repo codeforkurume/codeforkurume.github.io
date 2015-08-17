@@ -190,7 +190,6 @@ $(function () {
                             break;
                         }
                     }
-                    ;
                 }
                 after_action();
                 $("#accordion2").show();
@@ -230,11 +229,9 @@ $(function () {
             if (accordion_height > 140) {
                 accordion_height = window.innerHeight / descriptions.length;
             }
-            ;
             if (accordion_height < 130) {
                 accordion_height = 130;
             }
-            ;
         }
         var styleHTML = "";
         var accordionHTML = "";
@@ -247,7 +244,6 @@ $(function () {
                 if ((description.label != trash.label) || (description.mastercode != areaModel.mastercode)) { // 久留米仕様版
                     continue;
                 }
-                var target_tag = "";
                 var furigana = "";
                 var target_tag = "";
                 var targets = description.targets;
@@ -439,11 +435,11 @@ $(function () {
     function getGpsErrorMessage(error) {
         switch (error.code) {
             case error.PERMISSION_DENIED:
-                return "User denied the request for Geolocation."
+                return "User denied the request for Geolocation.";
             case error.POSITION_UNAVAILABLE:
-                return "Location information is unavailable."
+                return "Location information is unavailable.";
             case error.TIMEOUT:
-                return "The request to get user location timed out."
+                return "The request to get user location timed out.";
             case error.UNKNOWN_ERROR:
             default:
                 return "An unknown error occurred."

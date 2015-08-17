@@ -15,7 +15,7 @@ var AreaModel = function () {
         for (var i = 0; i < this.trash.length; i++) {
             this.trash[i].calcMostRect(this);
         }
-    }
+    };
     /**
      休止期間（主に年末年始）かどうかを判定します。
      */
@@ -27,7 +27,7 @@ var AreaModel = function () {
             return true;
         }
         return false;
-    }
+    };
     /**
      ゴミ処理センターを登録します。
      名前が一致するかどうかで判定を行っております。
@@ -38,7 +38,7 @@ var AreaModel = function () {
                 this.center = center_data[i];
             }
         }
-    }
+    };
     /**
      ゴミのカテゴリのソートを行います。
      */
@@ -51,4 +51,4 @@ var AreaModel = function () {
             return 0;
         });
     }
-}
+};
