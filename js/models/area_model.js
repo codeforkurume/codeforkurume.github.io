@@ -2,16 +2,20 @@
 /**
  エリア(ごみ処理の地域）を管理するクラスです。
  */
-var AreaModel = function () {
-    this.mastercode = null;
-    this.label = null;
-    this.centerName = null;
-    this.center = null;
-    this.trash = [];
+var AreaModel;
+AreaModel = (function () {
+    function AreaModel() {
+        this.mastercode = null;
+        this.label = null;
+        this.centerName = null;
+        this.center = null;
+        this.trash = [];
+    }
+
     /**
      各ゴミのカテゴリに対して、最も直近の日付を計算します。
      */
-    this.calcMostRect = function () {
+    AreaModel.prototype.calcMostRect = function calcMostRect() {
         for (var i = 0; i < this.trash.length; i++) {
             this.trash[i].calcMostRect(this);
         }
@@ -19,7 +23,7 @@ var AreaModel = function () {
     /**
      休止期間（主に年末年始）かどうかを判定します。
      */
-    this.isBlankDay = function (currentDate) {
+    AreaModel.prototype.isBlankDay = function isBlankDay(currentDate) {
         var period = [this.center.startDate, this.center.endDate];
 
         return !!(period[0].getTime() <= currentDate.getTime() &&
@@ -30,7 +34,7 @@ var AreaModel = function () {
      ゴミ処理センターを登録します。
      名前が一致するかどうかで判定を行っております。
      */
-    this.setCenter = function (center_data) {
+    AreaModel.prototype.setCenter = function setCenter(center_data) {
         for (var i in center_data) {
             if (this.centerName == center_data[i].name) {
                 this.center = center_data[i];
@@ -40,7 +44,7 @@ var AreaModel = function () {
     /**
      ゴミのカテゴリのソートを行います。
      */
-    this.sortTrash = function () {
+    AreaModel.prototype.sortTrash = function sortTrash() {
         this.trash.sort(function (a, b) {
             var at = a.mostRecent.getTime();
             var bt = b.mostRecent.getTime();
@@ -48,5 +52,7 @@ var AreaModel = function () {
             if (at > bt) return 1;
             return 0;
         });
-    }
-};
+    };
+
+    return AreaModel;
+})();

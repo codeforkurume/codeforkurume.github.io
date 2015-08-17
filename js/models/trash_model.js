@@ -2,44 +2,46 @@
 /**
  各ゴミのカテゴリを管理するクラスです。
  */
-var TrashModel = function (_lable, _cell, remarks) {
-    this.remarks = remarks;
-    this.dayLabel = null;
-    this.mostRecent = null;
-    this.dayList = null;
-    this.mflag = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    if (_cell.search(/:/) >= 0) {
-        var flag = _cell.split(":");
-        this.dayCell = flag[0].split(" ");
-        var mm = flag[1].split(" ");
-    } else {
-        this.dayCell = _cell.split(" ");
-        var mm = ["4", "5", "6", "7", "8", "9", "10", "11", "12", "1", "2", "3"];
-    }
-    for (var m in mm) {
-        this.mflag[mm[m] - 1] = 1;
-    }
-    this.label = _lable;
-    this.description = null;
-    this.regularFlg = 1;      // 定期回収フラグ（デフォルトはオン:1）
-
-    var result_text = "";
-
-    for (var j in this.dayCell) {
-        if (this.dayCell[j].length == 1) {
-            result_text += "毎週" + this.dayCell[j] + "曜日 ";
-        } else if (this.dayCell[j].length == 2 && this.dayCell[j].substr(0, 1) != "*") {
-            result_text += "第" + this.dayCell[j].charAt(1) + this.dayCell[j].charAt(0) + "曜日 ";
-        } else if (this.dayCell[j].length == 2 && this.dayCell[j].substr(0, 1) == "*") {
+var TrashModel;
+TrashModel = (function () {
+    function TrashModel(_lable, _cell, remarks) {
+        this.remarks = remarks;
+        this.dayLabel = null;
+        this.mostRecent = null;
+        this.dayList = null;
+        this.mflag = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        if (_cell.search(/:/) >= 0) {
+            var flag = _cell.split(":");
+            this.dayCell = flag[0].split(" ");
+            var mm = flag[1].split(" ");
         } else {
-            // 不定期回収の場合（YYYYMMDD指定）
-            result_text = "不定期 ";
-            this.regularFlg = 0;  // 定期回収フラグオフ
+            this.dayCell = _cell.split(" ");
+            var mm = ["4", "5", "6", "7", "8", "9", "10", "11", "12", "1", "2", "3"];
         }
-    }
-    this.dayLabel = result_text;
+        for (var m in mm) {
+            this.mflag[mm[m] - 1] = 1;
+        }
+        this.label = _lable;
+        this.description = null;
+        this.regularFlg = 1;      // 定期回収フラグ（デフォルトはオン:1）
 
-    this.getDateLabel = function () {
+        var result_text = "";
+
+        for (var j in this.dayCell) {
+            if (this.dayCell[j].length == 1) {
+                result_text += "毎週" + this.dayCell[j] + "曜日 ";
+            } else if (this.dayCell[j].length == 2 && this.dayCell[j].substr(0, 1) != "*") {
+                result_text += "第" + this.dayCell[j].charAt(1) + this.dayCell[j].charAt(0) + "曜日 ";
+            } else {
+                // 不定期回収の場合（YYYYMMDD指定）
+                result_text = "不定期 ";
+                this.regularFlg = 0;  // 定期回収フラグオフ
+            }
+        }
+        this.dayLabel = result_text;
+    }
+
+    TrashModel.prototype.getDateLabel = function getDateLabel() {
         var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate();
         return this.getRemark() + this.dayLabel + " " + result_text;
     };
@@ -58,11 +60,11 @@ var TrashModel = function (_lable, _cell, remarks) {
     /**
      * このごみ収集日が特殊な条件を持っている場合備考を返します。収集日データに"*n" が入っている場合に利用されます
      */
-    this.getRemark = function getRemark() {
+    TrashModel.prototype.getRemark = function getRemark() {
         var ret = "";
         this.dayCell.forEach(function (day) {
             if (day.substr(0, 1) == "*") {
-                remarks.forEach(function (remark) {
+                this.remarks.forEach(function (remark) {
                     if (remark.id == day.substr(1, 1)) {
                         ret += remark.text + "<br/>";
                     }
@@ -75,7 +77,7 @@ var TrashModel = function (_lable, _cell, remarks) {
      このゴミの年間のゴミの日を計算します。
      センターが休止期間がある場合は、その期間１週間ずらすという実装を行っております。
      */
-    this.calcMostRect = function (areaObj) {
+    TrashModel.prototype.calcMostRect = function calcMostRect(areaObj) {
         var day_mix = this.dayCell;
         var day_list = [];
 
@@ -171,7 +173,7 @@ var TrashModel = function (_lable, _cell, remarks) {
     /**
      計算したゴミの日一覧をリスト形式として取得します。
      */
-    this.getDayList = function () {
+    TrashModel.prototype.getDayList = function getDayList() {
         var day_text = "<ul>";
         for (var i in this.dayList) {
             var d = this.dayList[i];
@@ -180,4 +182,6 @@ var TrashModel = function (_lable, _cell, remarks) {
         day_text += "</ul>";
         return day_text;
     };
-};
+
+    return TrashModel;
+})();
