@@ -40,40 +40,11 @@ $(function () {
         localStorage.setItem("selected_area_master_name_before", name);
     }
 
-    function csvToArray(filename, cb) {
-        $.get(filename, function (csvdata) {
-            //CSVのパース作業
-            //CRの解析ミスがあった箇所を修正しました。
-            //以前のコードだとCRが残ったままになります。
-            // var csvdata = csvdata.replace("\r/gm", ""),
-            csvdata = csvdata.replace(/\r/gm, "");
-            var line = csvdata.split("\n"),
-                ret = [];
-            for (var i in line) {
-                //空行はスルーする。
-                if (line[i].length == 0) continue;
-
-                var row = line[i].split(",");
-                ret.push(row);
-            }
-            cb(ret);
-        });
-    }
-
-
     function masterAreaList() {
         // ★エリアのマスターリストを読み込みます
         // 大阪府仕様。大阪府下の区一覧です
-        csvToArray("data/area_master.csv", function (tmp) {
-            var area_master_label = tmp.shift();    // ラベル
-            for (var i in tmp) {
-                var row = tmp[i];
-                var area_master = new AreaMasterModel();
-                area_master.mastercode = row[0];
-                area_master.name = row[1];
-                areaMasterModels.push(area_master);
-            }
-
+        AreaMasterModel.readCSV(function(data) {
+            areaMasterModels = data;
             // ListメニューのHTMLを作成
             var selected_master_name = getSelectedAreaMasterName();
             var area_master_select_form = $("#select_area_master");
