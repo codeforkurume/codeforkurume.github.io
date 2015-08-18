@@ -7,7 +7,7 @@
 var Storage;
 Storage = {
     getSelectedAreaName: function(){
-        return localStorage.getItem("selected_are_name");
+        return localStorage.getItem("selected_area_name");
     },
 
     setSelectedAreaName: function(name){
