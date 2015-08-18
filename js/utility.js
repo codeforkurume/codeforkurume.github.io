@@ -4,22 +4,22 @@
 
 var Utility = {};
 
-Utility.csvToArray = function csvToArray(filename, cb) {
-    $.get(filename, function (csvdata) {
-        //CSVのパース作業
-        //CRの解析ミスがあった箇所を修正しました。
-        //以前のコードだとCRが残ったままになります。
-        // var csvdata = csvdata.replace("\r/gm", ""),
-        csvdata = csvdata.replace(/\r/gm, "");
-        var line = csvdata.split("\n"),
-            ret = [];
-        line.forEach(function (row) {
-            if (row.length != 0) {
-                ret.push(row.split(","));
-            }
-        });
-        cb(ret);
+/**
+ * csvを配列に変換。
+ * ヘッダーは無視する。
+ * @param csv_text
+ * @returns {Array}
+ */
+Utility.csvToArray = function csvToArray(csv_text) {
+    csv_text = csv_text.replace(/\r/gm, "");
+    var line = csv_text.split("\n"),
+        array = [];
+    line.forEach(function (row) {
+        if (row.length != 0) {
+            array.push(row.split(","));
+        }
     });
+    return array;
 };
 
 /*

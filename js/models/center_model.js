@@ -18,13 +18,14 @@ CenterModel = (function () {
 })();
 
 CenterModel.readCSV = function (func) {
-    Utility.csvToArray(CenterCSV, function (tmp) {
+    $.get(CenterCSVFileName, function (data) {
+        var csv_array = Utility.csvToArray(data);
         var ret = [];
-        tmp.shift();
-        tmp.forEach(function (row) {
+        csv_array.shift();
+        csv_array.forEach(function (row) {
             var center = new CenterModel(row);
             ret.push(center);
         });
         func(ret);
-    })
+    });
 };

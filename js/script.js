@@ -129,21 +129,25 @@ $(function () {
 
     function createMenuList(after_action) {
         // 備考データを読み込む
-        Utility.csvToArray("data/remarks.csv", function (data) {
-            data.shift();
-            data.forEach(function (remark_data) {
+        $.get("data/remarks.csv", function (data) {
+            var csv_array = Utility.csvToArray(data);
+            csv_array.shift();
+            csv_array.forEach(function (remark_data) {
                 remarks.push(new RemarkModel(remark_data));
             });
         });
-        Utility.csvToArray("data/description.csv", function (data) {
-            data.shift();
-            data.forEach(function (description_data) {
+
+        $.get("data/description.csv", function (data) {
+            var csv_array = Utility.csvToArray(data);
+            csv_array.shift();
+            csv_array.forEach(function (description_data) {
                 descriptions.push(new DescriptionModel(description_data));
             });
 
-            Utility.csvToArray("data/target.csv", function (data) {
-                data.shift();
-                data.forEach(function (target_row_data) {
+            $.get("data/target.csv", function (data) {
+                var csv_array = Utility.csvToArray(data);
+                csv_array.shift();
+                csv_array.forEach(function (target_row_data) {
                     var row = new TargetRowModel(target_row_data);
                     for (var j = 0; j < descriptions.length; j++) {
                         //一致してるものに追加する。
@@ -155,11 +159,8 @@ $(function () {
                 });
                 after_action();
                 $("#accordion2").show();
-
             });
-
         });
-
     }
 
     function createTrashList(targets) {

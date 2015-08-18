@@ -13,11 +13,11 @@ AreaMasterModel = (function () {
 })();
 
 AreaMasterModel.readCSV = function (func) {
-    var ret = [];
-    Utility.csvToArray(AreaMasterCSV, function (tmp) {
-        // 1行目は読み飛ばす
-        var area_master_label = tmp.shift();
-        tmp.forEach(function (row) {
+    $.get(AreaMasterCSVFileName, function(data){
+        var ret = [];
+        var csv_array = Utility.csvToArray(data);
+        var area_master_label = csv_array.shift();
+        csv_array.forEach(function (row) {
             var area_master = new AreaMasterModel(row);
             ret.push(area_master);
         });
