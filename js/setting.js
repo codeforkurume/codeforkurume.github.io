@@ -14,6 +14,6 @@ var WeekShift = false; // 休止期間なら週をずらすときは、true。�
 var AbleEmptyDate = true; // falseにするとarea_daysのごみの回収日をすべて設定する必要がある。 
 //ゴミ種別によって回収の無い地域のarea_daysの日付を""にすると種別も表示されない、久留米はtrue。
 
-var AreaMasterCSV = "data/area_master.csv";
-var AreaCSV = "data/area_days.csv";
-var CenterCSV = "data/center.csv";
+var AreaMasterCSVFileName = "data/area_master.csv";
+var AreaCSVFileName = "data/area_days.csv";
+var CenterCSVFileName = "data/center.csv";

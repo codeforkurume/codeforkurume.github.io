@@ -58,10 +58,11 @@ AreaModel = (function () {
 })();
 
 AreaModel.readCSV = function (mastercode, remarks, func) {
-    Utility.csvToArray(AreaCSV, function (tmp) {
+    $.get(AreaCSVFileName, function(data){
+        var csv_array = Utility.csvToArray(data);
         var ret = [],
-            area_label = tmp.shift();
-        tmp.forEach(function (row) {
+            area_label = csv_array.shift();
+        csv_array.forEach(function (row) {
             var area = new AreaModel(row);
             if (area.mastercode == mastercode) {
                 ret.push(area);

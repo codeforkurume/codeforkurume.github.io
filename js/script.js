@@ -112,23 +112,24 @@ $(function () {
 
     function createMenuList(after_action) {
         // 備考データを読み込む
-        Utility.csvToArray("data/remarks.csv", function (data) {
-            data.shift();
-            for (var i in data) {
-                remarks.push(new RemarkModel(data[i]));
+        $.get("data/remarks.csv", function (data) {
+            var csv_array = Utility.csvToArray(data);
+            for (var i in csv_array) {
+                remarks.push(new RemarkModel(csv_array[i]));
             }
         });
-        Utility.csvToArray("data/description.csv", function (data) {
-            data.shift();
-            for (var i in data) {
-                descriptions.push(new DescriptionModel(data[i]));
+
+        $.get("data/description.csv", function (data) {
+            var csv_array = Utility.csvToArray(data);
+            for(var i in csv_array){
+                descriptions.push(new DescriptionModel(csv_array[i]));
             }
 
-            Utility.csvToArray("data/target.csv", function (data) {
-
-                data.shift();
-                for (var i in data) {
-                    var row = new TargetRowModel(data[i]);
+            $.get("data/target.csv", function (data) {
+                var csv_array = Utility.csvToArray(data);
+                csv_array.shift();
+                for (var i in csv_array) {
+                    var row = new TargetRowModel(csv_array[i]);
                     for (var j = 0; j < descriptions.length; j++) {
                         //一致してるものに追加する。
                         if ((descriptions[j].name == row.type) && (descriptions[j].mastercode == row.mastercode)) { // 久留米仕様版
@@ -139,11 +140,8 @@ $(function () {
                 }
                 after_action();
                 $("#accordion2").show();
-
             });
-
         });
-
     }
 
     function updateData(row_index) {
