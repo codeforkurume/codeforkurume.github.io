@@ -4,6 +4,7 @@
  */
 var AreaMasterModel;
 AreaMasterModel = (function () {
+
     function AreaMasterModel(row) {
         this.mastercode = row[0];
         this.name = row[1];

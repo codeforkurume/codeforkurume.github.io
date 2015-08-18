@@ -58,3 +58,18 @@ Utility.html = function (name, attributes) {
 Utility.text = function (nodeValue) {
     return document.createTextNode(nodeValue);
 };
+
+Utility.setCSVFileData = function setCSVData(file_name, Models){
+    function push_data(data){
+        var model = Models.getInstance();
+        model._data.push(data);
+    }
+
+    function setCsvData(data){
+        var csv_array = Utility.csvToArray(data);
+        csv_array.shift();
+        csv_array.forEach(push_data);
+    }
+
+    $.get(file_name, setCsvData);
+};
