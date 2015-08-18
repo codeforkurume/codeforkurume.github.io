@@ -308,19 +308,8 @@ $(function () {
             return;
         }
 
-        var checkAreaMasterName = Storage.getSelectedAreaMasterName();
-        var checkAreaMasterNameBefore = Storage.getSelectedAreaMasterNameBefore();
-        if (checkAreaMasterName != checkAreaMasterNameBefore) {
-            initSelectArea();
-            Storage.setSelectedAreaName("");
-        }
-
-
         Storage.setSelectedAreaMasterName(areaMasterModels[row_index].name);
-        Storage.setSelectedAreaMasterNameBefore(areaMasterModels[row_index].name);
-
         updateAreaList(areaMasterModels[row_index].mastercode);
-
     }
 
 

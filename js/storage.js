@@ -20,13 +20,5 @@ Storage = {
 
     setSelectedAreaMasterName: function(name) {
         localStorage.setItem("selected_area_master_name", name);
-    },
-
-    getSelectedAreaMasterNameBefore: function() {
-        return localStorage.getItem("selected_area_master_name_before");
-    },
-
-    setSelectedAreaMasterNameBefore: function(name) {
-        localStorage.setItem("selected_area_master_name_before", name);
     }
 };
