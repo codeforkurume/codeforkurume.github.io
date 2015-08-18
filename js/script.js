@@ -12,15 +12,25 @@ $(function () {
     var areaMasterModels = [];
     /*   var descriptions = new Array(); */
 
-    function getInitSelectOption(flg) {
-        var _ = Utility,
-            text = (flg == "area") ? "地域" : "地区";
-        return createList({value: "-1"}, text + "を選択してください");
-    }
+    function createSelectElement(type, models, selected_name) {
+        var createList = function(option, text) {
+            return Utility.html("option", option, Utility.text(text));
+        };
+        var select_form = $("#select_" + type),
+            select_html = [],
+            text = (type == "area") ? "地域" : "地区";
 
-    function createList(option, text) {
-        var _ = Utility;
-        return _.html("option", option, _.text(text));
+        select_html.push(createList({value: '-1'}, text + "を選択してください"));
+        models.forEach(function (model, row_index) {
+            var name = model.name,
+                option = {value: row_index};
+            if (selected_name == name) {
+                option.selected = "selected";
+            }
+            select_html.push(createList(option, name));
+        });
+        select_form.html(select_html);
+        select_form.change();
     }
 
     function masterAreaList() {
@@ -30,30 +40,9 @@ $(function () {
             areaMasterModels = data;
             // ListメニューのHTMLを作成
             var selected_master_name = Storage.getSelectedAreaMasterName();
-            var area_master_select_form = $("#select_area_master");
-            var select_master_html = [];
-            select_master_html.push(getInitSelectOption("area_master"));
-
-            areaMasterModels.forEach(function (area_master, row_index) {
-                var area_master_name = area_master.name,
-                    option = {value: row_index};
-                if (selected_master_name == area_master_name) {
-                    option.selected = "selected";
-                }
-                select_master_html.push(createList(option, area_master_name));
-            });
-
-
-            //デバッグ用
-            if (typeof dump == "function") {
-                dump(areaMasterModels);
-            }
-            //HTMLへの適応
-            area_master_select_form.html(select_master_html);
-            area_master_select_form.change();
+            createSelectElement("area_master", areaMasterModels, selected_master_name);
         });
     }
-
 
     function updateAreaList(mastercode) {
         // 大阪府仕様。区のコード(mastercode)が引数です
@@ -62,38 +51,13 @@ $(function () {
 
             CenterModel.readCSV(function (center) {
                 center_data = center;
-                //ゴミ処理センターのデータを解析します。
-                //表示上は現れませんが、
-                //金沢などの各処理センターの休止期間分は一週間ずらすという法則性のため
-                //例えば第一金曜日のときは、一周ずらしその月だけ第二金曜日にする
-
-                //ゴミ処理センターを対応する各地域に割り当てます。
                 areaModels.forEach(function (area_model) {
                     area_model.setCenter(center_data);
                 });
-                //エリアとゴミ処理センターを対応後に、表示のリストを生成する。
+
                 //ListメニューのHTML作成
                 var selected_name = Storage.getSelectedAreaName();
-                var area_select_form = $("#select_area");
-                var select_html = [];
-                select_html.push(getInitSelectOption("area"));
-                areaModels.forEach(function (area, row_index) {
-                    var area_name = area.name,
-                        option = {value: row_index};
-                    if (selected_name == area_name) {
-                        option.selected = "selected";
-                    }
-
-                    select_html.push(createList(option, area_name));
-                });
-
-                //デバッグ用
-                if (typeof dump == "function") {
-                    dump(areaModels);
-                }
-                //HTMLへの適応
-                area_select_form.html(select_html);
-                area_select_form.change();
+                createSelectElement("area", areaModels, selected_name);
             });
         });
     }

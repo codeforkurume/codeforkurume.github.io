@@ -3,6 +3,10 @@
  */
 var CenterModel;
 CenterModel = (function () {
+    //ゴミ処理センターのデータを解析します。
+    //表示上は現れませんが、
+    //金沢などの各処理センターの休止期間分は一週間ずらすという法則性のため
+    //例えば第一金曜日のときは、一周ずらしその月だけ第二金曜日にする
     function CenterModel(row) {
         this.name = row[0];
         this.startDate = getDay(row, 1);
