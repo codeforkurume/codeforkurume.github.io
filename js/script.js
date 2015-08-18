@@ -12,34 +12,6 @@ $(function () {
     var areaMasterModels = [];
     /*   var descriptions = new Array(); */
 
-
-    // ローカルストレージ（エリア名）
-    function getSelectedAreaName() {
-        return localStorage.getItem("selected_area_name");
-    }
-
-    function setSelectedAreaName(name) {
-        localStorage.setItem("selected_area_name", name);
-    }
-
-    // ローカルストレージ（エリアマスター名）
-    function getSelectedAreaMasterName() {
-        return localStorage.getItem("selected_area_master_name");
-    }
-
-    function setSelectedAreaMasterName(name) {
-        localStorage.setItem("selected_area_master_name", name);
-    }
-
-    // ローカルストレージ（エリアマスター名）
-    function getSelectedAreaMasterNameBefore() {
-        return localStorage.getItem("selected_area_master_name_before");
-    }
-
-    function setSelectedAreaMasterNameBefore(name) {
-        localStorage.setItem("selected_area_master_name_before", name);
-    }
-
     function getInitSelectOption(flg) {
         var _ = Utility,
             text = (flg == "area") ? "地域" : "地区";
@@ -57,7 +29,7 @@ $(function () {
         AreaMasterModel.readCSV(function (data) {
             areaMasterModels = data;
             // ListメニューのHTMLを作成
-            var selected_master_name = getSelectedAreaMasterName();
+            var selected_master_name = Storage.getSelectedAreaMasterName();
             var area_master_select_form = $("#select_area_master");
             var select_master_html = [];
             select_master_html.push(getInitSelectOption("area_master"));
@@ -101,7 +73,7 @@ $(function () {
                 });
                 //エリアとゴミ処理センターを対応後に、表示のリストを生成する。
                 //ListメニューのHTML作成
-                var selected_name = getSelectedAreaName();
+                var selected_name = Storage.getSelectedAreaName();
                 var area_select_form = $("#select_area");
                 var select_html = [];
                 select_html.push(getInitSelectOption("area"));
@@ -304,10 +276,10 @@ $(function () {
     function onChangeSelect(row_index) {
         if (row_index == -1) {
             $("#accordion").html("");
-            setSelectedAreaName("");
+            Storage.setSelectedAreaName("");
             return;
         }
-        setSelectedAreaName(areaModels[row_index].name);
+        Storage.setSelectedAreaName(areaModels[row_index].name);
 
         if ($("#accordion").children().length === 0 && descriptions.length === 0) {
             createMenuList(function () {
@@ -332,21 +304,21 @@ $(function () {
         if (row_index == -1) {
             // 初期化
             initSelectArea();
-            setSelectedAreaMasterName("");
+            Storage.setSelectedAreaMasterName("");
             return;
         }
 
-        var checkAreaMasterName = getSelectedAreaMasterName();
-        var checkAreaMasterNameBefore = getSelectedAreaMasterNameBefore();
+        var checkAreaMasterName = Storage.getSelectedAreaMasterName();
+        var checkAreaMasterNameBefore = Storage.getSelectedAreaMasterNameBefore();
         if (checkAreaMasterName != checkAreaMasterNameBefore) {
             initSelectArea();
-            setSelectedAreaName("");
+            Storage.setSelectedAreaName("");
         }
 
         areaModels.length = 0;
 
-        setSelectedAreaMasterName(areaMasterModels[row_index].name);
-        setSelectedAreaMasterNameBefore(areaMasterModels[row_index].name);
+        Storage.setSelectedAreaMasterName(areaMasterModels[row_index].name);
+        Storage.setSelectedAreaMasterNameBefore(areaMasterModels[row_index].name);
 
         updateAreaList(areaMasterModels[row_index].mastercode);
 
@@ -401,7 +373,7 @@ $(function () {
         });
     });
 
-    if (getSelectedAreaName() == null) {
+    if (Storage.getSelectedAreaName() == null) {
         $("#accordion2").show();
         $("#collapseZero").addClass("in");
     }
