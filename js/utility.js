@@ -43,7 +43,14 @@ Utility.html = function (name, attributes) {
     }
     var children = Array.prototype.slice.call(arguments, 2);
     for (var i in children) {
-        elm.appendChild(children[i]);
+        if (Array.isArray(children[i])) {
+            for (var j in children[i]) {
+                elm.appendChild(children[i][j]);
+            }
+        }
+        else {
+            elm.appendChild(children[i]);
+        }
     }
     return elm;
 };

@@ -40,22 +40,37 @@ $(function () {
         localStorage.setItem("selected_area_master_name_before", name);
     }
 
+    function getInitSelectOption(flg) {
+        var _ = Utility,
+            text = (flg == "area") ? "地域" : "地区";
+        return createList({value: "-1"}, text + "を選択してください");
+    }
+
+    function createList(option, text) {
+        var _ = Utility;
+        return _.html("option", option, _.text(text));
+    }
+
     function masterAreaList() {
         // ★エリアのマスターリストを読み込みます
         // 大阪府仕様。大阪府下の区一覧です
-        AreaMasterModel.readCSV(function(data) {
+        AreaMasterModel.readCSV(function (data) {
             areaMasterModels = data;
             // ListメニューのHTMLを作成
             var selected_master_name = getSelectedAreaMasterName();
             var area_master_select_form = $("#select_area_master");
-            var select_master_html = "";
-            select_master_html += '<option value="-1">地区を選択してください</option>';
-            for (var row_index in areaMasterModels) {
-                var area_master_name = areaMasterModels[row_index].name;
-                var selected = (selected_master_name == area_master_name) ? 'selected="selected"' : "";
+            var select_master_html = [];
+            select_master_html.push(getInitSelectOption("area_master"));
 
-                select_master_html += '<option value="' + row_index + '" ' + selected + " >" + area_master_name + "</option>";
-            }
+            areaMasterModels.forEach(function (area_master, row_index) {
+                var area_master_name = area_master.name,
+                    option = {value: row_index};
+                if (selected_master_name == area_master_name) {
+                    option.selected = "selected";
+                }
+                select_master_html.push(createList(option, area_master_name));
+            });
+
 
             //デバッグ用
             if (typeof dump == "function") {
@@ -70,7 +85,7 @@ $(function () {
 
     function updateAreaList(mastercode) {
         // 大阪府仕様。区のコード(mastercode)が引数です
-        AreaModel.readCSV(mastercode, remarks, function(data) {
+        AreaModel.readCSV(mastercode, remarks, function (data) {
             areaModels = data;
 
             CenterModel.readCSV(function (center) {
@@ -81,22 +96,24 @@ $(function () {
                 //例えば第一金曜日のときは、一周ずらしその月だけ第二金曜日にする
 
                 //ゴミ処理センターを対応する各地域に割り当てます。
-                for (var i in areaModels) {
-                    var area = areaModels[i];
-                    area.setCenter(center_data);
-                }
+                areaModels.forEach(function (area_model) {
+                    area_model.setCenter(center_data);
+                });
                 //エリアとゴミ処理センターを対応後に、表示のリストを生成する。
                 //ListメニューのHTML作成
                 var selected_name = getSelectedAreaName();
                 var area_select_form = $("#select_area");
-                var select_html = "";
-                select_html += '<option value="-1">地域を選択してください</option>';
-                for (var row_index in areaModels) {
-                    var area_name = areaModels[row_index].name;
-                    var selected = (selected_name == area_name) ? 'selected="selected"' : "";
+                var select_html = [];
+                select_html.push(getInitSelectOption("area"));
+                areaModels.forEach(function (area, row_index) {
+                    var area_name = area.name,
+                        option = {value: row_index};
+                    if (selected_name == area_name) {
+                        option.selected = "selected";
+                    }
 
-                    select_html += '<option value="' + row_index + '" ' + selected + " >" + area_name + "</option>";
-                }
+                    select_html.push(createList(option, area_name));
+                });
 
                 //デバッグ用
                 if (typeof dump == "function") {
@@ -114,22 +131,24 @@ $(function () {
         // 備考データを読み込む
         $.get("data/remarks.csv", function (data) {
             var csv_array = Utility.csvToArray(data);
-            for (var i in csv_array) {
-                remarks.push(new RemarkModel(csv_array[i]));
-            }
+            csv_array.shift();
+            csv_array.forEach(function (remark_data) {
+                remarks.push(new RemarkModel(remark_data));
+            });
         });
 
         $.get("data/description.csv", function (data) {
             var csv_array = Utility.csvToArray(data);
-            for(var i in csv_array){
-                descriptions.push(new DescriptionModel(csv_array[i]));
-            }
+            csv_array.shift();
+            csv_array.forEach(function (description_data) {
+                descriptions.push(new DescriptionModel(description_data));
+            });
 
             $.get("data/target.csv", function (data) {
                 var csv_array = Utility.csvToArray(data);
                 csv_array.shift();
-                for (var i in csv_array) {
-                    var row = new TargetRowModel(csv_array[i]);
+                csv_array.forEach(function (target_row_data) {
+                    var row = new TargetRowModel(target_row_data);
                     for (var j = 0; j < descriptions.length; j++) {
                         //一致してるものに追加する。
                         if ((descriptions[j].name == row.type) && (descriptions[j].mastercode == row.mastercode)) { // 久留米仕様版
@@ -137,7 +156,7 @@ $(function () {
                             break;
                         }
                     }
-                }
+                });
                 after_action();
                 $("#accordion2").show();
             });
@@ -145,6 +164,7 @@ $(function () {
     }
 
     function updateData(row_index) {
+        var _ = Utility;
         //SVG が使えるかどうかの判定を行う。
         //TODO Android 2.3以下では見れない（代替の表示も含め）不具合が改善されてない。。
         //参考 http://satussy.blogspot.jp/2011/12/javascript-svg.html
@@ -154,12 +174,12 @@ $(function () {
         ////area_days.csvの日付が””である場合最後にソートされ、表示しないようにする。  久留米
         // areaModel.trash.length.push(5);
         if (AbleEmptyDate == true) {
-            for (var i = 0; i < areaModel.trash.length; i++) {
-                if (areaModel.trash[i].dayCell == "") {
-                    areaModel.trash[i].dayCell.push("21001231");
-                    areaModel.trash[i].name = "dummy";
+            areaModel.trash.forEach(function (trash) {
+                if (trash.dayCell == "") {
+                    trash.dayCell.push("21001231");
+                    trash.name = "dummy";
                 }
-            }
+            });
         }
 
         var today = new Date();
@@ -179,37 +199,33 @@ $(function () {
             }
         }
         var styleHTML = "";
-        var accordionHTML = "";
+        var accordionHTML = [];
+
         //アコーディオンの分類から対応の計算を行います。
-        for (var i in areaModel.trash) {
-            var trash = areaModel.trash[i];
-
-            for (var d_no in descriptions) {
-                var description = descriptions[d_no];
+        areaModel.trash.forEach(function (trash, i) {
+            descriptions.every(function (description, d_no) {
                 if ((description.name != trash.name) || (description.mastercode != areaModel.mastercode)) { // 久留米仕様版
-                    continue;
+                    // everyメソッドではtrueを返すとcontinueと同じ動きをする
+                    return true;
                 }
-                var furigana = "";
-                var target_tag = "";
-                var targets = description.targets;
-                for (var j in targets) {
-                    var target = targets[j];
+                var accordion_dom,
+                    furigana = "",
+                    targets = description.targets,
+                    list = [],
+                    component = [];
+                targets.forEach(function (target) {
                     if (furigana != target.furigana) {
-                        if (furigana != "") {
-                            target_tag += "</ul>";
-                        }
+                        var furigana_html = _.html("h4", {class: "initials"}, _.text(furigana));
+                        var ul = _.html("ul", {}, component);
+                        list.push(furigana_html);
+                        list.push(ul);
 
+                        component = [];
                         furigana = target.furigana;
-
-                        target_tag += '<h4 class="initials">' + furigana + "</h4>";
-                        target_tag += "<ul>";
                     }
-
-                    target_tag += '<li style="list-style:none;">' + target.name + "</li>";
-                    target_tag += '<p class="note">' + target.notice + "</p>";
-                }
-
-                target_tag += "</ul>";
+                    component.push(_.html("li", {style: "list-style: none;"}, _.text(target.name)));
+                    component.push(_.html("p", {class: "note"}, _.text(target.notice)));
+                });
 
                 var dateLabel = trash.getDateLabel();
                 //あと何日かを計算する処理です。
@@ -228,30 +244,45 @@ $(function () {
 
                 styleHTML += '#accordion-group' + d_no + '{background-color:  ' + description.background + ';} ';
 
-                accordionHTML +=
-                    '<div class="accordion-group" id="accordion-group' + d_no + '">' +
-                    '<div class="accordion-heading">' +
-                    '<a class="accordion-toggle" style="height:' + accordion_height + 'px" data-toggle="collapse" data-parent="#accordion" href="#collapse' + i + '">' +
-                    '<div class="left-day">' + leftDayText + '</div>' +
-                    '<div class="accordion-table" >';
+                var accordion_toggle_option =
+                    {
+                        class: "accordion-toggle",
+                        style: "height: " + accordion_height + "px;",
+                        'data-toggle': "collapse",
+                        'data-parent': '#accordion',
+                        href: '#collapse' + i
+                    },
+                    svg_dom;
                 if (ableSVG && SVGLabel) {
-                    accordionHTML += '<img src="' + description.styles + '" alt="' + description.name + '"  />';
+                    svg_dom = _.html("img", {src: description.styles, alt: description.name});
                 } else {
-                    accordionHTML += '<p class="text-center">' + description.name + "</p>";
+                    svg_dom = _.html("p", {class: 'text-center'}, _.text(description.name));
                 }
-                accordionHTML += "</div>" +
-                    '<h6><p class="text-left date">' + dateLabel + "</p></h6>" +
-                    "</a>" +
-                    "</div>" +
-                    '<div id="collapse' + i + '" class="accordion-body collapse">' +
-                    '<div class="accordion-inner">' +
-                    description.description + "<br />" + target_tag +
-                    '<div class="targetDays"></div></div>' +
-                    "</div>" +
-                    "</div>";
-                window.debug = accordionHTML;
-            }
-        }
+                accordion_dom =
+                    _.html("div", {class: "accordion-group", id: "accordion-group" + d_no},
+                        _.html("div", {class: "accordion-heading"},
+                            _.html("a", accordion_toggle_option,
+                                _.html("div", {class: 'left-day'}, _.text(leftDayText)),
+                                _.html("div", {class: 'accordion-table'},
+                                    svg_dom
+                                ),
+                                _.html("h6", {},
+                                    _.html("p", {class: 'text-left date'}, _.text(dateLabel))
+                                )
+                            )
+                        ),
+                        _.html("div", {id: "collapse" + i, class: "accordion-body collapse"},
+                            _.html("div", {class: "accordion-inner"},
+                                _.text(description.description),
+                                list,
+                                _.html("div", {class: 'targetDays'})
+                            )
+                        )
+                    );
+                accordionHTML.push(accordion_dom);
+            });
+        });
+
         $("#accordion-style").html('<!-- ' + styleHTML + ' -->');
 
         var accordion_elm = $("#accordion");
@@ -294,21 +325,26 @@ $(function () {
 
     // ★マスターの変更時
     function onChangeSelectMaster(row_index) {
+        var initSelectArea = function () {
+            var _ = Utility;
+            var dom = _.html("option", {value: "-1"},
+                _.text("地域を選択してください")
+            );
+            $("#accordion").html("");
+            $("#select_area").html(dom);
+        };
+
         if (row_index == -1) {
             // 初期化
-            $("#accordion").html("");
-            $("#select_area").html('<option value="-1">地域を選択してください</option>');
+            initSelectArea();
             setSelectedAreaMasterName("");
             return;
         }
 
         var checkAreaMasterName = getSelectedAreaMasterName();
         var checkAreaMasterNameBefore = getSelectedAreaMasterNameBefore();
-
-        if (checkAreaMasterName == checkAreaMasterNameBefore) {
-        } else {
-            $("#accordion").html("");
-            $("#select_area").html('<option value="-1">地域を選択してください</option>');
+        if (checkAreaMasterName != checkAreaMasterNameBefore) {
+            initSelectArea();
             setSelectedAreaName("");
         }
 

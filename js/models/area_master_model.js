@@ -13,7 +13,7 @@ AreaMasterModel = (function () {
 })();
 
 AreaMasterModel.readCSV = function (func) {
-    $.get(AreaCSVFileName, function(data){
+    $.get(AreaMasterCSVFileName, function(data){
         var ret = [];
         var csv_array = Utility.csvToArray(data);
         var area_master_label = csv_array.shift();
