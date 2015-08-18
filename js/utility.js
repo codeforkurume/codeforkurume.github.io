@@ -34,16 +34,24 @@ Utility.csvToArray = function csvToArray(filename, cb) {
  */
 Utility.html = function (name, attributes) {
     var elm = document.createElement(name);
-    attributes.forEach(function (attributeValue, attributeName) {
+    for (var attributeName in attributes) {
+        var attributeValue = attributes[attributeName];
         if (Array.isArray(attributeValue)) {
             attributeValue = attributeValue.join(' ');
         }
         elm.setAttribute(attributeName, attributeValue);
-    });
+    }
     var children = Array.prototype.slice.call(arguments, 2);
-    children.forEach(function (child) {
-        elm.appendChild(child);
-    });
+    for (var i in children) {
+        if (Array.isArray(children[i])) {
+            for (var j in children[i]) {
+                elm.appendChild(children[i][j]);
+            }
+        }
+        else {
+            elm.appendChild(children[i]);
+        }
+    }
     return elm;
 };
 

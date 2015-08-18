@@ -40,6 +40,17 @@ $(function () {
         localStorage.setItem("selected_area_master_name_before", name);
     }
 
+    function getInitSelectOption(flg) {
+        var _ = Utility,
+            text = (flg == "area") ? "地域" : "地区";
+        return createList({value: "-1"}, text + "を選択してください");
+    }
+
+    function createList(option, text) {
+        var _ = Utility;
+        return _.html("option", option, _.text(text));
+    }
+
     function masterAreaList() {
         // ★エリアのマスターリストを読み込みます
         // 大阪府仕様。大阪府下の区一覧です
@@ -48,14 +59,18 @@ $(function () {
             // ListメニューのHTMLを作成
             var selected_master_name = getSelectedAreaMasterName();
             var area_master_select_form = $("#select_area_master");
-            var select_master_html = "";
-            select_master_html += '<option value="-1">地区を選択してください</option>';
-            areaMasterModels.forEach(function (area_master, row_index) {
-                var area_master_name = area_master.name;
-                var selected = (selected_master_name == area_master_name) ? 'selected="selected"' : "";
+            var select_master_html = [];
+            select_master_html.push(getInitSelectOption("area_master"));
 
-                select_master_html += '<option value="' + row_index + '" ' + selected + " >" + area_master_name + "</option>";
+            areaMasterModels.forEach(function (area_master, row_index) {
+                var area_master_name = area_master.name,
+                    option = {value: row_index};
+                if (selected_master_name == area_master_name) {
+                    option.selected = "selected";
+                }
+                select_master_html.push(createList(option, area_master_name));
             });
+
 
             //デバッグ用
             if (typeof dump == "function") {
@@ -88,13 +103,16 @@ $(function () {
                 //ListメニューのHTML作成
                 var selected_name = getSelectedAreaName();
                 var area_select_form = $("#select_area");
-                var select_html = "";
-                select_html += '<option value="-1">地域を選択してください</option>';
+                var select_html = [];
+                select_html.push(getInitSelectOption("area"));
                 areaModels.forEach(function (area, row_index) {
-                    var area_name = area.name;
-                    var selected = (selected_name == area_name) ? 'selected="selected"' : "";
+                    var area_name = area.name,
+                        option = {value: row_index};
+                    if (selected_name == area_name) {
+                        option.selected = "selected";
+                    }
 
-                    select_html += '<option value="' + row_index + '" ' + selected + " >" + area_name + "</option>";
+                    select_html.push(createList(option, area_name));
                 });
 
                 //デバッグ用
@@ -145,6 +163,7 @@ $(function () {
     }
 
     function updateData(row_index) {
+        var _ = Utility;
         //SVG が使えるかどうかの判定を行う。
         //TODO Android 2.3以下では見れない（代替の表示も含め）不具合が改善されてない。。
         //参考 http://satussy.blogspot.jp/2011/12/javascript-svg.html
@@ -179,7 +198,7 @@ $(function () {
             }
         }
         var styleHTML = "";
-        var accordionHTML = "";
+        var accordionHTML = [];
 
         //アコーディオンの分類から対応の計算を行います。
         areaModel.trash.forEach(function (trash, i) {
@@ -188,26 +207,24 @@ $(function () {
                     // everyメソッドではtrueを返すとcontinueと同じ動きをする
                     return true;
                 }
-                var furigana = "";
-                var target_tag = "";
-                var targets = description.targets;
+                var accordion_dom,
+                    furigana = "",
+                    targets = description.targets,
+                    list = [],
+                    component = [];
                 targets.forEach(function (target) {
                     if (furigana != target.furigana) {
-                        if (furigana != "") {
-                            target_tag += "</ul>";
-                        }
+                        var furigana_html = _.html("h4", {class: "initials"}, _.text(furigana));
+                        var ul = _.html("ul", {}, component);
+                        list.push(furigana_html);
+                        list.push(ul);
 
+                        component = [];
                         furigana = target.furigana;
-
-                        target_tag += '<h4 class="initials">' + furigana + "</h4>";
-                        target_tag += "<ul>";
                     }
-
-                    target_tag += '<li style="list-style:none;">' + target.name + "</li>";
-                    target_tag += '<p class="note">' + target.notice + "</p>";
+                    component.push(_.html("li", {style: "list-style: none;"}, _.text(target.name)));
+                    component.push(_.html("p", {class: "note"}, _.text(target.notice)));
                 });
-
-                target_tag += "</ul>";
 
                 var dateLabel = trash.getDateLabel();
                 //あと何日かを計算する処理です。
@@ -226,27 +243,42 @@ $(function () {
 
                 styleHTML += '#accordion-group' + d_no + '{background-color:  ' + description.background + ';} ';
 
-                accordionHTML +=
-                    '<div class="accordion-group" id="accordion-group' + d_no + '">' +
-                    '<div class="accordion-heading">' +
-                    '<a class="accordion-toggle" style="height:' + accordion_height + 'px" data-toggle="collapse" data-parent="#accordion" href="#collapse' + i + '">' +
-                    '<div class="left-day">' + leftDayText + '</div>' +
-                    '<div class="accordion-table" >';
+                var accordion_toggle_option =
+                    {
+                        class: "accordion-toggle",
+                        style: "height: " + accordion_height + "px;",
+                        'data-toggle': "collapse",
+                        'data-parent': '#accordion',
+                        href: '#collapse' + i
+                    },
+                    svg_dom;
                 if (ableSVG && SVGLabel) {
-                    accordionHTML += '<img src="' + description.styles + '" alt="' + description.name + '"  />';
+                    svg_dom = _.html("img", {src: description.styles, alt: description.name});
                 } else {
-                    accordionHTML += '<p class="text-center">' + description.name + "</p>";
+                    svg_dom = _.html("p", {class: 'text-center'}, _.text(description.name));
                 }
-                accordionHTML += "</div>" +
-                    '<h6><p class="text-left date">' + dateLabel + "</p></h6>" +
-                    "</a>" +
-                    "</div>" +
-                    '<div id="collapse' + i + '" class="accordion-body collapse">' +
-                    '<div class="accordion-inner">' +
-                    description.description + "<br />" + target_tag +
-                    '<div class="targetDays"></div></div>' +
-                    "</div>" +
-                    "</div>";
+                accordion_dom =
+                    _.html("div", {class: "accordion-group", id: "accordion-group" + d_no},
+                        _.html("div", {class: "accordion-heading"},
+                            _.html("a", accordion_toggle_option,
+                                _.html("div", {class: 'left-day'}, _.text(leftDayText)),
+                                _.html("div", {class: 'accordion-table'},
+                                    svg_dom
+                                ),
+                                _.html("h6", {},
+                                    _.html("p", {class: 'text-left date'}, _.text(dateLabel))
+                                )
+                            )
+                        ),
+                        _.html("div", {id: "collapse" + i, class: "accordion-body collapse"},
+                            _.html("div", {class: "accordion-inner"},
+                                _.text(description.description),
+                                list,
+                                _.html("div", {class: 'targetDays'})
+                            )
+                        )
+                    );
+                accordionHTML.push(accordion_dom);
             });
         });
 
@@ -292,21 +324,26 @@ $(function () {
 
     // ★マスターの変更時
     function onChangeSelectMaster(row_index) {
+        var initSelectArea = function () {
+            var _ = Utility;
+            var dom = _.html("option", {value: "-1"},
+                _.text("地域を選択してください")
+            );
+            $("#accordion").html("");
+            $("#select_area").html(dom);
+        };
+
         if (row_index == -1) {
             // 初期化
-            $("#accordion").html("");
-            $("#select_area").html('<option value="-1">地域を選択してください</option>');
+            initSelectArea();
             setSelectedAreaMasterName("");
             return;
         }
 
         var checkAreaMasterName = getSelectedAreaMasterName();
         var checkAreaMasterNameBefore = getSelectedAreaMasterNameBefore();
-
-        if (checkAreaMasterName == checkAreaMasterNameBefore) {
-        } else {
-            $("#accordion").html("");
-            $("#select_area").html('<option value="-1">地域を選択してください</option>');
+        if (checkAreaMasterName != checkAreaMasterNameBefore) {
+            initSelectArea();
             setSelectedAreaName("");
         }
 
