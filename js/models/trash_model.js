@@ -4,46 +4,56 @@
  */
 var TrashModel;
 TrashModel = (function () {
-    function TrashModel(_lable, _cell, remarks) {
+    function TrashModel(_label, _cell, remarks) {
         this.remarks = remarks;
         this.dayLabel = null;
         this.mostRecent = null;
         this.dayList = null;
-        this.mflag = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        if (_cell.search(/:/) >= 0) {
-            var flag = _cell.split(":");
-            this.dayCell = flag[0].split(" ");
-            var mm = flag[1].split(" ");
-        } else {
-            this.dayCell = _cell.split(" ");
-            var mm = ["4", "5", "6", "7", "8", "9", "10", "11", "12", "1", "2", "3"];
-        }
-        for (var m in mm) {
-            this.mflag[mm[m] - 1] = 1;
-        }
-        this.name = _lable;
+        this.name = _label;
         this.description = null;
         this.regularFlg = 1;      // 定期回収フラグ（デフォルトはオン:1）
 
-        var result_text = "";
-
-        this.dayCell.forEach(function (day_cell) {
-            if (day_cell.length == 1) {
-                result_text += "毎週" + day_cell + "曜日 ";
-            } else if (day_cell.length == 2 && day_cell.substr(0, 1) != "*") {
-                result_text += "第" + day_cell.charAt(1) + day_cell.charAt(0) + "曜日 ";
-            } else {
-                // 不定期回収の場合（YYYYMMDD指定）
-                result_text = "不定期 ";
-                this.regularFlg = 0;  // 定期回収フラグオフ
-            }
+        // mflagが0の月は回収しない
+        this.mflag = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        var collect_months;
+        // :がある場合は，その後に続く月のみ回収する
+        if (_cell.search(/:/) >= 0) {
+            var flag = _cell.split(":");
+            this.dayCell = flag[0].split(" ");
+            collect_months = flag[1].split(" ");
+        } else {
+            this.dayCell = _cell.split(" ");
+            collect_months = ["4", "5", "6", "7", "8", "9", "10", "11", "12", "1", "2", "3"];
+        }
+        collect_months.forEach(function (val) {
+            this.mflag[val - 1] = 1;
         }.bind(this));
-        this.dayLabel = result_text;
+
+        this.dayLabel = this.getDayLabel();
     }
+
+    TrashModel.prototype.getDayLabel = function() {
+        if (this.dayLabel == undefined || this.dayLabel == null) {
+            var result_text = "";
+            this.dayCell.forEach(function (day_cell) {
+                if (day_cell.length == 1) {
+                    result_text += "毎週" + day_cell + "曜日 ";
+                } else if (day_cell.length == 2 && day_cell.substr(0, 1) != "*") {
+                    result_text += "第" + day_cell.charAt(1) + day_cell.charAt(0) + "曜日 ";
+                } else {
+                    // 不定期回収の場合（YYYYMMDD指定）
+                    result_text = "不定期 ";
+                    this.regularFlg = 0;  // 定期回収フラグオフ
+                }
+            }.bind(this));
+            this.dayLabel = result_text;
+        }
+        return this.dayLabel;
+    };
 
     TrashModel.prototype.getDateLabel = function getDateLabel() {
         var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate();
-        return this.getRemark() + this.dayLabel + " " + result_text;
+        return this.getRemark() + this.getDayLabel() + " " + result_text;
     };
 
     var day_enum = ["日", "月", "火", "水", "木", "金", "土"];
@@ -89,7 +99,6 @@ TrashModel = (function () {
 
             // 12月 +3月　を表現
             for (var i = 0; i < MaxMonth; i++) {
-
                 var curMonth = today.getMonth() + i;
                 var curYear = today.getFullYear() + Math.floor(curMonth / 12);
                 var month = (curMonth % 12) + 1;

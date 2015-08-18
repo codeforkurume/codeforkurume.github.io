@@ -343,8 +343,6 @@ $(function () {
             setSelectedAreaName("");
         }
 
-        areaModels.length = 0;
-
         setSelectedAreaMasterName(areaMasterModels[row_index].name);
         setSelectedAreaMasterNameBefore(areaMasterModels[row_index].name);
 
@@ -401,10 +399,6 @@ $(function () {
         });
     });
 
-    if (getSelectedAreaName() == null) {
-        $("#accordion2").show();
-        $("#collapseZero").addClass("in");
-    }
     if (!navigator.geolocation) {
         $("#gps_area").css("display", "none");
     }
