@@ -315,7 +315,6 @@ $(function () {
             Storage.setSelectedAreaName("");
         }
 
-        areaModels.length = 0;
 
         Storage.setSelectedAreaMasterName(areaMasterModels[row_index].name);
         Storage.setSelectedAreaMasterNameBefore(areaMasterModels[row_index].name);
@@ -373,10 +372,6 @@ $(function () {
         });
     });
 
-    if (Storage.getSelectedAreaName() == null) {
-        $("#accordion2").show();
-        $("#collapseZero").addClass("in");
-    }
     if (!navigator.geolocation) {
         $("#gps_area").css("display", "none");
     }
