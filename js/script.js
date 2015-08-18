@@ -43,19 +43,19 @@ $(function () {
     function masterAreaList() {
         // ★エリアのマスターリストを読み込みます
         // 大阪府仕様。大阪府下の区一覧です
-        AreaMasterModel.readCSV(function(data) {
+        AreaMasterModel.readCSV(function (data) {
             areaMasterModels = data;
             // ListメニューのHTMLを作成
             var selected_master_name = getSelectedAreaMasterName();
             var area_master_select_form = $("#select_area_master");
             var select_master_html = "";
             select_master_html += '<option value="-1">地区を選択してください</option>';
-            for (var row_index in areaMasterModels) {
-                var area_master_name = areaMasterModels[row_index].name;
+            areaMasterModels.forEach(function (area_master, row_index) {
+                var area_master_name = area_master.name;
                 var selected = (selected_master_name == area_master_name) ? 'selected="selected"' : "";
 
                 select_master_html += '<option value="' + row_index + '" ' + selected + " >" + area_master_name + "</option>";
-            }
+            });
 
             //デバッグ用
             if (typeof dump == "function") {
@@ -70,7 +70,7 @@ $(function () {
 
     function updateAreaList(mastercode) {
         // 大阪府仕様。区のコード(mastercode)が引数です
-        AreaModel.readCSV(mastercode, remarks, function(data) {
+        AreaModel.readCSV(mastercode, remarks, function (data) {
             areaModels = data;
 
             CenterModel.readCSV(function (center) {
@@ -81,22 +81,21 @@ $(function () {
                 //例えば第一金曜日のときは、一周ずらしその月だけ第二金曜日にする
 
                 //ゴミ処理センターを対応する各地域に割り当てます。
-                for (var i in areaModels) {
-                    var area = areaModels[i];
-                    area.setCenter(center_data);
-                }
+                areaModels.forEach(function (area_model) {
+                    area_model.setCenter(center_data);
+                });
                 //エリアとゴミ処理センターを対応後に、表示のリストを生成する。
                 //ListメニューのHTML作成
                 var selected_name = getSelectedAreaName();
                 var area_select_form = $("#select_area");
                 var select_html = "";
                 select_html += '<option value="-1">地域を選択してください</option>';
-                for (var row_index in areaModels) {
-                    var area_name = areaModels[row_index].name;
+                areaModels.forEach(function (area, row_index) {
+                    var area_name = area.name;
                     var selected = (selected_name == area_name) ? 'selected="selected"' : "";
 
                     select_html += '<option value="' + row_index + '" ' + selected + " >" + area_name + "</option>";
-                }
+                });
 
                 //デバッグ用
                 if (typeof dump == "function") {
@@ -114,21 +113,20 @@ $(function () {
         // 備考データを読み込む
         Utility.csvToArray("data/remarks.csv", function (data) {
             data.shift();
-            for (var i in data) {
-                remarks.push(new RemarkModel(data[i]));
-            }
+            data.forEach(function (remark_data) {
+                remarks.push(new RemarkModel(remark_data));
+            });
         });
         Utility.csvToArray("data/description.csv", function (data) {
             data.shift();
-            for (var i in data) {
-                descriptions.push(new DescriptionModel(data[i]));
-            }
+            data.forEach(function (description_data) {
+                descriptions.push(new DescriptionModel(description_data));
+            });
 
             Utility.csvToArray("data/target.csv", function (data) {
-
                 data.shift();
-                for (var i in data) {
-                    var row = new TargetRowModel(data[i]);
+                data.forEach(function (target_row_data) {
+                    var row = new TargetRowModel(target_row_data);
                     for (var j = 0; j < descriptions.length; j++) {
                         //一致してるものに追加する。
                         if ((descriptions[j].name == row.type) && (descriptions[j].mastercode == row.mastercode)) { // 久留米仕様版
@@ -136,7 +134,7 @@ $(function () {
                             break;
                         }
                     }
-                }
+                });
                 after_action();
                 $("#accordion2").show();
 
@@ -156,12 +154,12 @@ $(function () {
         ////area_days.csvの日付が””である場合最後にソートされ、表示しないようにする。  久留米
         // areaModel.trash.length.push(5);
         if (AbleEmptyDate == true) {
-            for (var i = 0; i < areaModel.trash.length; i++) {
-                if (areaModel.trash[i].dayCell == "") {
-                    areaModel.trash[i].dayCell.push("21001231");
-                    areaModel.trash[i].name = "dummy";
+            areaModel.trash.forEach(function (trash) {
+                if (trash.dayCell == "") {
+                    trash.dayCell.push("21001231");
+                    trash.name = "dummy";
                 }
-            }
+            });
         }
 
         var today = new Date();
@@ -182,20 +180,18 @@ $(function () {
         }
         var styleHTML = "";
         var accordionHTML = "";
-        //アコーディオンの分類から対応の計算を行います。
-        for (var i in areaModel.trash) {
-            var trash = areaModel.trash[i];
 
-            for (var d_no in descriptions) {
-                var description = descriptions[d_no];
+        //アコーディオンの分類から対応の計算を行います。
+        areaModel.trash.forEach(function (trash, i) {
+            descriptions.every(function (description, d_no) {
                 if ((description.name != trash.name) || (description.mastercode != areaModel.mastercode)) { // 久留米仕様版
-                    continue;
+                    // everyメソッドではtrueを返すとcontinueと同じ動きをする
+                    return true;
                 }
                 var furigana = "";
                 var target_tag = "";
                 var targets = description.targets;
-                for (var j in targets) {
-                    var target = targets[j];
+                targets.forEach(function (target) {
                     if (furigana != target.furigana) {
                         if (furigana != "") {
                             target_tag += "</ul>";
@@ -209,7 +205,7 @@ $(function () {
 
                     target_tag += '<li style="list-style:none;">' + target.name + "</li>";
                     target_tag += '<p class="note">' + target.notice + "</p>";
-                }
+                });
 
                 target_tag += "</ul>";
 
@@ -251,9 +247,9 @@ $(function () {
                     '<div class="targetDays"></div></div>' +
                     "</div>" +
                     "</div>";
-                window.debug = accordionHTML;
-            }
-        }
+            });
+        });
+
         $("#accordion-style").html('<!-- ' + styleHTML + ' -->');
 
         var accordion_elm = $("#accordion");

@@ -34,17 +34,16 @@ Utility.csvToArray = function csvToArray(filename, cb) {
  */
 Utility.html = function (name, attributes) {
     var elm = document.createElement(name);
-    for (var attributeName in attributes) {
-        var attributeValue = attributes[attributeName];
+    attributes.forEach(function (attributeValue, attributeName) {
         if (Array.isArray(attributeValue)) {
             attributeValue = attributeValue.join(' ');
         }
         elm.setAttribute(attributeName, attributeValue);
-    }
+    });
     var children = Array.prototype.slice.call(arguments, 2);
-    for (var i in children) {
-        elm.appendChild(children[i]);
-    }
+    children.forEach(function (child) {
+        elm.appendChild(child);
+    });
     return elm;
 };
 

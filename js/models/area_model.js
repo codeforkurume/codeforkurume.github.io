@@ -16,9 +16,10 @@ AreaModel = (function () {
      各ゴミのカテゴリに対して、最も直近の日付を計算します。
      */
     AreaModel.prototype.calcMostRect = function calcMostRect() {
-        for (var i = 0; i < this.trash.length; i++) {
-            this.trash[i].calcMostRect(this);
-        }
+        var that = this;
+        this.trash.forEach(function (trash) {
+            trash.calcMostRect(that);
+        });
     };
     /**
      休止期間（主に年末年始）かどうかを判定します。
@@ -35,11 +36,12 @@ AreaModel = (function () {
      名前が一致するかどうかで判定を行っております。
      */
     AreaModel.prototype.setCenter = function setCenter(center_data) {
-        for (var i in center_data) {
-            if (this.centerName == center_data[i].name) {
-                this.center = center_data[i];
+        var that = this;
+        center_data.forEach(function (center) {
+            if (that.centerName == center.name) {
+                that.center = center;
             }
-        }
+        });
     };
     /**
      ゴミのカテゴリのソートを行います。

@@ -27,17 +27,17 @@ TrashModel = (function () {
 
         var result_text = "";
 
-        for (var j in this.dayCell) {
-            if (this.dayCell[j].length == 1) {
-                result_text += "毎週" + this.dayCell[j] + "曜日 ";
-            } else if (this.dayCell[j].length == 2 && this.dayCell[j].substr(0, 1) != "*") {
-                result_text += "第" + this.dayCell[j].charAt(1) + this.dayCell[j].charAt(0) + "曜日 ";
+        this.dayCell.forEach(function (day_cell) {
+            if (day_cell.length == 1) {
+                result_text += "毎週" + day_cell + "曜日 ";
+            } else if (day_cell.length == 2 && day_cell.substr(0, 1) != "*") {
+                result_text += "第" + day_cell.charAt(1) + day_cell.charAt(0) + "曜日 ";
             } else {
                 // 不定期回収の場合（YYYYMMDD指定）
                 result_text = "不定期 ";
                 this.regularFlg = 0;  // 定期回収フラグオフ
             }
-        }
+        }.bind(this));
         this.dayLabel = result_text;
     }
 
@@ -61,10 +61,11 @@ TrashModel = (function () {
      * このごみ収集日が特殊な条件を持っている場合備考を返します。収集日データに"*n" が入っている場合に利用されます
      */
     TrashModel.prototype.getRemark = function getRemark() {
-        var ret = "";
+        var ret = "",
+            remarks = this.remarks;
         this.dayCell.forEach(function (day) {
             if (day.substr(0, 1) == "*") {
-                this.remarks.forEach(function (remark) {
+                remarks.forEach(function (remark) {
                     if (remark.id == day.substr(1, 1)) {
                         ret += remark.text + "<br/>";
                     }
@@ -161,7 +162,7 @@ TrashModel = (function () {
         //直近の日付を更新
         var now = new Date();
 
-        for (var i in day_list) {
+        for (var i = 0; i < day_list.length; i++) {
             if (this.mostRecent == null && now.getTime() < day_list[i].getTime() + 24 * 60 * 60 * 1000) {
                 this.mostRecent = day_list[i];
                 break;
