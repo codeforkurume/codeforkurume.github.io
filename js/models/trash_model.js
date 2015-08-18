@@ -171,6 +171,25 @@ TrashModel = (function () {
 
         this.dayList = day_list;
     };
+
+    TrashModel.prototype.getLeftDay = function ()  {
+        //あと何日かを計算する処理です。
+        var today = new Date(),
+            leftDay = Math.ceil((this.mostRecent.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)),
+            leftDayText = "";
+
+        if (leftDay == 0) {
+            leftDayText = "今日";
+        } else if (leftDay == 1) {
+            leftDayText = "明日";
+        } else if (leftDay == 2) {
+            leftDayText = "明後日";
+        } else {
+            leftDayText = leftDay + "日後";
+        }
+        return leftDayText;
+    };
+
     /**
      計算したゴミの日一覧をリスト形式として取得します。
      */

@@ -162,14 +162,35 @@ $(function () {
 
     }
 
-    function updateData(row_index) {
+    function createTrashList(targets) {
+        var _ = Utility,
+            list = [],
+            component = [],
+            furigana = "";
+        targets.forEach(function (target) {
+            if (furigana != target.furigana) {
+                var furigana_html = _.html("h4", {class: "initials"}, _.text(furigana));
+                var ul = _.html("ul", {}, component);
+                list.push(furigana_html);
+                list.push(ul);
+
+                component = [];
+                furigana = target.furigana;
+            }
+            component.push(_.html("li", {style: "list-style: none;"}, _.text(target.name)));
+            component.push(_.html("p", {class: "note"}, _.text(target.notice)));
+        });
+        return list;
+    }
+
+    function createAccordion(areaModel) {
         var _ = Utility;
         //SVG が使えるかどうかの判定を行う。
         //TODO Android 2.3以下では見れない（代替の表示も含め）不具合が改善されてない。。
         //参考 http://satussy.blogspot.jp/2011/12/javascript-svg.html
-        var ableSVG = (window.SVGAngle !== void 0);
         //var ableSVG = false;  // SVG未使用の場合、descriptionの1項目目を使用
-        var areaModel = areaModels[row_index];
+        var ableSVG = (window.SVGAngle !== void 0);
+
         ////area_days.csvの日付が””である場合最後にソートされ、表示しないようにする。  久留米
         // areaModel.trash.length.push(5);
         if (AbleEmptyDate == true) {
@@ -181,7 +202,6 @@ $(function () {
             });
         }
 
-        var today = new Date();
         //直近の一番近い日付を計算します。
         areaModel.calcMostRect();
         //トラッシュの近い順にソートします。
@@ -207,39 +227,6 @@ $(function () {
                     // everyメソッドではtrueを返すとcontinueと同じ動きをする
                     return true;
                 }
-                var accordion_dom,
-                    furigana = "",
-                    targets = description.targets,
-                    list = [],
-                    component = [];
-                targets.forEach(function (target) {
-                    if (furigana != target.furigana) {
-                        var furigana_html = _.html("h4", {class: "initials"}, _.text(furigana));
-                        var ul = _.html("ul", {}, component);
-                        list.push(furigana_html);
-                        list.push(ul);
-
-                        component = [];
-                        furigana = target.furigana;
-                    }
-                    component.push(_.html("li", {style: "list-style: none;"}, _.text(target.name)));
-                    component.push(_.html("p", {class: "note"}, _.text(target.notice)));
-                });
-
-                var dateLabel = trash.getDateLabel();
-                //あと何日かを計算する処理です。
-                var leftDay = Math.ceil((trash.mostRecent.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
-
-                var leftDayText = "";
-                if (leftDay == 0) {
-                    leftDayText = "今日";
-                } else if (leftDay == 1) {
-                    leftDayText = "明日";
-                } else if (leftDay == 2) {
-                    leftDayText = "明後日"
-                } else {
-                    leftDayText = leftDay + "日後";
-                }
 
                 styleHTML += '#accordion-group' + d_no + '{background-color:  ' + description.background + ';} ';
 
@@ -257,35 +244,43 @@ $(function () {
                 } else {
                     svg_dom = _.html("p", {class: 'text-center'}, _.text(description.name));
                 }
-                accordion_dom =
-                    _.html("div", {class: "accordion-group", id: "accordion-group" + d_no},
+
+                var accordion_heading =
                         _.html("div", {class: "accordion-heading"},
                             _.html("a", accordion_toggle_option,
-                                _.html("div", {class: 'left-day'}, _.text(leftDayText)),
+                                _.html("div", {class: 'left-day'}, _.text(trash.getLeftDay())),
                                 _.html("div", {class: 'accordion-table'},
                                     svg_dom
                                 ),
                                 _.html("h6", {},
-                                    _.html("p", {class: 'text-left date'}, _.text(dateLabel))
+                                    _.html("p", {class: 'text-left date'}, _.text(trash.getDateLabel()))
                                 )
                             )
                         ),
+                    accordion_body =
                         _.html("div", {id: "collapse" + i, class: "accordion-body collapse"},
                             _.html("div", {class: "accordion-inner"},
                                 _.text(description.description),
-                                list,
+                                createTrashList(description.targets),
                                 _.html("div", {class: 'targetDays'})
                             )
-                        )
-                    );
-                accordionHTML.push(accordion_dom);
+                        ),
+                    accordion =
+                        _.html("div", {class: "accordion-group", id: "accordion-group" + d_no},
+                            accordion_heading,
+                            accordion_body
+                        );
+                accordionHTML.push(accordion);
             });
         });
-
         $("#accordion-style").html('<!-- ' + styleHTML + ' -->');
+        return accordionHTML;
+    }
 
-        var accordion_elm = $("#accordion");
-        accordion_elm.html(accordionHTML);
+    function updateData(row_index) {
+        var areaModel = areaModels[row_index],
+            accordion_elm = $("#accordion");
+        accordion_elm.html(createAccordion(areaModel));
 
         $('html,body').animate({scrollTop: 0}, 'fast');
 
