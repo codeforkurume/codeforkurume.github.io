@@ -117,7 +117,6 @@ AreaModel.afterDone = function () {
     });
 };
 
-
 $(document).ready(function () {
     function setData(data) {
         AreaModel.data = data;
