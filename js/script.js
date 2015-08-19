@@ -15,9 +15,9 @@ $(function () {
             text = (type == "area") ? "地域" : "地区";
 
         select_html.push(createList({value: '-1'}, text + "を選択してください"));
-        models.forEach(function (model, row_index) {
+        models.forEach(function (model) {
             var name = model.name,
-                option = {value: row_index};
+                option = {value: model.getId()};
             if (selected_name == name) {
                 option.selected = "selected";
             }
@@ -255,12 +255,13 @@ $(function () {
     }
 
     $(".select-field").on('change', function(e) {
-        var row_index = $(e.target).val(),
+        // 1-indexのため
+        var id = $(e.target).val() - 1,
             type = $(e.target).data('type');
         if (type == 'area') {
-            onChangeSelect(row_index);
+            onChangeSelect(id);
         } else if (type == 'area_master') {
-            onChangeSelectMaster(row_index);
+            onChangeSelectMaster(id);
         }
     });
 

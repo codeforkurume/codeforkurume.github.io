@@ -9,6 +9,10 @@ AreaMasterModel = (function () {
         this.name = row[1];
     }
 
+    AreaMasterModel.prototype.getId = function () {
+        return this.mastercode;
+    };
+
     return AreaMasterModel;
 })();
 

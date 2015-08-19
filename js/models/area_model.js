@@ -5,7 +5,8 @@
 var AreaModel;
 AreaModel = (function () {
     function AreaModel(row_index, label, row) {
-        this.id = row_index;
+        // AreaMasterは1-indexのため合わせる
+        this.id = row_index + 1;
         this.mastercode = row[0];
         this.name = row[1];
         this.centerName = row[2];
@@ -18,6 +19,10 @@ AreaModel = (function () {
             }
         }
     }
+
+    AreaModel.prototype.getId = function () {
+        return this.id;
+    };
 
     /**
      各ゴミのカテゴリに対して、最も直近の日付を計算します。
