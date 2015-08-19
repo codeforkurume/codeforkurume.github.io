@@ -1,9 +1,7 @@
 /**
  * Created by minto on 15/08/18.
  */
-/**
- * Created by minto on 15/08/18.
- */
+
 var Storage;
 Storage = {
     getSelectedAreaName: function(){

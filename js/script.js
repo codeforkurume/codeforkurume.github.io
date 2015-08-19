@@ -1,17 +1,13 @@
 "use strict";
 
-/* var windowHeight; */
-
 var Event = new Object();
 
 $(function () {
-    /*   windowHeight = $(window).height(); */
 
     var center_data = [];
     var descriptions = [];
     var areaModels = [];
     var remarks = [];
-    /*   var descriptions = new Array(); */
 
     function createSelectElement(type, models, selected_name) {
         var createList = function(option, text) {
@@ -267,9 +263,9 @@ $(function () {
             return;
         }
 
-
-        Storage.setSelectedAreaMasterName(AreaMasterModel.data[row_index].name);
-        updateAreaList(AreaMasterModel.data[row_index].mastercode);
+        var area_master = AreaMasterModel.data[row_index];
+        Storage.setSelectedAreaMasterName(area_master.name);
+        updateAreaList(area_master.mastercode);
     }
 
     function getAreaIndex(area_name) {
