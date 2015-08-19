@@ -4,7 +4,8 @@
  */
 var AreaModel;
 AreaModel = (function () {
-    function AreaModel(label, row) {
+    function AreaModel(row_index, label, row) {
+        this.id = row_index;
         this.mastercode = row[0];
         this.name = row[1];
         this.centerName = row[2];
@@ -70,20 +71,9 @@ AreaModel.readCSV = function (func) {
         var csv_array = Utility.csvToArray(data);
         var ret = [],
             area_label = csv_array.shift();
-        csv_array.forEach(function (row) {
-            var area = new AreaModel(area_label, row);
+        csv_array.forEach(function (row, row_index) {
+            var area = new AreaModel(row_index, area_label, row);
             ret.push(area);
-            /*
-            if (area.mastercode == mastercode) {
-                ret.push(area);
-                for (var r = 3; r < 3 + MaxDescription; r++) {
-                    if (area_label[r]) {
-                        var trash = new TrashModel(area_label[r], row[r], remarks);
-                        area.trash.push(trash);
-                    }
-                }
-            }
-            */
         });
         func(ret);
     });
