@@ -10,7 +10,7 @@ $(function () {
     var remarks = [];
 
     function createSelectElement(type, models, selected_name) {
-        var createList = function(option, text) {
+        var createList = function (option, text) {
             return Utility.html("option", option, Utility.text(text));
         };
         var select_form = $("#select_" + type),
@@ -36,21 +36,10 @@ $(function () {
     }
 
     function updateAreaList(mastercode) {
-        // 大阪府仕様。区のコード(mastercode)が引数です
-        AreaModel.readCSV(mastercode, remarks, function (data) {
-            areaModels = data;
-
-            CenterModel.readCSV(function (center) {
-                center_data = center;
-                areaModels.forEach(function (area_model) {
-                    area_model.setCenter(center_data);
-                });
-
-                //ListメニューのHTML作成
-                var selected_name = Storage.getSelectedAreaName();
-                createSelectElement("area", areaModels, selected_name);
-            });
-        });
+        //ListメニューのHTML作成
+        var area_list = AreaModel.getAreaList(mastercode),
+            selected_name = Storage.getSelectedAreaName();
+        createSelectElement("area", area_list, selected_name);
     }
 
 
@@ -335,7 +324,16 @@ $(function () {
         }
     }
 
-    Event.updateMaster = function(){
-        masterAreaList();
+    Event.update = function () {
+        if (Event.done()) {
+            masterAreaList();
+            var selected_master_name = Storage.getSelectedAreaMasterName();
+            updateAreaList(AreaMasterModel.getMasterCodeByName(selected_master_name));
+        }
+    };
+
+    Event.done = function () {
+        return AreaMasterModel.done && AreaModel.done && CenterModel.done && RemarkModel.done;
     }
 });
+

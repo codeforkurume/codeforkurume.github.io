@@ -13,7 +13,7 @@ AreaMasterModel = (function () {
 })();
 
 AreaMasterModel.readCSV = function (func) {
-    $.get(AreaMasterCSVFileName, function(data){
+    $.get(AreaMasterCSVFileName, function (data) {
         var ret = [];
         var csv_array = Utility.csvToArray(data);
         var area_master_label = csv_array.shift();
@@ -25,12 +25,30 @@ AreaMasterModel.readCSV = function (func) {
     });
 };
 
-AreaMasterModel.data = [];
+AreaMasterModel.getMasterCodeByName = function (name) {
+    if (AreaMasterModel.done) {
+        Object.keys(AreaMasterModel.data).forEach(function (key) {
+            var area_master_model = AreaMasterModel.data[key];
+            if (area_master_model.name == name) {
+                return area_master_model.mastercode;
+            }
+        })
+    }
+    return -1;
+};
 
-$(document).ready(function(){
-    function setData(data){
+AreaMasterModel.data = [];
+AreaMasterModel.done = false;
+
+AreaMasterModel.afterRead = function () {
+    AreaMasterModel.done = true;
+};
+
+$(document).ready(function () {
+    function setData(data) {
         AreaMasterModel.data = data;
-        Event.updateMaster();
+        AreaMasterModel.afterRead();
+        Event.update();
     }
 
     AreaMasterModel.readCSV(setData);

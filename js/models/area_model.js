@@ -4,12 +4,18 @@
  */
 var AreaModel;
 AreaModel = (function () {
-    function AreaModel(row) {
+    function AreaModel(label, row) {
         this.mastercode = row[0];
         this.name = row[1];
         this.centerName = row[2];
         this.center = null;
         this.trash = [];
+        this.trashLabel = [];
+        for (var i = 3; i < MaxDescription; i++) {
+            if (label[i]) {
+                this.trashLabel[label[i]] = row[i];
+            }
+        }
     }
 
     /**
@@ -59,13 +65,15 @@ AreaModel = (function () {
     return AreaModel;
 })();
 
-AreaModel.readCSV = function (mastercode, remarks, func) {
-    $.get(AreaCSVFileName, function(data){
+AreaModel.readCSV = function (func) {
+    $.get(AreaCSVFileName, function (data) {
         var csv_array = Utility.csvToArray(data);
         var ret = [],
             area_label = csv_array.shift();
         csv_array.forEach(function (row) {
-            var area = new AreaModel(row);
+            var area = new AreaModel(area_label, row);
+            ret.push(area);
+            /*
             if (area.mastercode == mastercode) {
                 ret.push(area);
                 for (var r = 3; r < 3 + MaxDescription; r++) {
@@ -75,7 +83,47 @@ AreaModel.readCSV = function (mastercode, remarks, func) {
                     }
                 }
             }
+            */
         });
         func(ret);
     });
 };
+
+AreaModel.getAreaList = function (mastercode) {
+    var ret = [];
+    AreaModel.data.forEach(function (area_master_model) {
+        if (area_master_model.mastercode == mastercode) {
+            ret.push(area_master_model);
+        }
+    });
+    return ret;
+};
+
+AreaModel.data = [];
+AreaModel.done = false;
+
+AreaModel.afterRead = function() {
+    AreaModel.done = true;
+};
+
+AreaModel.afterDone = function () {
+    AreaModel.data.forEach(function (area_model) {
+        var label = area_model.trashLabel;
+        area_model.setCenter(CenterModel.data);
+        Object.keys(label).forEach(function (key) {
+            area_model.trash.push(new TrashModel(key, label[key], RemarkModel.data));
+        });
+        area_model.trashLabel = null;
+    });
+}
+
+
+$(document).ready(function () {
+    function setData(data) {
+        AreaModel.data = data;
+        AreaModel.afterRead();
+        Event.update();
+    }
+
+    AreaModel.readCSV(setData);
+});

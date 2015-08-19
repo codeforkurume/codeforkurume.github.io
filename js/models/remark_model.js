@@ -11,3 +11,33 @@ RemarkModel = (function () {
 
     return RemarkModel;
 }());
+
+RemarkModel.readCSV = function (func) {
+    $.get(RemarkCSVFileName, function (data) {
+        var csv_array = Utility.csvToArray(data),
+            ret = [];
+        csv_array.shift();
+        csv_array.forEach(function (row) {
+            var remark = new RemarkModel(row);
+            ret.push(remark);
+        });
+        func(ret);
+    });
+};
+
+RemarkModel.data = [];
+RemarkModel.done = false;
+
+RemarkModel.afterRead = function () {
+    RemarkModel.done = true;
+};
+
+$(document).ready(function () {
+    function setData(data) {
+        RemarkModel.data = data;
+        RemarkModel.afterRead();
+        Event.update();
+    }
+
+    RemarkModel.readCSV(setData);
+});

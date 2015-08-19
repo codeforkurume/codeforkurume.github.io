@@ -33,3 +33,20 @@ CenterModel.readCSV = function (func) {
         func(ret);
     });
 };
+
+CenterModel.data = [];
+CenterModel.done = false;
+
+CenterModel.afterRead = function () {
+    CenterModel.done = true;
+};
+
+$(document).ready(function () {
+    function setData(data) {
+        CenterModel.data = data;
+        CenterModel.afterRead();
+        Event.update();
+    }
+
+    CenterModel.readCSV(setData);
+});
