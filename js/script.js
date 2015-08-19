@@ -25,18 +25,6 @@ $(function () {
         select_form.change();
     }
 
-    function masterAreaList() {
-        var selected_master_name = Storage.getSelectedAreaMasterName();
-        createSelectElement("area_master", AreaMasterModel.data, selected_master_name);
-    }
-
-    function updateAreaList(mastercode) {
-        //ListメニューのHTML作成
-        var area_list = AreaModel.getAreaList(mastercode),
-            selected_name = Storage.getSelectedAreaName();
-        createSelectElement("area", area_list, selected_name);
-    }
-
     function createTrashList(targets) {
         var _ = Utility,
             list = [],
@@ -58,7 +46,7 @@ $(function () {
         return list;
     }
 
-    function createAccordion(areaModel) {
+    function createAccordionElement(areaModel) {
         var _ = Utility;
         //SVG が使えるかどうかの判定を行う。
         //TODO Android 2.3以下では見れない（代替の表示も含め）不具合が改善されてない。。
@@ -153,10 +141,10 @@ $(function () {
         return accordionHTML;
     }
 
-    function updateData(row_index) {
+    function updateAccordion(row_index) {
         var areaModel = AreaModel.data[row_index],
             accordion_elm = $("#accordion");
-        accordion_elm.html(createAccordion(areaModel));
+        accordion_elm.html(createAccordionElement(areaModel));
 
         $('html,body').animate({scrollTop: 0}, 'fast');
 
@@ -176,35 +164,6 @@ $(function () {
         });
     }
 
-    function onChangeSelect(row_index, type) {
-        var model;
-        if (type == "area") {
-            model = AreaModel;
-            updateData(row_index);
-        } else if (type == "area_master") {
-            model = AreaMasterModel;
-            updateAreaList(model.data[row_index].mastercode);
-        }
-
-        if (row_index == -1) {
-            initAccordion();
-            return;
-        }
-
-        localStorage.setItem(type, model.data[row_index].name);
-    }
-
-    function initAccordion(type) {
-        localStorage.setItem(type, "");
-        $("#accordion").html("");
-        if (type == "area_master") {
-            var dom = Utility.html("option", {value: "-1"},
-                Utility.text("地域を選択してください")
-            );
-            $("#select_area").html(dom);
-        }
-    }
-
     function getAreaIndex(area_name) {
         var area_models =  AreaModel.data;
         for (var i in area_models) {
@@ -215,12 +174,51 @@ $(function () {
         return -1;
     }
 
-    $(".select-field").on('change', function(e) {
+    $(".select-field").on('change', function (e) {
         // 1-indexのため
         var id = $(e.target).val() - 1,
             type = $(e.target).data('type');
-        onChangeSelect(id, type);
+        if (type == "area_master") {
+            areaMasterSelected(id);
+        } else if (type == "area") {
+            areaSelected(id);
+        }
     });
+
+    function initAccordion() {
+        $("#accordion").html("");
+    }
+
+    /*
+     * 地区が選択された時に呼ばれる
+     */
+    function areaMasterSelected(id) {
+        var name = "";
+        // 選択されているかどうか
+        if (id >= 0) {
+            name = AreaMasterModel.data[id].name;
+        } else {
+            initAccordion();
+        }
+        // localStorageを変更
+        Storage.setSelectedAreaMasterName(name);
+        updateAreaList();
+    }
+
+    /*
+     * 地域が選択された時に呼ばれる
+     */
+    function areaSelected(id) {
+        var name = "";
+        // 選択されているかどうか
+        if (id >= 0) {
+            name = AreaModel.data[id].name;
+            updateAccordion(id);
+        } else {
+            initAccordion();
+        }
+        Storage.setSelectedAreaName(name);
+    }
 
 
     //-----------------------------------
@@ -266,11 +264,36 @@ $(function () {
         }
     }
 
+    function updateMasterList() {
+        $("#select_area_master").html("");
+        var selected_master_name = Storage.getSelectedAreaMasterName();
+        createSelectElement("area_master", AreaMasterModel.data, selected_master_name);
+    }
+
+    function updateAreaList() {
+        var mastercode = AreaMasterModel.getMasterCodeByName(Storage.getSelectedAreaMasterName());
+        if (mastercode) {
+            var area_list = AreaModel.getAreaList(mastercode),
+                selected_name = Storage.getSelectedAreaName();
+            createSelectElement("area", area_list, selected_name);
+        } else {
+            var dom = Utility.html("option", {value: "-1"},
+                Utility.text("地域を選択してください")
+            );
+            $("#select_area").html(dom);
+        }
+    }
+
+    function initSelectList() {
+        updateMasterList();
+        updateAreaList();
+    }
+
     Event.update = function () {
         if (Event.done()) {
             AreaModel.afterDone();
             DescriptionModel.afterDone();
-            masterAreaList();
+            initSelectList();
         }
     };
 

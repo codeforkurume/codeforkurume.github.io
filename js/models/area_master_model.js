@@ -30,15 +30,13 @@ AreaMasterModel.readCSV = function (func) {
 };
 
 AreaMasterModel.getMasterCodeByName = function (name) {
-    if (AreaMasterModel.done) {
-        Object.keys(AreaMasterModel.data).forEach(function (key) {
-            var area_master_model = AreaMasterModel.data[key];
-            if (area_master_model.name == name) {
-                return area_master_model.mastercode;
-            }
-        })
-    }
-    return -1;
+    var ret = -1;
+    AreaMasterModel.data.forEach(function (area_master_model) {
+        if (area_master_model.name == name) {
+            ret = area_master_model.mastercode;
+        }
+    });
+    return ret;
 };
 
 AreaMasterModel.data = [];
