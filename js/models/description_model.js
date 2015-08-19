@@ -17,3 +17,28 @@ DescriptionModel = (function () {
 
     return DescriptionModel;
 })();
+
+DescriptionModel.readCSV = function (func) {
+    $.get(DesCriptionCSVFileName, function (data) {
+        var ret = [];
+        var csv_array = Utility.csvToArray(data);
+        var area_master_label = csv_array.shift();
+        csv_array.forEach(function (row) {
+            var area_master = new DescriptionModel(row);
+            ret.push(area_master);
+        });
+        func(ret);
+    });
+};
+
+DescriptionModel.done = false;
+
+$(document).ready(function(){
+    function setData(data) {
+        DescriptionModel.data = data;
+        DescriptionModel.done = true;
+        Event.update();
+    }
+
+    DescriptionModel.readCSV(setData);
+});
