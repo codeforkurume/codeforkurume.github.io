@@ -4,8 +4,6 @@ var Event = new Object();
 
 $(function () {
 
-    var descriptions = [];
-
     function createSelectElement(type, models, selected_name) {
         var createList = function (option, text) {
             return Utility.html("option", option, Utility.text(text));
@@ -37,33 +35,6 @@ $(function () {
         var area_list = AreaModel.getAreaList(mastercode),
             selected_name = Storage.getSelectedAreaName();
         createSelectElement("area", area_list, selected_name);
-    }
-
-    function createMenuList(after_action) {
-        $.get("data/description.csv", function (data) {
-            var csv_array = Utility.csvToArray(data);
-            csv_array.shift();
-            csv_array.forEach(function (description_data) {
-                descriptions.push(new DescriptionModel(description_data));
-            });
-
-            $.get("data/target.csv", function (data) {
-                var csv_array = Utility.csvToArray(data);
-                csv_array.shift();
-                csv_array.forEach(function (target_row_data) {
-                    var row = new TargetRowModel(target_row_data);
-                    for (var j = 0; j < descriptions.length; j++) {
-                        //一致してるものに追加する。
-                        if ((descriptions[j].name == row.type) && (descriptions[j].mastercode == row.mastercode)) { // 久留米仕様版
-                            descriptions[j].targets.push(row);
-                            break;
-                        }
-                    }
-                });
-                after_action();
-                $("#accordion2").show();
-            });
-        });
     }
 
     function createTrashList(targets) {
@@ -111,11 +82,12 @@ $(function () {
         //トラッシュの近い順にソートします。
         areaModel.sortTrash();
         //TODO 処理の内容が謎
-        var accordion_height = window.innerHeight / descriptions.length;
-        if (descriptions.length > 4) {
+        var description_length = DescriptionModel.data.length;
+        var accordion_height = window.innerHeight / description_length;
+        if (description_length > 4) {
             accordion_height = window.innerHeight / 4.1;
             if (accordion_height > 140) {
-                accordion_height = window.innerHeight / descriptions.length;
+                accordion_height = window.innerHeight / description_length;
             }
             if (accordion_height < 130) {
                 accordion_height = 130;
@@ -126,7 +98,7 @@ $(function () {
 
         //アコーディオンの分類から対応の計算を行います。
         areaModel.trash.forEach(function (trash, i) {
-            descriptions.every(function (description, d_no) {
+            DescriptionModel.data.every(function (description, d_no) {
                 if ((description.name != trash.name) || (description.mastercode != areaModel.mastercode)) { // 久留米仕様版
                     // everyメソッドではtrueを返すとcontinueと同じ動きをする
                     return true;
@@ -212,13 +184,7 @@ $(function () {
         }
         Storage.setSelectedAreaName(AreaModel.data[row_index].name);
 
-        if ($("#accordion").children().length === 0 && descriptions.length === 0) {
-            createMenuList(function () {
-                updateData(row_index);
-            });
-        } else {
-            updateData(row_index);
-        }
+        updateData(row_index);
     }
 
     // ★マスターの変更時
