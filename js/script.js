@@ -254,18 +254,14 @@ $(function () {
         return -1;
     }
 
-    // リストマスターが選択されたら
-    $("#select_area_master").change(function (data) {
-        var row_index = $(data.target).val();
-        //onChangeSelect(row_index);
-        // ★ここでselect area変更用の読み込み処理
-        onChangeSelectMaster(row_index);
-    });
-
-    //リストが選択されたら
-    $("#select_area").change(function (data) {
-        var row_index = $(data.target).val();
-        onChangeSelect(row_index);
+    $(".select-field").on('change', function(e) {
+        var row_index = $(e.target).val(),
+            type = $(e.target).data('type');
+        if (type == 'area') {
+            onChangeSelect(row_index);
+        } else if (type == 'area_master') {
+            onChangeSelectMaster(row_index);
+        }
     });
 
 
