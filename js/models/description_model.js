@@ -22,15 +22,16 @@ DescriptionModel.readCSV = function (func) {
     $.get(DesCriptionCSVFileName, function (data) {
         var ret = [];
         var csv_array = Utility.csvToArray(data);
-        var area_master_label = csv_array.shift();
+        var description_label = csv_array.shift();
         csv_array.forEach(function (row) {
-            var area_master = new DescriptionModel(row);
-            ret.push(area_master);
+            var description = new DescriptionModel(row);
+            ret.push(description);
         });
         func(ret);
     });
 };
 
+DescriptionModel.data = [];
 DescriptionModel.done = false;
 
 $(document).ready(function(){
