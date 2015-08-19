@@ -317,8 +317,6 @@ $(function () {
         if (Event.done()) {
             AreaModel.afterDone();
             masterAreaList();
-            var selected_master_name = Storage.getSelectedAreaMasterName();
-            updateAreaList(AreaMasterModel.getMasterCodeByName(selected_master_name));
         }
     };
 
