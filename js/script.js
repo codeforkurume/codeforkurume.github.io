@@ -39,7 +39,6 @@ $(function () {
         createSelectElement("area", area_list, selected_name);
     }
 
-
     function createMenuList(after_action) {
         $.get("data/description.csv", function (data) {
             var csv_array = Utility.csvToArray(data);
