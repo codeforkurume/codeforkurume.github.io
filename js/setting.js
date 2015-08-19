@@ -19,5 +19,4 @@ var AreaCSVFileName = "data/area_days.csv";
 var CenterCSVFileName = "data/center.csv";
 var DesCriptionCSVFileName = "data/description.csv";
 var RemarkCSVFileName = "data/remarks.csv";
-var TargetRowCSVFileName = "data/targt.csv";
-var TrashCSVFileName = "data/trash.csv";
+var TargetRowCSVFileName = "data/target.csv";

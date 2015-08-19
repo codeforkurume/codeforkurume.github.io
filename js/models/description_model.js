@@ -34,7 +34,17 @@ DescriptionModel.readCSV = function (func) {
 DescriptionModel.data = [];
 DescriptionModel.done = false;
 
-$(document).ready(function(){
+DescriptionModel.afterDone = function () {
+    DescriptionModel.data.forEach(function (description) {
+        TargetRowModel.data.forEach(function (target_row) {
+            if ((description.name == target_row.type) && (description.mastercode == target_row.mastercode)) {
+                description.targets.push(target_row);
+            }
+        });
+    });
+};
+
+$(document).ready(function () {
     function setData(data) {
         DescriptionModel.data = data;
         DescriptionModel.done = true;

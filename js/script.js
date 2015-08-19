@@ -312,12 +312,13 @@ $(function () {
     Event.update = function () {
         if (Event.done()) {
             AreaModel.afterDone();
+            DescriptionModel.afterDone();
             masterAreaList();
         }
     };
 
     Event.done = function () {
-        return AreaMasterModel.done && AreaModel.done && CenterModel.done && RemarkModel.done;
+        return AreaMasterModel.done && AreaModel.done && CenterModel.done && RemarkModel.done && DescriptionModel.done && TargetRowModel.done;
     }
 });
 
