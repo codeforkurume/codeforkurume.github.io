@@ -2,6 +2,8 @@
 
 /* var windowHeight; */
 
+var Event = new Object();
+
 $(function () {
     /*   windowHeight = $(window).height(); */
 
@@ -36,12 +38,15 @@ $(function () {
     function masterAreaList() {
         // ★エリアのマスターリストを読み込みます
         // 大阪府仕様。大阪府下の区一覧です
-        AreaMasterModel.readCSV(function (data) {
+        /*AreaMasterModel.readCSV(function (data) {
             areaMasterModels = data;
             // ListメニューのHTMLを作成
             var selected_master_name = Storage.getSelectedAreaMasterName();
             createSelectElement("area_master", areaMasterModels, selected_master_name);
-        });
+        });*/
+
+        var selected_master_name = Storage.getSelectedAreaMasterName();
+        createSelectElement("area_master", AreaMasterModel.data, selected_master_name);
     }
 
     function updateAreaList(mastercode) {
@@ -272,10 +277,10 @@ $(function () {
             return;
         }
 
-        Storage.setSelectedAreaMasterName(areaMasterModels[row_index].name);
-        updateAreaList(areaMasterModels[row_index].mastercode);
-    }
 
+        Storage.setSelectedAreaMasterName(AreaMasterModel.data[row_index].name);
+        updateAreaList(AreaMasterModel.data[row_index].mastercode);
+    }
 
     function getAreaIndex(area_name) {
         for (var i in areaModels) {
@@ -299,6 +304,7 @@ $(function () {
         var row_index = $(data.target).val();
         onChangeSelect(row_index);
     });
+
 
     //-----------------------------------
     //位置情報をもとに地域を自動的に設定する処理です。
@@ -343,7 +349,7 @@ $(function () {
         }
     }
 
-    masterAreaList();
-    //updateAreaList();
-
+    Event.updateMaster = function(){
+        masterAreaList();
+    }
 });
