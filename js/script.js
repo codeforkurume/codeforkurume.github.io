@@ -7,10 +7,7 @@ var Event = new Object();
 $(function () {
     /*   windowHeight = $(window).height(); */
 
-    var center_data = [];
     var descriptions = [];
-    var areaModels = [];
-    var remarks = [];
     /*   var descriptions = new Array(); */
 
     function createSelectElement(type, models, selected_name) {
@@ -48,15 +45,6 @@ $(function () {
 
 
     function createMenuList(after_action) {
-        // 備考データを読み込む
-        $.get("data/remarks.csv", function (data) {
-            var csv_array = Utility.csvToArray(data);
-            csv_array.shift();
-            csv_array.forEach(function (remark_data) {
-                remarks.push(new RemarkModel(remark_data));
-            });
-        });
-
         $.get("data/description.csv", function (data) {
             var csv_array = Utility.csvToArray(data);
             csv_array.shift();
@@ -199,7 +187,7 @@ $(function () {
     }
 
     function updateData(row_index) {
-        var areaModel = areaModels[row_index],
+        var areaModel = AreaModel.data[row_index],
             accordion_elm = $("#accordion");
         accordion_elm.html(createAccordion(areaModel));
 
@@ -227,7 +215,7 @@ $(function () {
             Storage.setSelectedAreaName("");
             return;
         }
-        Storage.setSelectedAreaName(areaModels[row_index].name);
+        Storage.setSelectedAreaName(AreaModel.data[row_index].name);
 
         if ($("#accordion").children().length === 0 && descriptions.length === 0) {
             createMenuList(function () {
@@ -262,8 +250,9 @@ $(function () {
     }
 
     function getAreaIndex(area_name) {
-        for (var i in areaModels) {
-            if (areaModels[i].name == area_name) {
+        var area_models =  AreaModel.data;
+        for (var i in area_models) {
+            if (area_models.name == area_name) {
                 return i;
             }
         }
@@ -330,6 +319,7 @@ $(function () {
 
     Event.update = function () {
         if (Event.done()) {
+            AreaModel.afterDone();
             masterAreaList();
             var selected_master_name = Storage.getSelectedAreaMasterName();
             updateAreaList(AreaMasterModel.getMasterCodeByName(selected_master_name));
