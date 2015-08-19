@@ -65,7 +65,7 @@ AreaModel = (function () {
     return AreaModel;
 })();
 
-AreaModel.readCSV = function (mastercode, remarks, func) {
+AreaModel.readCSV = function (func) {
     $.get(AreaCSVFileName, function (data) {
         var csv_array = Utility.csvToArray(data);
         var ret = [],
@@ -89,24 +89,41 @@ AreaModel.readCSV = function (mastercode, remarks, func) {
     });
 };
 
+AreaModel.getAreaList = function (mastercode) {
+    var ret = [];
+    AreaModel.data.forEach(function (area_master_model) {
+        if (area_master_model.mastercode == mastercode) {
+            ret.push(area_master_model);
+        }
+    });
+    return ret;
+};
+
 AreaModel.data = [];
+AreaModel.done = false;
 
 AreaModel.afterRead = function() {
+    AreaModel.done = true;
+};
+
+AreaModel.afterDone = function () {
     AreaModel.data.forEach(function (area_model) {
         var label = area_model.trashLabel;
+        area_model.setCenter(CenterModel.data);
         Object.keys(label).forEach(function (key) {
-            area_model.trash.push(new TrashModel(key, label[key]))
+            area_model.trash.push(new TrashModel(key, label[key], RemarkModel.data));
         });
         area_model.trashLabel = null;
-    })
-};
+    });
+}
 
 
 $(document).ready(function () {
     function setData(data) {
         AreaModel.data = data;
         AreaModel.afterRead();
+        Event.update();
     }
 
-    AreaModel.readCSV(1, [], setData);
+    AreaModel.readCSV(setData);
 });
