@@ -4,7 +4,6 @@
  */
 var AreaMasterModel;
 AreaMasterModel = (function () {
-
     function AreaMasterModel(row) {
         this.mastercode = row[0];
         this.name = row[1];
@@ -25,3 +24,14 @@ AreaMasterModel.readCSV = function (func) {
         func(ret);
     });
 };
+
+AreaMasterModel.data = [];
+
+$(document).ready(function(){
+    function setData(data){
+        AreaMasterModel.data = data;
+        Event.updateMaster();
+    }
+
+    AreaMasterModel.readCSV(setData);
+});
