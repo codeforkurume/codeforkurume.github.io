@@ -5,18 +5,18 @@
 var Storage;
 Storage = {
     getSelectedAreaName: function(){
-        return localStorage.getItem("selected_area_name");
+        return localStorage.getItem("area");
     },
 
     setSelectedAreaName: function(name){
-        localStorage.setItem("selected_area_name", name);
+        localStorage.setItem("area", name);
     },
 
     getSelectedAreaMasterName: function() {
-        return localStorage.getItem("selected_area_master_name");
+        return localStorage.getItem("area_master");
     },
 
     setSelectedAreaMasterName: function(name) {
-        localStorage.setItem("selected_area_master_name", name);
+        localStorage.setItem("area_master", name);
     }
 };

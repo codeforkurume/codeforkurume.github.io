@@ -176,38 +176,33 @@ $(function () {
         });
     }
 
-    function onChangeSelect(row_index) {
+    function onChangeSelect(row_index, type) {
+        var model;
+        if (type == "area") {
+            model = AreaModel;
+            updateData(row_index);
+        } else if (type == "area_master") {
+            model = AreaMasterModel;
+            updateAreaList(model.data[row_index].mastercode);
+        }
+
         if (row_index == -1) {
-            $("#accordion").html("");
-            Storage.setSelectedAreaName("");
+            initAccordion();
             return;
         }
-        Storage.setSelectedAreaName(AreaModel.data[row_index].name);
 
-        updateData(row_index);
+        localStorage.setItem(type, model.data[row_index].name);
     }
 
-    // ★マスターの変更時
-    function onChangeSelectMaster(row_index) {
-        var initSelectArea = function () {
-            var _ = Utility;
-            var dom = _.html("option", {value: "-1"},
-                _.text("地域を選択してください")
+    function initAccordion(type) {
+        localStorage.setItem(type, "");
+        $("#accordion").html("");
+        if (type == "area_master") {
+            var dom = Utility.html("option", {value: "-1"},
+                Utility.text("地域を選択してください")
             );
-            $("#accordion").html("");
             $("#select_area").html(dom);
-        };
-
-        if (row_index == -1) {
-            // 初期化
-            initSelectArea();
-            Storage.setSelectedAreaMasterName("");
-            return;
         }
-
-        var area_master = AreaMasterModel.data[row_index];
-        Storage.setSelectedAreaMasterName(area_master.name);
-        updateAreaList(area_master.mastercode);
     }
 
     function getAreaIndex(area_name) {
@@ -224,11 +219,7 @@ $(function () {
         // 1-indexのため
         var id = $(e.target).val() - 1,
             type = $(e.target).data('type');
-        if (type == 'area') {
-            onChangeSelect(id);
-        } else if (type == 'area_master') {
-            onChangeSelectMaster(id);
-        }
+        onChangeSelect(id, type);
     });
 
 
