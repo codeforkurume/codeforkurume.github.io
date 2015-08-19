@@ -11,7 +11,6 @@ $(function () {
     var descriptions = [];
     var areaModels = [];
     var remarks = [];
-    var areaMasterModels = [];
     /*   var descriptions = new Array(); */
 
     function createSelectElement(type, models, selected_name) {
@@ -36,15 +35,6 @@ $(function () {
     }
 
     function masterAreaList() {
-        // ★エリアのマスターリストを読み込みます
-        // 大阪府仕様。大阪府下の区一覧です
-        /*AreaMasterModel.readCSV(function (data) {
-            areaMasterModels = data;
-            // ListメニューのHTMLを作成
-            var selected_master_name = Storage.getSelectedAreaMasterName();
-            createSelectElement("area_master", areaMasterModels, selected_master_name);
-        });*/
-
         var selected_master_name = Storage.getSelectedAreaMasterName();
         createSelectElement("area_master", AreaMasterModel.data, selected_master_name);
     }
