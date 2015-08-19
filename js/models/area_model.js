@@ -115,7 +115,7 @@ AreaModel.afterDone = function () {
         });
         area_model.trashLabel = null;
     });
-}
+};
 
 
 $(document).ready(function () {
