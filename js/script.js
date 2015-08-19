@@ -223,8 +223,8 @@ $(function () {
             Storage.setSelectedAreaName("");
             return;
         }
-        Storage.setSelectedAreaName(areaModels[row_index].name);
-
+        //Storage.setSelectedAreaName(areaModels[row_index].name);
+        Storage.setSelectedAreaName(AreaModel.data[row_index].name);
         if ($("#accordion").children().length === 0 && descriptions.length === 0) {
             createMenuList(function () {
                 updateData(row_index);
