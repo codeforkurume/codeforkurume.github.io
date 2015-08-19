@@ -44,14 +44,10 @@ AreaMasterModel.getMasterCodeByName = function (name) {
 AreaMasterModel.data = [];
 AreaMasterModel.done = false;
 
-AreaMasterModel.afterRead = function () {
-    AreaMasterModel.done = true;
-};
-
 $(document).ready(function () {
     function setData(data) {
         AreaMasterModel.data = data;
-        AreaMasterModel.afterRead();
+        AreaMasterModel.done = true;
         Event.update();
     }
 

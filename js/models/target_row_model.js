@@ -15,3 +15,29 @@ TargetRowModel = (function () {
 
     return TargetRowModel;
 })();
+
+TargetRowModel.readCSV = function (func) {
+    $.get(TargetRowCSVFileName, function (data) {
+        var csv_array = Utility.csvToArray(data);
+        var ret = [];
+        csv_array.shift();
+        csv_array.forEach(function (row) {
+            var target = new TargetRowModel(row);
+            ret.push(target);
+        });
+        func(ret);
+    })
+};
+
+TargetRowModel.data = [];
+TargetRowModel.done = false;
+
+$(document).ready(function () {
+    function setData(data) {
+        TargetRowModel.data = data;
+        TargetRowModel.done = true;
+        Event.update();
+    }
+
+    TargetRowModel.readCSV(setData);
+});

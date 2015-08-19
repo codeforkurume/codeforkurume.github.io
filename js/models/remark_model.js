@@ -28,14 +28,10 @@ RemarkModel.readCSV = function (func) {
 RemarkModel.data = [];
 RemarkModel.done = false;
 
-RemarkModel.afterRead = function () {
-    RemarkModel.done = true;
-};
-
 $(document).ready(function () {
     function setData(data) {
         RemarkModel.data = data;
-        RemarkModel.afterRead();
+        RemarkModel.done = true;
         Event.update();
     }
 

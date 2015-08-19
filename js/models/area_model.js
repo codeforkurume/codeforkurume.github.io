@@ -97,10 +97,6 @@ AreaModel.getAreaList = function (mastercode) {
 AreaModel.data = [];
 AreaModel.done = false;
 
-AreaModel.afterRead = function() {
-    AreaModel.done = true;
-};
-
 AreaModel.afterDone = function () {
     AreaModel.data.forEach(function (area_model) {
         var label = area_model.trashLabel;
@@ -116,7 +112,7 @@ AreaModel.afterDone = function () {
 $(document).ready(function () {
     function setData(data) {
         AreaModel.data = data;
-        AreaModel.afterRead();
+        AreaModel.done = true;
         Event.update();
     }
 
