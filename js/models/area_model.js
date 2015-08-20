@@ -94,6 +94,18 @@ AreaModel.getAreaList = function (mastercode) {
     return ret;
 };
 
+
+AreaModel.getAreaIndex = function (area_name) {
+    var area_models =  AreaModel.data;
+    for (var i in area_models) {
+        if (area_models.name == area_name) {
+            return i;
+        }
+    }
+    return -1;
+};
+
+
 AreaModel.data = [];
 AreaModel.done = false;
 

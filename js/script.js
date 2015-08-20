@@ -154,16 +154,6 @@ $(function () {
         });
     }
 
-    function getAreaIndex(area_name) {
-        var area_models =  AreaModel.data;
-        for (var i in area_models) {
-            if (area_models.name == area_name) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
     $(".select-field").on('change', function (e) {
         // 1-indexのため
         var id = $(e.target).val() - 1,
@@ -223,7 +213,7 @@ $(function () {
             }, function (data) {
                 if (data.result == true) {
                     var area_name = data.candidate;
-                    var index = getAreaIndex(area_name);
+                    var index = AreaModel.getAreaIndex(area_name);
                     $("#select_area").val(index).change();
                     alert(area_name + "が設定されました");
                 } else {
@@ -279,11 +269,23 @@ $(function () {
         updateAreaList();
     }
 
+    function renderCalendar() {
+        var calendar = new Calendar(),
+            dom = $("#calendar_body"),
+            selected_area_name = Storage.getSelectedAreaName();
+        var area_index = AreaModel.getAreaIndex(selected_area_name);
+        if (area_index == -1) {
+            return -1;
+        }
+        calendar.render(dom, AreaModel.data[area_index]);
+    }
+
     Event.update = function () {
         if (Event.done()) {
             AreaModel.afterDone();
             DescriptionModel.afterDone();
             initSelectList();
+            renderCalendar();
         }
     };
 

@@ -116,6 +116,19 @@ a:hover {
 	margin-left: 5px;
 }
 
+#accordion_calendar a.accordion-toggle-top {
+	color: #000000;
+	height: 22px;
+	display: block;
+	text-align: left;
+	font-size: 25px;
+	margin: 15px 0 15px 15px;
+}
+
+#accordion_calendar a.accordion-toggle-top:hover {
+	color: #000000;
+}
+
 /*!
  * Maybe not in use. Remove these later.
  */
