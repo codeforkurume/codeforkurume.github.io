@@ -20,3 +20,6 @@ var CenterCSVFileName = "data/center.csv";
 var DesCriptionCSVFileName = "data/description.csv";
 var RemarkCSVFileName = "data/remarks.csv";
 var TargetRowCSVFileName = "data/target.csv";
+
+//補完の候補の最大数
+var MaxCandidateNum = 5;

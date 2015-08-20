@@ -301,7 +301,6 @@ $(function () {
         })
     });
 
-
     function done ()  {
         for (var i = 0; i < Models.length; i++) {
             if (!Models[i].done) {
@@ -310,5 +309,16 @@ $(function () {
         }
         return true;
     }
+
+    event.$on("updateArea",
+        function(area_master, area){
+            var select_area_master = $("#select_area_master");
+            select_area_master.val(area_master.mastercode);
+            select_area_master.change();
+            var select_area = $("#select_area");
+            select_area.val(area.id);
+            select_area.change();
+        }
+    );
 });
 
