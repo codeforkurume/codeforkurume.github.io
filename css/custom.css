@@ -162,3 +162,11 @@ a:hover {
 	 color: #FF0000;
 	 text-decoration: underline;
 }
+
+#search{
+	margin-top: 10px;
+}
+
+.candidate:hover{
+	background: #D8D8D8;
+}
