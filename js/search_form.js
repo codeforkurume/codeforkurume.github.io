@@ -38,6 +38,27 @@ Search.getCandidate = function(text){
 };
 
 /**
+ * Selectの中のCandidateを更新する
+ */
+Search.changeSelectCandidate = function(areas){
+    var select = $("#select_candidate");
+    select.empty();
+    function addOption(area){
+        var option = $(
+            "<option></option>",
+            {
+                value: area.name,
+                text: area.name
+            }
+        );
+        console.log(option);
+        select.append(option);
+    }
+
+    areas.forEach(addOption);
+};
+
+/**
  * 検索用のinputが変更されたときの処理。
  */
 Search.updateInput = function(){
@@ -50,9 +71,9 @@ Search.updateInput = function(){
     }
 
     var area_candidate = Search.getCandidate(input);
+    Search.changeSelectCandidate(area_candidate);
     console.log("candidate: "+area_candidate[0].name);
     console.log(input);
-    console.log(area);
 };
 
 $("#input_area").keyup(Search.updateInput);
