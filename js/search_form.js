@@ -41,21 +41,24 @@ Search.getCandidate = function(text){
  * Select‚Ì’†‚ÌCandidate‚ğXV‚·‚é
  */
 Search.changeSelectCandidate = function(areas){
-    var select = $("#select_candidate");
-    select.empty();
-    function addOption(area){
-        var option = $(
-            "<option></option>",
-            {
-                value: area.name,
-                text: area.name
-            }
-        );
-        console.log(option);
-        select.append(option);
+    function updateDiv(div, text){
+        console.log(div);
+        $(div).text(text);
     }
 
-    areas.forEach(addOption);
+    var select = $("#candidates");
+    var children = select.children();
+    //Œó•â‚ğã‘‚«
+    var length = Math.min(children.length, areas.length);
+    for(var i=0;i<length;i++){
+        updateDiv(children[i], areas[i].name);
+    }
+
+    //ã‘‚«‚µ‚Ä‚È‚¢•”•ª‚ğ‹ó•¶š‚Å–„‚ß‚é
+    while(length<children.length){
+        updateDiv(children[length], "");
+        length++;
+    }
 };
 
 /**
@@ -76,4 +79,16 @@ Search.updateInput = function(){
     console.log(input);
 };
 
+Search.changeSelect = function(e){
+    console.log(e);
+    var area_name = $(e.target).text();
+    var input_area = $("#input_area");
+    input_area.val(area_name);
+    Search.updateInput();
+
+    console.log(area_name);
+};
+
 $("#input_area").keyup(Search.updateInput);
+
+$(".candidate").click(Search.changeSelect);
