@@ -31,13 +31,3 @@ TargetRowModel.readCSV = function (func) {
 
 TargetRowModel.data = [];
 TargetRowModel.done = false;
-
-$(document).ready(function () {
-    function setData(data) {
-        TargetRowModel.data = data;
-        TargetRowModel.done = true;
-        Event.getInstance().$emit('update');
-    }
-
-    TargetRowModel.readCSV(setData);
-});

@@ -44,12 +44,3 @@ DescriptionModel.afterDone = function () {
     });
 };
 
-$(document).ready(function () {
-    function setData(data) {
-        DescriptionModel.data = data;
-        DescriptionModel.done = true;
-        Event.getInstance().$emit('update');
-    }
-
-    DescriptionModel.readCSV(setData);
-});

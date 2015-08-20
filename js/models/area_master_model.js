@@ -42,12 +42,3 @@ AreaMasterModel.getMasterCodeByName = function (name) {
 AreaMasterModel.data = [];
 AreaMasterModel.done = false;
 
-$(document).ready(function () {
-    function setData(data) {
-        AreaMasterModel.data = data;
-        AreaMasterModel.done = true;
-        Event.getInstance().$emit('update');
-    }
-
-    AreaMasterModel.readCSV(setData);
-});

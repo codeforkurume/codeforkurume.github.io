@@ -37,12 +37,3 @@ CenterModel.readCSV = function (func) {
 CenterModel.data = [];
 CenterModel.done = false;
 
-$(document).ready(function () {
-    function setData(data) {
-        CenterModel.data = data;
-        CenterModel.done = true;
-        Event.getInstance().$emit('update');
-    }
-
-    CenterModel.readCSV(setData);
-});

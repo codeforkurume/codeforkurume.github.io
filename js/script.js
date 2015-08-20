@@ -278,18 +278,37 @@ $(function () {
         calendar.render(dom, AreaModel.data[area_index]);
     }
 
-    var event = Event.getInstance();
+    var Models = [AreaMasterModel, AreaModel, CenterModel, DescriptionModel, TargetRowModel],
+        event = Event.getInstance();
+
     event.$on('update', function() {
         if (done()) {
-            AreaModel.afterDone();
-            DescriptionModel.afterDone();
+            Models.forEach(function (model) {
+                if (typeof model.afterDone === 'function') {
+                    model.afterDone();
+                }
+            });
             initSelectList();
             renderCalendar();
         }
     });
 
+    Models.forEach(function(model) {
+        model.readCSV(function (data) {
+            model.data = data;
+            model.done = true;
+            Event.getInstance().$emit('update');
+        })
+    });
+
+
     function done ()  {
-        return AreaMasterModel.done && AreaModel.done && CenterModel.done && RemarkModel.done && DescriptionModel.done && TargetRowModel.done;
+        for (var i = 0; i < Models.length; i++) {
+            if (!Models[i].done) {
+                return false;
+            }
+        }
+        return true;
     }
 });
 
