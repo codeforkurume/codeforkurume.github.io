@@ -28,12 +28,3 @@ RemarkModel.readCSV = function (func) {
 RemarkModel.data = [];
 RemarkModel.done = false;
 
-$(document).ready(function () {
-    function setData(data) {
-        RemarkModel.data = data;
-        RemarkModel.done = true;
-        Event.update();
-    }
-
-    RemarkModel.readCSV(setData);
-});

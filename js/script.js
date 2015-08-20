@@ -1,7 +1,5 @@
 "use strict";
 
-var Event = new Object();
-
 $(function () {
 
     function createSelectElement(type, models, selected_name) {
@@ -154,16 +152,6 @@ $(function () {
         });
     }
 
-    function getAreaIndex(area_name) {
-        var area_models =  AreaModel.data;
-        for (var i in area_models) {
-            if (area_models.name == area_name) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
     $(".select-field").on('change', function (e) {
         // 1-indexのため
         var id = $(e.target).val() - 1,
@@ -223,7 +211,7 @@ $(function () {
             }, function (data) {
                 if (data.result == true) {
                     var area_name = data.candidate;
-                    var index = getAreaIndex(area_name);
+                    var index = AreaModel.getAreaIndex(area_name);
                     $("#select_area").val(index).change();
                     alert(area_name + "が設定されました");
                 } else {
@@ -279,16 +267,48 @@ $(function () {
         updateAreaList();
     }
 
-    Event.update = function () {
-        if (Event.done()) {
-            AreaModel.afterDone();
-            DescriptionModel.afterDone();
-            initSelectList();
+    function renderCalendar() {
+        var calendar = new Calendar(),
+            dom = $("#calendar_body"),
+            selected_area_name = Storage.getSelectedAreaName();
+        var area_index = AreaModel.getAreaIndex(selected_area_name);
+        if (area_index == -1) {
+            return -1;
         }
-    };
+        calendar.render(dom, AreaModel.data[area_index]);
+    }
 
-    Event.done = function () {
-        return AreaMasterModel.done && AreaModel.done && CenterModel.done && RemarkModel.done && DescriptionModel.done && TargetRowModel.done;
+    var Models = [AreaMasterModel, AreaModel, CenterModel, DescriptionModel, TargetRowModel],
+        event = Event.getInstance();
+
+    event.$on('update', function() {
+        if (done()) {
+            Models.forEach(function (model) {
+                if (typeof model.afterDone === 'function') {
+                    model.afterDone();
+                }
+            });
+            initSelectList();
+            renderCalendar();
+        }
+    });
+
+    Models.forEach(function(model) {
+        model.readCSV(function (data) {
+            model.data = data;
+            model.done = true;
+            Event.getInstance().$emit('update');
+        })
+    });
+
+
+    function done ()  {
+        for (var i = 0; i < Models.length; i++) {
+            if (!Models[i].done) {
+                return false;
+            }
+        }
+        return true;
     }
 });
 
