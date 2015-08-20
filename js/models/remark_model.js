@@ -32,7 +32,7 @@ $(document).ready(function () {
     function setData(data) {
         RemarkModel.data = data;
         RemarkModel.done = true;
-        Event.update();
+        Event.getInstance().$emit('update');
     }
 
     RemarkModel.readCSV(setData);

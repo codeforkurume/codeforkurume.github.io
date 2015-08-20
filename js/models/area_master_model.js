@@ -46,7 +46,7 @@ $(document).ready(function () {
     function setData(data) {
         AreaMasterModel.data = data;
         AreaMasterModel.done = true;
-        Event.update();
+        Event.getInstance().$emit('update');
     }
 
     AreaMasterModel.readCSV(setData);

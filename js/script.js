@@ -1,7 +1,5 @@
 "use strict";
 
-var Event = new Object();
-
 $(function () {
 
     function createSelectElement(type, models, selected_name) {
@@ -280,16 +278,17 @@ $(function () {
         calendar.render(dom, AreaModel.data[area_index]);
     }
 
-    Event.update = function () {
-        if (Event.done()) {
+    var event = Event.getInstance();
+    event.$on('update', function() {
+        if (done()) {
             AreaModel.afterDone();
             DescriptionModel.afterDone();
             initSelectList();
             renderCalendar();
         }
-    };
+    });
 
-    Event.done = function () {
+    function done ()  {
         return AreaMasterModel.done && AreaModel.done && CenterModel.done && RemarkModel.done && DescriptionModel.done && TargetRowModel.done;
     }
 });

@@ -48,7 +48,7 @@ $(document).ready(function () {
     function setData(data) {
         DescriptionModel.data = data;
         DescriptionModel.done = true;
-        Event.update();
+        Event.getInstance().$emit('update');
     }
 
     DescriptionModel.readCSV(setData);

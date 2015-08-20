@@ -36,7 +36,7 @@ $(document).ready(function () {
     function setData(data) {
         TargetRowModel.data = data;
         TargetRowModel.done = true;
-        Event.update();
+        Event.getInstance().$emit('update');
     }
 
     TargetRowModel.readCSV(setData);

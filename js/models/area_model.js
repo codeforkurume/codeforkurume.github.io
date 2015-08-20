@@ -128,7 +128,7 @@ $(document).ready(function () {
     function setData(data) {
         AreaModel.data = data;
         AreaModel.done = true;
-        Event.update();
+        Event.getInstance().$emit('update');
     }
 
     AreaModel.readCSV(setData);

@@ -41,7 +41,7 @@ $(document).ready(function () {
     function setData(data) {
         CenterModel.data = data;
         CenterModel.done = true;
-        Event.update();
+        Event.getInstance().$emit('update');
     }
 
     CenterModel.readCSV(setData);
