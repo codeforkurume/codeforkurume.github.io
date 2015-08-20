@@ -9,15 +9,17 @@ AreaModel = (function () {
         this.id = row_index + 1;
         this.mastercode = row[0];
         this.name = row[1];
-        this.centerName = row[2];
+        this.furigana = row[2];
+        this.centerName = row[3];
         this.center = null;
         this.trash = [];
         this.trashLabel = [];
-        for (var i = 3; i < MaxDescription; i++) {
+        for (var i = 4; i < MaxDescription; i++) {
             if (label[i]) {
                 this.trashLabel[label[i]] = row[i];
             }
         }
+        console.log(this);
     }
 
     AreaModel.prototype.getId = function () {
@@ -73,6 +75,7 @@ AreaModel = (function () {
 
 AreaModel.readCSV = function (func) {
     $.get(AreaCSVFileName, function (data) {
+        console.log(data);
         var csv_array = Utility.csvToArray(data);
         var ret = [],
             area_label = csv_array.shift();
