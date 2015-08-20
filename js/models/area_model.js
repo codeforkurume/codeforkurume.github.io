@@ -19,7 +19,6 @@ AreaModel = (function () {
                 this.trashLabel[label[i]] = row[i];
             }
         }
-        console.log(this);
     }
 
     AreaModel.prototype.getId = function () {
@@ -75,7 +74,6 @@ AreaModel = (function () {
 
 AreaModel.readCSV = function (func) {
     $.get(AreaCSVFileName, function (data) {
-        console.log(data);
         var csv_array = Utility.csvToArray(data);
         var ret = [],
             area_label = csv_array.shift();

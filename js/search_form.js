@@ -21,6 +21,25 @@ Search.getMatchArea = function(text){
     return return_value;
 };
 
+/**
+ * text‚©‚çŒŸõ•âŠ®‚ÌŒó•â‚ğæ“¾‚·‚é
+ * return AreaModel
+ */
+Search.getCandidate = function(text){
+    var return_area = [];
+    function pushCandidate(area){
+        if(area.name.indexOf(text)!=-1 || area.furigana.indexOf(text)!=-1){
+            return_area.push(area);
+        }
+    }
+
+    AreaModel.data.forEach(pushCandidate);
+    return return_area;
+};
+
+/**
+ * ŒŸõ—p‚Ìinput‚ª•ÏX‚³‚ê‚½‚Æ‚«‚Ìˆ—B
+ */
 Search.updateInput = function(){
     var input = $("#input_area").val();
     var area = Search.getMatchArea(input);
@@ -29,6 +48,9 @@ Search.updateInput = function(){
         var area_master = AreaMasterModel.data[area.mastercode-1];
         console.log(area_master);
     }
+
+    var area_candidate = Search.getCandidate(input);
+    console.log("candidate: "+area_candidate[0].name);
     console.log(input);
     console.log(area);
 };
