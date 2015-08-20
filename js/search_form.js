@@ -41,24 +41,27 @@ Search.getCandidate = function(text){
  * Select‚Ì’†‚ÌCandidate‚ğXV‚·‚é
  */
 Search.changeSelectCandidate = function(areas){
-    function updateDiv(div, text){
-        console.log(div);
-        $(div).text(text);
-    }
-
     var select = $("#candidates");
-    var children = select.children();
-    //Œó•â‚ğã‘‚«
-    var length = Math.min(children.length, areas.length);
-    for(var i=0;i<length;i++){
-        updateDiv(children[i], areas[i].name);
+
+    function pushDiv(div, text){
+        var div = $(
+            "<div></div>",
+            {
+                text: text,
+                "class": "candidate"
+            }
+        );
+        select.append(div);
     }
 
-    //ã‘‚«‚µ‚Ä‚È‚¢•”•ª‚ğ‹ó•¶š‚Å–„‚ß‚é
-    while(length<children.length){
-        updateDiv(children[length], "");
-        length++;
+    select.empty();
+    //Œó•â‚ğ’Ç‰Á
+    var children = select.children();
+    var length = Math.min(MaxCandidateNum, areas.length);
+    for(var i=0;i<length;i++){
+        pushDiv(children[i], areas[i].name);
     }
+    $(".candidate").click(Search.changeSelect);
 };
 
 /**
@@ -70,25 +73,18 @@ Search.updateInput = function(){
 
     if(area!=null){
         var area_master = AreaMasterModel.data[area.mastercode-1];
-        console.log(area_master);
+        Event.getInstance().$emit("updateArea", area_master, area);
     }
 
     var area_candidate = Search.getCandidate(input);
     Search.changeSelectCandidate(area_candidate);
-    console.log("candidate: "+area_candidate[0].name);
-    console.log(input);
 };
 
 Search.changeSelect = function(e){
-    console.log(e);
     var area_name = $(e.target).text();
     var input_area = $("#input_area");
     input_area.val(area_name);
     Search.updateInput();
-
-    console.log(area_name);
 };
 
 $("#input_area").keyup(Search.updateInput);
-
-$(".candidate").click(Search.changeSelect);
