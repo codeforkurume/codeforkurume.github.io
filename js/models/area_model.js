@@ -99,7 +99,7 @@ AreaModel.getAreaList = function (mastercode) {
 AreaModel.getAreaIndex = function (area_name) {
     var area_models =  AreaModel.data;
     for (var i in area_models) {
-        if (area_models.name == area_name) {
+        if (area_models[i].name == area_name) {
             return i;
         }
     }
