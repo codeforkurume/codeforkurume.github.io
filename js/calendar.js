@@ -89,47 +89,43 @@ Calendar = (function () {
     }
 
     /*
-     * ごみのデータを，週ごとにわけて返す(3次元配列
+     * ごみのデータを，週ごとにわけて月の分だけ返す(3次元配列
      */
     Calendar.prototype.getCalendarData = function(trash_list) {
         var ret = [],
             trash_day_list = this.getTrashList(trash_list);
 
-        var beginning_of_month = new Date(this.year, this.month - 1, 1);
+        var beginning_of_month = new Date(this.year, this.month - 1, 1),
+            end_of_month = new Date(this.year, this.month, 0);
 
-        var flg = false,
-            first_date = 8 - beginning_of_month.getDay();
+        // 週の初めの日付
+        // 負の数になる場合，前の月をDateは取得してくれるため
+        var first_date = 1 - beginning_of_month.getDay();
 
-        // FIXME: 処理が汚い
         for (var week = 0; week < 6; week++) {
-            var push_data = [], day;
-            if (flg) break;
-            for (day = 0; day < 7; day++) {
-                var insertion_value = {},
-                    val = [], date = 0;
-                if (week == 0) {
-                    var diff = day - beginning_of_month.getDay();
-                    // dateは日付なので1-index
-                    insertion_value.date = diff + 1;
-                    if (diff >= 0) {
-                        val = trash_day_list[diff];
-                    }
-                    insertion_value.trash = val;
-                    push_data.push(insertion_value);
-                }
-                else {
-                    if (flg || first_date > this.day_long) {
-                        flg = true;
-                    } else {
-                        val = trash_day_list[first_date - 1];
-                        date = first_date;
-                    }
-                    insertion_value = {date: date, trash: val};
-                    push_data.push(insertion_value);
-                    first_date++;
-                }
+            var push_data = this.getCalendarWeekData(trash_day_list, first_date);
+            if (push_data[0].date > end_of_month.getDate()) {
+                break;
             }
+            first_date += 7;
             ret.push(push_data);
+        }
+        return ret;
+    };
+
+    /*
+     * ある週のゴミのデータを返す
+     */
+    Calendar.prototype.getCalendarWeekData = function (trash_day_list, first_date) {
+        var ret = [];
+        for (var day = 0; day < 7; day++) {
+            var val = [],
+                date = new Date(this.year, this.month - 1, first_date);
+            if (date.getMonth() + 1 == this.month) {
+                val = trash_day_list[first_date - 1];
+            }
+            ret.push({date: first_date, trash: val});
+            first_date++;
         }
         return ret;
     };
