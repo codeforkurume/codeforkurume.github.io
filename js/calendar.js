@@ -15,24 +15,61 @@ Calendar = (function () {
     }
 
     Calendar.prototype.render = function (element, area) {
-        var calendar_element = Utility.html("table", {class: 'calendar'});
+        var calendar_element = Utility.html("table", {class: 'calendar', style: 'height: ' + window.innerHeight + 'px;'});
 
         var data = this.getCalendarData(area.trash);
         var height = window.innerHeight / data.length;
         var that = this;
         data.forEach(function (row) {
-            var tr = Utility.html("tr", {style: "height: " + height + "px;"});
-            row.forEach(function (col) {
-                // col.dateが自然数の場合だけ8月になる
-                var col_elm = createCalendarDayElement(col.trash, new Date(that.year, that.month - 1, col.date), that.month);
-                tr.appendChild(col_elm);
-            });
-            calendar_element.appendChild(tr);
+            var option = {style: "height: " + height + "px;"};
+            var date = new Date(that.year, that.month - 1);
+            calendar_element.appendChild(createCalendarWeekElement(row, date, that.month, option))
         });
 
         element.append($(calendar_element));
     };
 
+    function createCalendarWeekElement(row, date, month, option) {
+        var tr = Utility.html("tr", option);
+        row.forEach(function (col) {
+            // col.dateが自然数の場合だけ8月になる
+            var col_elm = createCalendarDayElement(col.trash, new Date(date.getFullYear(), date.getMonth(), col.date), month);
+            tr.appendChild(col_elm);
+        });
+        return tr;
+    }
+
+    /*
+     * その日のゴミのデータからDOMを構築して返す
+     */
+    function createCalendarDayElement(trash_list, date, month) {
+        var option = {};
+        option.style = "width: " + (window.innerWidth / 7) + "px;";
+        var date_label = Utility.html("div", {class: 'calendar-content-header'});
+        date_label.innerHTML = "&nbsp;";
+        if (date.getMonth() + 1 == month) {
+            option['data-date'] = date.getDate();
+            date_label.innerHTML = date.getDate();
+        } else {
+            option.class = "not_m";
+        }
+        var ret = Utility.html("ul", {});
+        trash_list.forEach(function (trash_day) {
+            var dom = Utility.html("li", {});
+            dom.innerHTML = trash_day;
+            ret.appendChild(dom);
+        });
+        return Utility.html('td', option,
+            date_label,
+            Utility.html("div", {class: 'calendar-content-body'} ,
+                ret
+            )
+        );
+    }
+
+    /*
+     * ごみのデータを，週ごとにわけて返す(3次元配列
+     */
     Calendar.prototype.getCalendarData = function(trash_list) {
         var ret = [],
             trash_day_list = this.getTrashList(trash_list);
@@ -41,6 +78,8 @@ Calendar = (function () {
 
         var flg = false,
             first_date = 8 - beginning_of_month.getDay();
+
+        // FIXME: 処理が汚い
         for (var week = 0; week < 6; week++) {
             var push_data = [], day;
             if (flg) break;
@@ -93,25 +132,6 @@ Calendar = (function () {
         }.bind(this));
         return trash_day_list;
     };
-
-    function createCalendarDayElement(trash_list, date, month) {
-        var option = {};
-        option.style = "width: " + (window.innerWidth / 7) + "px;";
-        var date_label = Utility.html('h4');
-        if (date.getMonth() + 1 == month) {
-            option['data-date'] = date.getDate();
-            date_label.innerHTML = date.getDate();
-        }
-        var ret = Utility.html("ul", {});
-        trash_list.forEach(function (trash_day) {
-            var dom = Utility.html("li", {});
-            dom.innerHTML = trash_day;
-            ret.appendChild(dom);
-        });
-        return Utility.html('td', option,
-            date_label,
-            ret);
-    }
 
     Calendar.prototype.setYear = function (year) {
         this.year = parseInt(year);

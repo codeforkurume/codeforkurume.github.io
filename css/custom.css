@@ -129,20 +129,58 @@ a:hover {
 	color: #000000;
 }
 
-.calendar {
-	width: 100%;
-}
-
-.calendar tr {
-	background-color: #f9f9f9;
-}
-
-.calendar td {
-	height: inherit;
+#calendar_body {
 	padding: 0;
 }
 
+.calendar {
+	width: 100%;
+	display: table;
+	table-layout: fixed;
+	margin: 0 auto;
+	border-collapse: collapse;
+}
+
+table {
+	border-spacing: 2px;
+}
+
+.calendar tr {
+	display: table-row;
+	vertical-align: inherit;
+	border-color: inherit;
+}
+
+.calendar td {
+	border: 1px solid #ccc;
+	height: inherit;
+	padding: 0;
+	margin: 0;
+	display: table-cell;
+	color: #666;
+	min-height: 100px;
+}
+
+.calendar .not_m {
+	background-color: #eaeaea;
+}
+
+.calendar-content-header {
+	height: 40px;
+	text-align: right;
+	vertical-align: middle;
+	font-size: 1.3em;
+	font-weight: bold;
+	padding: 5px 15px 5px 5px;
+	color: #333;
+}
+
+.calendar-content-body {
+	height: 80px;
+}
+
 .calendar ul {
+	padding-left: 5px;
 	list-style: none;
 }
 /*!
