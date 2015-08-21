@@ -97,37 +97,25 @@ Calendar = (function () {
 
         var beginning_of_month = new Date(this.year, this.month - 1, 1);
 
+        // first_dateはカレンダーの左上
+        // 負の数になる場合，前の月をDateは取得してくれるため
         var flg = false,
-            first_date = 8 - beginning_of_month.getDay();
+            first_date = 1 - beginning_of_month.getDay();
 
-        // FIXME: 処理が汚い
         for (var week = 0; week < 6; week++) {
-            var push_data = [], day;
+            var push_data = [];
             if (flg) break;
-            for (day = 0; day < 7; day++) {
-                var insertion_value = {},
-                    val = [], date = 0;
-                if (week == 0) {
-                    var diff = day - beginning_of_month.getDay();
-                    // dateは日付なので1-index
-                    insertion_value.date = diff + 1;
-                    if (diff >= 0) {
-                        val = trash_day_list[diff];
-                    }
-                    insertion_value.trash = val;
-                    push_data.push(insertion_value);
+            for (var day = 0; day < 7; day++) {
+                var val = [],
+                    date = new Date(this.year, this.month - 1, first_date);
+                if (flg || date.getMonth() + 1 > this.month) {
+                    flg = true;
                 }
-                else {
-                    if (flg || first_date > this.day_long) {
-                        flg = true;
-                    } else {
-                        val = trash_day_list[first_date - 1];
-                        date = first_date;
-                    }
-                    insertion_value = {date: date, trash: val};
-                    push_data.push(insertion_value);
-                    first_date++;
+                if (date.getMonth() + 1 == this.month) {
+                    val = trash_day_list[first_date - 1];
                 }
+                push_data.push({date: first_date, trash: val});
+                first_date++;
             }
             ret.push(push_data);
         }
