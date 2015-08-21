@@ -17,7 +17,7 @@ var AbleEmptyDate = true; // falseにするとarea_daysのごみの回収日を�
 var AreaMasterCSVFileName = "data/area_master.csv";
 var AreaCSVFileName = "data/area_days.csv";
 var CenterCSVFileName = "data/center.csv";
-var DesCriptionCSVFileName = "data/description.csv";
+var DescriptionCSVFileName = "data/description.csv";
 var RemarkCSVFileName = "data/remarks.csv";
 var TargetRowCSVFileName = "data/target.csv";
 

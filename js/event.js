@@ -42,8 +42,9 @@ Event = (function () {
             }
         }
     }
+
     return {
-        getInstance: function() {
+        getInstance: function () {
             if (!instance) {
                 instance = init();
             }

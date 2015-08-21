@@ -32,7 +32,7 @@ Utility.csvToArray = function csvToArray(csv_text) {
  *      html('div', {class: 'col-md-2'})
  *  );
  */
-Utility.html = function (name, attributes) {
+Utility.html = function html(name, attributes) {
     var elm = document.createElement(name);
     for (var attributeName in attributes) {
         var attributeValue = attributes[attributeName];
@@ -55,17 +55,17 @@ Utility.html = function (name, attributes) {
     return elm;
 };
 
-Utility.text = function (nodeValue) {
+Utility.text = function text(nodeValue) {
     return document.createTextNode(nodeValue);
 };
 
-Utility.setCSVFileData = function setCSVData(file_name, Models){
-    function push_data(data){
+Utility.setCSVFileData = function setCSVData(file_name, Models) {
+    function push_data(data) {
         var model = Models.getInstance();
         model._data.push(data);
     }
 
-    function setCsvData(data){
+    function setCsvData(data) {
         var csv_array = Utility.csvToArray(data);
         csv_array.shift();
         csv_array.forEach(push_data);

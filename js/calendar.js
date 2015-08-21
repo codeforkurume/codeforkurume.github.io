@@ -14,7 +14,7 @@ Calendar = (function () {
         this.day_long = new Date(this.year, this.month - 1, 0).getDate();
     }
 
-    Calendar.prototype.render = function (element, area) {
+    Calendar.prototype.render = function render(element, area) {
         var calendar_header_element = Utility.html("div", {class: 'calendar-header'},
             Utility.html("div", {},
                 Utility.text(this.year + "年" + this.month + "月")
@@ -22,7 +22,10 @@ Calendar = (function () {
         );
         element.append($(calendar_header_element));
 
-        var calendar_element = Utility.html("table", {class: 'calendar', style: 'height: ' + window.innerHeight + 'px;'});
+        var calendar_element = Utility.html("table", {
+            class: 'calendar',
+            style: 'height: ' + window.innerHeight + 'px;'
+        });
 
         // 曜日の描画
         var week_label = ["日", "月", "火", "水", "木", "金", "土"];
@@ -82,7 +85,7 @@ Calendar = (function () {
         });
         return Utility.html('td', option,
             date_label,
-            Utility.html("div", {class: 'calendar-content-body'} ,
+            Utility.html("div", {class: 'calendar-content-body'},
                 ret
             )
         );
@@ -91,7 +94,7 @@ Calendar = (function () {
     /*
      * ごみのデータを，週ごとにわけて月の分だけ返す(3次元配列
      */
-    Calendar.prototype.getCalendarData = function(trash_list) {
+    Calendar.prototype.getCalendarData = function getCalendarData(trash_list) {
         var ret = [],
             trash_day_list = this.getTrashList(trash_list);
 
@@ -116,7 +119,7 @@ Calendar = (function () {
     /*
      * ある週のゴミのデータを返す
      */
-    Calendar.prototype.getCalendarWeekData = function (trash_day_list, first_date) {
+    Calendar.prototype.getCalendarWeekData = function getCalendarWeekData(trash_day_list, first_date) {
         var ret = [];
         for (var day = 0; day < 7; day++) {
             var val = [],
@@ -133,7 +136,7 @@ Calendar = (function () {
     /*
      * ごみのデータと，月の長さから，その日のゴミのデータを配列で一月分返す関数
      */
-    Calendar.prototype.getTrashList = function (trash_list) {
+    Calendar.prototype.getTrashList = function getTrashList(trash_list) {
         var trash_day_list = new Array(this.day_long);
         for (var i = 0; i < trash_day_list.length; i++) {
             trash_day_list[i] = [];
@@ -148,22 +151,6 @@ Calendar = (function () {
             }
         }.bind(this));
         return trash_day_list;
-    };
-
-    Calendar.prototype.setYear = function (year) {
-        this.year = parseInt(year);
-    };
-
-    Calendar.prototype.setMonth = function (month) {
-        this.month = parseInt(month);
-    };
-
-    Calendar.prototype.getYear = function () {
-        return this.year;
-    };
-
-    Calendar.prototype.getMonth = function () {
-        return this.month;
     };
 
     return Calendar;

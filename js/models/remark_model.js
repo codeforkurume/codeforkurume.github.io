@@ -12,7 +12,7 @@ RemarkModel = (function () {
     return RemarkModel;
 }());
 
-RemarkModel.readCSV = function (func) {
+RemarkModel.readCSV = function readCSV(func) {
     $.get(RemarkCSVFileName, function (data) {
         var csv_array = Utility.csvToArray(data),
             ret = [];

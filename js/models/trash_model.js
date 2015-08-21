@@ -32,7 +32,7 @@ TrashModel = (function () {
         this.dayLabel = this.getDayLabel();
     }
 
-    TrashModel.prototype.getDayLabel = function() {
+    TrashModel.prototype.getDayLabel = function getDayLabel() {
         if (this.dayLabel == undefined || this.dayLabel == null) {
             var result_text = "";
             this.dayCell.forEach(function (day_cell) {
@@ -181,7 +181,7 @@ TrashModel = (function () {
         this.dayList = day_list;
     };
 
-    TrashModel.prototype.getLeftDay = function ()  {
+    TrashModel.prototype.getLeftDay = function getLeftDay() {
         //あと何日かを計算する処理です。
         var today = new Date(),
             leftDay = Math.ceil((this.mostRecent.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)),
@@ -197,19 +197,6 @@ TrashModel = (function () {
             leftDayText = leftDay + "日後";
         }
         return leftDayText;
-    };
-
-    /**
-     計算したゴミの日一覧をリスト形式として取得します。
-     */
-    TrashModel.prototype.getDayList = function getDayList() {
-        var day_text = "<ul>";
-        for (var i in this.dayList) {
-            var d = this.dayList[i];
-            day_text += "<li>" + d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate() + "</li>";
-        }
-        day_text += "</ul>";
-        return day_text;
     };
 
     return TrashModel;

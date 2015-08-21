@@ -18,11 +18,11 @@ DescriptionModel = (function () {
     return DescriptionModel;
 })();
 
-DescriptionModel.readCSV = function (func) {
-    $.get(DesCriptionCSVFileName, function (data) {
+DescriptionModel.readCSV = function readCSV(func) {
+    $.get(DescriptionCSVFileName, function (data) {
         var ret = [];
         var csv_array = Utility.csvToArray(data);
-        var description_label = csv_array.shift();
+        csv_array.shift();
         csv_array.forEach(function (row) {
             var description = new DescriptionModel(row);
             ret.push(description);
@@ -34,7 +34,7 @@ DescriptionModel.readCSV = function (func) {
 DescriptionModel.data = [];
 DescriptionModel.done = false;
 
-DescriptionModel.afterDone = function () {
+DescriptionModel.afterDone = function afterDone() {
     DescriptionModel.data.forEach(function (description) {
         TargetRowModel.data.forEach(function (target_row) {
             if ((description.name == target_row.type) && (description.mastercode == target_row.mastercode)) {

@@ -16,11 +16,11 @@ AreaMasterModel = (function () {
     return AreaMasterModel;
 })();
 
-AreaMasterModel.readCSV = function (func) {
+AreaMasterModel.readCSV = function readCSV(func) {
     $.get(AreaMasterCSVFileName, function (data) {
         var ret = [];
         var csv_array = Utility.csvToArray(data);
-        var area_master_label = csv_array.shift();
+        csv_array.shift();
         csv_array.forEach(function (row) {
             var area_master = new AreaMasterModel(row);
             ret.push(area_master);
@@ -29,7 +29,7 @@ AreaMasterModel.readCSV = function (func) {
     });
 };
 
-AreaMasterModel.getMasterCodeByName = function (name) {
+AreaMasterModel.getMasterCodeByName = function getMasterCodeByName(name) {
     var ret = -1;
     AreaMasterModel.data.forEach(function (area_master_model) {
         if (area_master_model.name == name) {

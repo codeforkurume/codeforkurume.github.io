@@ -293,7 +293,7 @@ $(function () {
     var Models = [AreaMasterModel, AreaModel, CenterModel, DescriptionModel, TargetRowModel],
         event = Event.getInstance();
 
-    event.$on('update', function() {
+    event.$on('update', function () {
         if (done()) {
             Models.forEach(function (model) {
                 if (typeof model.afterDone === 'function') {
@@ -305,7 +305,7 @@ $(function () {
         }
     });
 
-    Models.forEach(function(model) {
+    Models.forEach(function (model) {
         model.readCSV(function (data) {
             model.data = data;
             model.done = true;
@@ -313,7 +313,7 @@ $(function () {
         })
     });
 
-    function done ()  {
+    function done() {
         for (var i = 0; i < Models.length; i++) {
             if (!Models[i].done) {
                 return false;
@@ -323,7 +323,7 @@ $(function () {
     }
 
     event.$on("updateArea",
-        function(area_master, area){
+        function (area_master, area) {
             var select_area_master = $("#select_area_master");
             select_area_master.val(area_master.mastercode);
             select_area_master.change();

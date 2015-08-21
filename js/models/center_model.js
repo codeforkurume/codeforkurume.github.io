@@ -21,10 +21,10 @@ CenterModel = (function () {
     return CenterModel;
 })();
 
-CenterModel.readCSV = function (func) {
+CenterModel.readCSV = function readCSV(func) {
     $.get(CenterCSVFileName, function (data) {
-        var csv_array = Utility.csvToArray(data);
-        var ret = [];
+        var csv_array = Utility.csvToArray(data),
+            ret = [];
         csv_array.shift();
         csv_array.forEach(function (row) {
             var center = new CenterModel(row);

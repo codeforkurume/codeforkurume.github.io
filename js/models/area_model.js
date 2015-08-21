@@ -72,7 +72,7 @@ AreaModel = (function () {
     return AreaModel;
 })();
 
-AreaModel.readCSV = function (func) {
+AreaModel.readCSV = function readCSV(func) {
     $.get(AreaCSVFileName, function (data) {
         var csv_array = Utility.csvToArray(data);
         var ret = [],
@@ -85,7 +85,7 @@ AreaModel.readCSV = function (func) {
     });
 };
 
-AreaModel.getAreaList = function (mastercode) {
+AreaModel.getAreaList = function getAreaList(mastercode) {
     var ret = [];
     AreaModel.data.forEach(function (area_master_model) {
         if (area_master_model.mastercode == mastercode) {
@@ -97,8 +97,8 @@ AreaModel.getAreaList = function (mastercode) {
 
 
 AreaModel.getAreaIndex = function (area_name) {
-    var area_models =  AreaModel.data;
-    for (var i in area_models) {
+    var area_models = AreaModel.data;
+    for (var i = 0; i < area_models.length; i++) {
         if (area_models[i].name == area_name) {
             return i;
         }
@@ -110,7 +110,7 @@ AreaModel.getAreaIndex = function (area_name) {
 AreaModel.data = [];
 AreaModel.done = false;
 
-AreaModel.afterDone = function () {
+AreaModel.afterDone = function afterDone() {
     AreaModel.data.forEach(function (area_model) {
         var label = area_model.trashLabel;
         area_model.setCenter(CenterModel.data);

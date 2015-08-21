@@ -16,7 +16,7 @@ TargetRowModel = (function () {
     return TargetRowModel;
 })();
 
-TargetRowModel.readCSV = function (func) {
+TargetRowModel.readCSV = function readCSV(func) {
     $.get(TargetRowCSVFileName, function (data) {
         var csv_array = Utility.csvToArray(data);
         var ret = [];

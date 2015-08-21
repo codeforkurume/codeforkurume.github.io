@@ -4,19 +4,19 @@
 
 var Storage;
 Storage = {
-    getSelectedAreaName: function(){
+    getSelectedAreaName: function () {
         return localStorage.getItem("area");
     },
 
-    setSelectedAreaName: function(name){
+    setSelectedAreaName: function (name) {
         localStorage.setItem("area", name);
     },
 
-    getSelectedAreaMasterName: function() {
+    getSelectedAreaMasterName: function () {
         return localStorage.getItem("area_master");
     },
 
-    setSelectedAreaMasterName: function(name) {
+    setSelectedAreaMasterName: function (name) {
         localStorage.setItem("area_master", name);
     }
 };
