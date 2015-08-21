@@ -131,6 +131,7 @@ a:hover {
 
 #calendar_body {
 	padding: 0;
+	border-top: none;
 }
 
 .calendar {
@@ -139,6 +140,18 @@ a:hover {
 	table-layout: fixed;
 	margin: 0 auto;
 	border-collapse: collapse;
+}
+
+.calendar-header {
+	width: 260px;
+	height: 40px;
+	margin: 0 auto;
+}
+
+.calendar-header > div {
+	text-align: center;
+	font-weight: bold;
+	font-size: 2.3em;
 }
 
 table {
@@ -161,6 +174,11 @@ table {
 	min-height: 100px;
 }
 
+.calendar th {
+	border-left: none;
+	border-right: none;
+}
+
 .calendar .not_m {
 	background-color: #eaeaea;
 }
@@ -173,6 +191,25 @@ table {
 	font-weight: bold;
 	padding: 5px 15px 5px 5px;
 	color: #333;
+}
+
+.week {
+	border-top: none;
+	height: 50px;
+}
+
+.week th {
+	text-align: center;
+	vertical-align: middle;
+	font-size: 1.4em;
+}
+
+.week .saturday {
+	color: #66f;
+}
+
+.week .sunday {
+	color: #f66;
 }
 
 .calendar-content-body {

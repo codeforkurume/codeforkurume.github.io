@@ -15,7 +15,28 @@ Calendar = (function () {
     }
 
     Calendar.prototype.render = function (element, area) {
+        var calendar_header_element = Utility.html("div", {class: 'calendar-header'},
+            Utility.html("div", {},
+                Utility.text(this.year + "年" + this.month + "月")
+            )
+        );
+        element.append($(calendar_header_element));
+
         var calendar_element = Utility.html("table", {class: 'calendar', style: 'height: ' + window.innerHeight + 'px;'});
+
+        // 曜日の描画
+        var week_label = ["日", "月", "火", "水", "木", "金", "土"];
+        var row = Utility.html("tr", {class: 'week'});
+        for (var week = 0; week < 7; week++) {
+            var option = {};
+            if (week == 0) {
+                option.class = "sunday";
+            } else if (week == 6) {
+                option.class = "saturday";
+            }
+            row.appendChild(Utility.html("th", option, Utility.text(week_label[week])));
+        }
+        calendar_element.appendChild(row);
 
         var data = this.getCalendarData(area.trash);
         var height = window.innerHeight / data.length;

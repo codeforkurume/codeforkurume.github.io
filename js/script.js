@@ -272,6 +272,7 @@ $(function () {
             dom = $("#calendar_body"),
             selected_area_name = Storage.getSelectedAreaName();
         var area_index = AreaModel.getAreaIndex(selected_area_name);
+        dom.html("");
         if (area_index == -1) {
             return -1;
         }
@@ -318,6 +319,8 @@ $(function () {
             var select_area = $("#select_area");
             select_area.val(area.id);
             select_area.change();
+
+            renderCalendar();
         }
     );
 });
