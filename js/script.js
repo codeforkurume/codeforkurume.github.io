@@ -67,8 +67,18 @@ $(function () {
         areaModel.calcMostRect();
         //トラッシュの近い順にソートします。
         areaModel.sortTrash();
-        // 4つがちょうど入るように仕様を変更
-        var accordion_height = window.innerHeight / 4;
+        //TODO 処理の内容が謎
+        var description_length = DescriptionModel.data.length;
+        var accordion_height = window.innerHeight / description_length;
+        if (description_length > 4) {
+            accordion_height = window.innerHeight / 4.1;
+            if (accordion_height > 140) {
+                accordion_height = window.innerHeight / description_length;
+            }
+            if (accordion_height < 130) {
+                accordion_height = 130;
+            }
+        }
         var styleHTML = "";
         var accordionHTML = [];
 
