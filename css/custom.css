@@ -177,6 +177,10 @@ a:hover {
 	margin-bottom: 30px;
 }
 
+#candidates{
+	margin-top: 5px;
+}
+
 .candidate:hover{
 	background: #D8D8D8;
 	cursor: pointer;
