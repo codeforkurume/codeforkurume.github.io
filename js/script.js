@@ -206,6 +206,7 @@ $(function () {
             initAccordion();
         }
         Storage.setSelectedAreaName(name);
+        renderCalendar();
     }
 
 
