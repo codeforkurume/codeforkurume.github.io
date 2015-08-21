@@ -33,6 +33,31 @@ Calendar = (function () {
         element.append($(calendar_element));
     };
 
+    /*
+     * その日のゴミのデータからDOMを構築して返す
+     */
+    function createCalendarDayElement(trash_list, date, month) {
+        var option = {};
+        option.style = "width: " + (window.innerWidth / 7) + "px;";
+        var date_label = Utility.html('h4');
+        if (date.getMonth() + 1 == month) {
+            option['data-date'] = date.getDate();
+            date_label.innerHTML = date.getDate();
+        }
+        var ret = Utility.html("ul", {});
+        trash_list.forEach(function (trash_day) {
+            var dom = Utility.html("li", {});
+            dom.innerHTML = trash_day;
+            ret.appendChild(dom);
+        });
+        return Utility.html('td', option,
+            date_label,
+        ret);
+    }
+
+    /*
+     * ごみのデータを，週ごとにわけて返す(3次元配列
+     */
     Calendar.prototype.getCalendarData = function(trash_list) {
         var ret = [],
             trash_day_list = this.getTrashList(trash_list);
@@ -41,6 +66,8 @@ Calendar = (function () {
 
         var flg = false,
             first_date = 8 - beginning_of_month.getDay();
+
+        // FIXME: 処理が汚い
         for (var week = 0; week < 6; week++) {
             var push_data = [], day;
             if (flg) break;
@@ -93,25 +120,6 @@ Calendar = (function () {
         }.bind(this));
         return trash_day_list;
     };
-
-    function createCalendarDayElement(trash_list, date, month) {
-        var option = {};
-        option.style = "width: " + (window.innerWidth / 7) + "px;";
-        var date_label = Utility.html('h4');
-        if (date.getMonth() + 1 == month) {
-            option['data-date'] = date.getDate();
-            date_label.innerHTML = date.getDate();
-        }
-        var ret = Utility.html("ul", {});
-        trash_list.forEach(function (trash_day) {
-            var dom = Utility.html("li", {});
-            dom.innerHTML = trash_day;
-            ret.appendChild(dom);
-        });
-        return Utility.html('td', option,
-            date_label,
-            ret);
-    }
 
     Calendar.prototype.setYear = function (year) {
         this.year = parseInt(year);
