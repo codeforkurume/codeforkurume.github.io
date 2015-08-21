@@ -116,6 +116,110 @@ a:hover {
 	margin-left: 5px;
 }
 
+#accordion_calendar a.accordion-toggle-top {
+	color: #000000;
+	height: 22px;
+	display: block;
+	text-align: left;
+	font-size: 25px;
+	margin: 15px 0 15px 15px;
+}
+
+#accordion_calendar a.accordion-toggle-top:hover {
+	color: #000000;
+}
+
+#calendar_body {
+	padding: 0;
+	border-top: none;
+}
+
+.calendar {
+	width: 100%;
+	display: table;
+	table-layout: fixed;
+	margin: 0 auto;
+	border-collapse: collapse;
+}
+
+.calendar-header {
+	width: 260px;
+	height: 40px;
+	margin: 0 auto;
+}
+
+.calendar-header > div {
+	text-align: center;
+	font-weight: bold;
+	font-size: 2.3em;
+}
+
+table {
+	border-spacing: 2px;
+}
+
+.calendar tr {
+	display: table-row;
+	vertical-align: inherit;
+	border-color: inherit;
+}
+
+.calendar td {
+	border: 1px solid #ccc;
+	height: inherit;
+	padding: 0;
+	margin: 0;
+	display: table-cell;
+	color: #666;
+	min-height: 100px;
+}
+
+.calendar th {
+	border-left: none;
+	border-right: none;
+}
+
+.calendar .not_m {
+	background-color: #eaeaea;
+}
+
+.calendar-content-header {
+	height: 40px;
+	text-align: right;
+	vertical-align: middle;
+	font-size: 1.3em;
+	font-weight: bold;
+	padding: 5px 15px 5px 5px;
+	color: #333;
+}
+
+.week {
+	border-top: none;
+	height: 50px;
+}
+
+.week th {
+	text-align: center;
+	vertical-align: middle;
+	font-size: 1.4em;
+}
+
+.week .saturday {
+	color: #66f;
+}
+
+.week .sunday {
+	color: #f66;
+}
+
+.calendar-content-body {
+	height: 80px;
+}
+
+.calendar ul {
+	padding-left: 5px;
+	list-style: none;
+}
 /*!
  * Maybe not in use. Remove these later.
  */
@@ -132,4 +236,28 @@ a:hover {
 #cfk > p > a{
 	 color: #FF0000;
 	 text-decoration: underline;
+}
+
+#search{
+	margin-top: 10px;
+}
+
+#search-result-num{
+	font-size: 2em;
+}
+
+#search-result{
+	margin-left: 15px;
+	margin-top: 10px;
+	margin-bottom: 30px;
+}
+
+#candidates{
+	margin-top: 5px;
+	font-size: 1.5em;
+}
+
+.candidate:hover{
+	background: #D8D8D8;
+	cursor: pointer;
 }
