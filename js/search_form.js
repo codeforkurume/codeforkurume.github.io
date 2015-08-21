@@ -5,8 +5,8 @@
 var Search = new Object();
 
 /**
- * text‚©‚çAreaModel‚ğ‚Á‚Ä‚­‚é(name‚Æ‚ÌŠ®‘Sˆê’v)
- * text‚Æˆê’v‚·‚é‚à‚Ì‚ª–³‚¯‚ê‚Înull‚ğ•Ô‚·
+ * textã‹ã‚‰AreaModelã‚’æŒã£ã¦ãã‚‹(nameã¨ã®å®Œå…¨ä¸€è‡´)
+ * textã¨ä¸€è‡´ã™ã‚‹ã‚‚ã®ãŒç„¡ã‘ã‚Œã°nullã‚’è¿”ã™
  */
 Search.getMatchArea = function(text){
     var return_value = null;
@@ -22,11 +22,14 @@ Search.getMatchArea = function(text){
 };
 
 /**
- * text‚©‚çŒŸõ•âŠ®‚ÌŒó•â‚ğæ“¾‚·‚é
+ * textã‹ã‚‰æ¤œç´¢è£œå®Œã®å€™è£œã‚’å–å¾—ã™ã‚‹
  * return AreaModel
  */
 Search.getCandidate = function(text){
     var return_area = [];
+    if(text.length==0){
+        return return_area;
+    }
     function pushCandidate(area){
         if(area.name.indexOf(text)!=-1 || area.furigana.indexOf(text)!=-1){
             return_area.push(area);
@@ -38,7 +41,7 @@ Search.getCandidate = function(text){
 };
 
 /**
- * Select‚Ì’†‚ÌCandidate‚ğXV‚·‚é
+ * Selectã®ä¸­ã®Candidateã‚’æ›´æ–°ã™ã‚‹
  */
 Search.changeSelectCandidate = function(areas){
     var select = $("#candidates");
@@ -55,7 +58,7 @@ Search.changeSelectCandidate = function(areas){
     }
 
     select.empty();
-    //Œó•â‚ğ’Ç‰Á
+    //å€™è£œã‚’è¿½åŠ 
     var children = select.children();
     var length = Math.min(MaxCandidateNum, areas.length);
     for(var i=0;i<length;i++){
@@ -65,19 +68,21 @@ Search.changeSelectCandidate = function(areas){
 };
 
 /**
- * ŒŸõ—p‚Ìinput‚ª•ÏX‚³‚ê‚½‚Æ‚«‚Ìˆ—B
+ * æ¤œç´¢ç”¨ã®inputãŒå¤‰æ›´ã•ã‚ŒãŸã¨ãã®å‡¦ç†ã€‚
  */
 Search.updateInput = function(){
-    var input = $("#input_area").val();
-    var area = Search.getMatchArea(input);
+    var input = $("#input_area");
+    var area = Search.getMatchArea(input.val());
 
     if(area!=null){
         var area_master = AreaMasterModel.data[area.mastercode-1];
         Event.getInstance().$emit("updateArea", area_master, area);
+        input.val("");
     }
 
-    var area_candidate = Search.getCandidate(input);
+    var area_candidate = Search.getCandidate(input.val());
     Search.changeSelectCandidate(area_candidate);
+    $("#search-result-num").text("æ¤œç´¢çµæœ"+area_candidate.length+"ä»¶");
 };
 
 Search.changeSelect = function(e){
