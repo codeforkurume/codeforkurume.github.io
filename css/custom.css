@@ -173,17 +173,5 @@ a:hover {
 
 .candidate:hover{
 	background: #D8D8D8;
-}
-
-.inline{
-	display: flex;
-	display: -moz-flex;
-	display: -o-flex;
-	display: -webkit-flex;
-	display: -ms-flex;
-	flex-direction: row;
-	-moz-flex-direction: row;
-	-o-flex-direction: row;
-	-webkit-flex-direction: row;
-	-ms-flex-direction: row;
+	cursor: pointer;
 }
