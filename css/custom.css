@@ -167,8 +167,14 @@ a:hover {
 	margin-top: 10px;
 }
 
-.candidate{
+#search-result-num{
+	font-size: 1.5em;
+}
 
+#search-result{
+	margin-left: 0px;
+	margin-top: 5px;
+	margin-bottom: 30px;
 }
 
 .candidate:hover{
