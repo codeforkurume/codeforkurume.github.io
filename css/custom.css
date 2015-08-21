@@ -129,6 +129,22 @@ a:hover {
 	color: #000000;
 }
 
+.calendar {
+	width: 100%;
+}
+
+.calendar tr {
+	background-color: #f9f9f9;
+}
+
+.calendar td {
+	height: inherit;
+	padding: 0;
+}
+
+.calendar ul {
+	list-style: none;
+}
 /*!
  * Maybe not in use. Remove these later.
  */
