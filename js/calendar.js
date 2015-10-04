@@ -11,7 +11,7 @@ Calendar = (function () {
             this.month = month;
         }
         // その月の長さ
-        this.day_long = new Date(this.year, this.month - 1, 0).getDate();
+        this.day_long = new Date(this.year, this.month, 0).getDate();
     }
 
     Calendar.prototype.render = function render(element, area) {
