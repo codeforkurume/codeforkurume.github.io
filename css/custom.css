@@ -13,6 +13,14 @@ a:hover {
 	padding: 9px 15px;
 }
 
+.link {
+    color: #337ab7;
+}
+.link:hover, .link:focus {
+    color: #23527c;
+    text-decoration: underline;
+}
+
 /*!
  * ゴミ収集の情報
  */
