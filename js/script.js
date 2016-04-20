@@ -8,7 +8,7 @@ $(function () {
         };
         var select_form = $("#select_" + type),
             select_html = [],
-            text = (type == "area") ? "地域" : "地区";
+            text = (type == "area") ? "校区" : "地区";
 
         select_html.push(createList({value: '-1'}, text + "を選択してください"));
         models.forEach(function (model) {
